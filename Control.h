@@ -1,4 +1,4 @@
-#ifndef CONTROL_H
+﻿#ifndef CONTROL_H
 #define CONTROL_H
 /* Roborregos 2020.
  * This control class it was made for the purpose to 
@@ -57,7 +57,7 @@ class Control {
     double getDistanceFrontRight();
     // Check if the right wall is complete.
     bool checkWallsRight();
-    // Check if the left wall is complete
+    // Check if the left wall is complete.
     bool checkWallsLeft();
     
     // Move the robot to the forward.   
@@ -66,7 +66,7 @@ class Control {
     void turnLeft(const uint8_t vel);
     // Turn the robot to 90 degrees to the right.
     void turnRight(const uint8_t vel);
-    // Turn left or right depending on the desired angle
+    // Turn left or right depending on the desired angle.
     void turnDegrees(double desire);
     // Stop the robot.
     void stopEngines();
