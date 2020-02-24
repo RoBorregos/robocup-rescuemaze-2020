@@ -1,3 +1,10 @@
+/* Roborregos Maze 2020.
+ * This Calibration Class has all the functions 
+ * To calibrate all robot sensors with precision.
+ * This class is so necessary because before you
+ * Initialize the robot, the robot needs to be with
+ * A perfect calibration.
+*/
 #ifndef CALIBRATION_H
 #define CALIBRATION_H
 
@@ -20,10 +27,11 @@ class Calibration {
     void LCDCalibration();
     // Initialize BNO.
     void BNOCalibration();
-    // Return the Orientation Status of the BNO, the numbers to return are... 
-    // 1. This number means that the variable "x" is already calibrated.
-    // 2. This number means that the variable "y" is already calibrated
-    // 3. This number means that's the BNO is already calibrated.
+    /* Return the Orientation Status of the BNO, the numbers to return are... 
+     * 1. This number means that the variable "x" is already calibrated.
+     * 2. This number means that the variable "y" is already calibrated
+     * 3. This number means that's the BNO is already calibrated.
+    */ 
     uint8_t orientationStatus();
     // Initialize all the sensors.
     void calibrationAll();

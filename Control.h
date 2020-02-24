@@ -1,11 +1,12 @@
-﻿#ifndef CONTROL_H
-#define CONTROL_H
-/* Roborregos 2020.
- * This control class it was made for the purpose to 
- * have a better control of the robot, it is function 
- * is to move the robot with precision
- * also calibrates all robot sensors.
+﻿/* Roborregos 2020.
+ * This Control class has all the fuctions to get
+ * The angle, desired angle and sensors error.
+ * This class is so necessary to move the robot to
+ * The correct direction of the robot.
 */
+#ifndef CONTROL_H
+#define CONTROL_H
+
 #include <Wire.h>
 #include "arduino.h"
 #include "Calibration.h"

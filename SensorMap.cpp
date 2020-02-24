@@ -1,3 +1,9 @@
+/* Roborregos Maze 2020.
+ * This SensorMap class has all the functions
+ * To identify anything in the Map, this class
+ * Works with all the sensors of the robot.
+ * To get more information, go to SensorMap.h file.
+*/
 #include "SensorMap.h"
 
 const uint8_t kSonarLeftFrontTrigger = 4;

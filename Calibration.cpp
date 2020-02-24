@@ -1,3 +1,11 @@
+/* Roborregos Maze 2020.
+ * This Calibration Class has all the functions 
+ * To calibrate all robot sensors with precision.
+ * This class is so necessary because before you
+ * Initialize the robot, the robot needs to be with
+ * A perfect calibration.
+ * To get more information, go to Calibration.h file.
+*/
 #include "Calibration.h"
 
 LiquidCrystal_I2C lcd(0x27,20,4);

@@ -1,3 +1,10 @@
+/* Roborregos 2020.
+ * This Control class has all the fuctions to get
+ * the angle, desired angle and sensors error.
+ * This class is so necessary to move the robot to
+ * The correct direction of the robot.
+ * To get more information, go to Control.h file.
+*/
 #include "Control.h"
 
 Control::Control() {}

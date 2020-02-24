@@ -1,3 +1,7 @@
+/* This DropKit class has all the functions to drop
+ * A kit if the robot detect a Victim on the map.
+ * This class works with the robot dispenser.
+*/
 #ifndef DROPKIT_H
 #define DROPKIT_H
 
@@ -5,7 +9,7 @@
 #include <Servo.h>
 
 class DropKit {
-    
+
   public:
     DropKit();
     // Initialize the dispenser.

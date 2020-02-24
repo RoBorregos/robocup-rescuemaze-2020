@@ -1,3 +1,8 @@
+/* Roborregos Maze 2020.
+ * This SensorMap class has all the functions
+ * To identify anything in the Map, this class
+ * Works with all the sensors of the robot.
+*/
 #ifndef SENSORMAP_H
 #define SENSORMAP_H
 

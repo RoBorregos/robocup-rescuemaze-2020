@@ -1,3 +1,8 @@
+/* Roborregos 2020.
+ * This Movement class has all the functions
+ * To move the robot to anywhere on the map.
+ * This class works with all robot enginees.
+*/
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 

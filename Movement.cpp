@@ -1,3 +1,9 @@
+/* Roborregos 2020.
+ * This Movement class has all the functions
+ * To move the robot to anywhere on the map.
+ * This class works with all robot enginees.
+ * To get more information, go to Movement.h file.
+*/
 #include "Movement.h"
 
 Movement::Movement() {}
