@@ -76,9 +76,9 @@ bool SensorMap::checkWallsLeft() {
   }
 }
 
-bool SensorMap::detectVictim(double desire) {
+bool SensorMap::heatVictim(double desire) {
     double current_angle = control.getAngleBNOX();
-    double desire = control.getDesiredAngle(desire);
+    desire = control.getDesiredAngle(desire);
     double new_desire_left = 0;
     double new_desire_right = 0;
 
@@ -88,7 +88,9 @@ bool SensorMap::detectVictim(double desire) {
         delay(5000);
         new_desire_left = control.getNewDesireLeft(desire);
         motors.turnDegrees(new_desire_left);
+        delay(2000);
         dispenser.dropOneKitRight();
+        delay(2000);
         new_desire_right = control.getNewDesireRight(new_desire_left);
         motors.turnDegrees(new_desire_right);
         return 1; // Victim Right
@@ -100,7 +102,9 @@ bool SensorMap::detectVictim(double desire) {
             delay(5000);
             new_desire_right = control.getNewDesireRight(desire);
             motors.turnDegrees(new_desire_right);
+            delay(2000);
             dispenser.dropOneKitLeft();
+            delay(2000);
             new_desire_left = control.getNewDesireLeft(new_desire_right);
             motors.turnDegrees(new_desire_left);
             return 2; // Victim Left
@@ -108,12 +112,13 @@ bool SensorMap::detectVictim(double desire) {
     }
 }
 
-bool SensorMap::visualVictim() {
+/*bool SensorMap::visualVictim() {
   
 }
 
 bool SensorMap::colouredVictim() {
 }
+*/
 
 float SensorMap::temperatureCelcius(int mlx) {
   int dev = mlx;

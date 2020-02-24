@@ -32,7 +32,9 @@ class Control {
     double getErrorUltrasonic(const double current_distance, const double desire); 
     // Verify if the pwm is in the range (kLimit_inf_pwm - kLimit_sup_pwm).
     void getPwm(double &vel);
+    // Get a new desire to drop a kit to the right.
     double getNewDesireLeft(double new_desire);
+    // Get a new desire to drop a kit to the left.
     double getNewDesireRight(double new_desire);
 
     const uint8_t kLimit_sup_pwm = 255; 

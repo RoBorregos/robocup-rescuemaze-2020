@@ -19,6 +19,7 @@ class SensorMap {
     Control control;
     Movement motors;
     DropKit dispenser;
+
     // Get the Ultrasonic Distance Right Up.
     double getDistanceRightUp();
     // Get the Ultrasonic Distance Right Down.
@@ -36,13 +37,14 @@ class SensorMap {
     // Check if the left wall is complete.
     bool checkWallsLeft();
     // Check in the walls if there are heat victims.
-    bool detectVictim(double desire);
+    bool heatVictim(double desire);
     // Check in the walls if there are letters.
     bool visualVictim();
     // Check in the walls if there are coloured victims(red, green, yellow).
     bool colouredVictim(); 
     // Temperature return in degrees celcius.
     float temperatureCelcius(int mlx);
+    // Turn on a LED for 5 seconds.
     void turnLED();
 
     int LED = 4;

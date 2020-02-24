@@ -100,7 +100,7 @@ double Control::getNewDesireLeft(double new_desire) {
 }
 
 double Control::getNewDesireRight(double new_desire) {
-  new_desire = new_desire + N;
+  new_desire = new_desire + 90;
   if (new_desire > 360) {
     new_desire = new_desire - 360;
   }

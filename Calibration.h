@@ -20,7 +20,10 @@ class Calibration {
     void LCDCalibration();
     // Initialize BNO.
     void BNOCalibration();
-    // Return the Orientation Status of the BNO, the numbers to return are 1, 2, and 3, if the number returned is not 3, it means that it´s not calibrated.
+    // Return the Orientation Status of the BNO, the numbers to return are... 
+    // 1. This number means that the variable "x" is already calibrated.
+    // 2. This number means that the variable "y" is already calibrated
+    // 3. This number means that's the BNO is already calibrated.
     uint8_t orientationStatus();
     // Initialize all the sensors.
     void calibrationAll();
