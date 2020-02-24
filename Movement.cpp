@@ -92,13 +92,13 @@ void Movement::advance(const double desire, const double desireUltrasonic) {
   else {}
 
     if (errorBNO > 0) {
-        pwm_right = kLimit_inf_pwm;
+        pwm_right_final = kLimit_inf_pwm;
         pwm_left_BNO = kP2 * errorBNO;
         pwm_left_final = pwm_left_BNO + pwm_left_ultrasonic_left_down;
         control.getPwm(pwm_left_final);
         }
     else {
-        pwm_left = kLimit_inf_pwm;
+        pwm_left_final = kLimit_inf_pwm;
         pwm_right_BNO = kP2 * errorBNO;
         pwm_right_final = pwm_right_BNO + pwm_right_ultrasonic_left_down;
         control.getPwm(pwm_right_final);  
