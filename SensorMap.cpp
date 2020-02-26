@@ -6,28 +6,6 @@
 */
 #include "SensorMap.h"
 
-const uint8_t kSonarLeftFrontTrigger = 4;
-const uint8_t kSonarLeftFrontEcho = 5;
-const uint8_t kSonarRightFrontTrigger = 6;
-const uint8_t kSonarRightFrontEcho = 7;
-const uint8_t kSonarRightUpTrigger = 8;
-const uint8_t kSonarRightUpEcho = 9;
-const uint8_t kSonarRightDownTrigger = 10;
-const uint8_t kSonarRightDownEcho = 11;
-const uint8_t kSonarLeftUpTrigger = 12;
-const uint8_t kSonarLeftUpEcho = 13;
-const uint8_t kSonarLeftDownTrigger = 14;
-const uint8_t kSonarLeftDownEcho = 15;
-
-NewPing sonar[SONAR_NUM] = {   // Sensor object array.
-  NewPing(kSonarLeftFrontTrigger, kSonarLeftFrontEcho, kSonarMaxDistance), // Each sensor's trigger pin, echo pin, and max distance to ping. 
-  NewPing(kSonarRightFrontTrigger, kSonarRightFrontEcho, kSonarMaxDistance), 
-  NewPing(kSonarRightUpTrigger, kSonarRightUpEcho, kSonarMaxDistance), 
-  NewPing(kSonarRightDownTrigger, kSonarRightDownEcho, kSonarMaxDistance), 
-  NewPing(kSonarLeftUpTrigger, kSonarLeftUpEcho, kSonarMaxDistance), 
-  NewPing(kSonarLeftDownTrigger, kSonarLeftDownEcho, kSonarMaxDistance)
-};
-
 SensorMap::SensorMap() {}
 
 double SensorMap::getDistanceFrontLeft() {
@@ -76,7 +54,7 @@ bool SensorMap::heatVictim(double desire) {
 
     if (temperatureCelcius(temperature_sensor_right) > 28 and temperatureCelcius(temperature_sensor_right) < 40) {
         motors.stopEngines();
-        get.turnLED();
+        logic.turnLED();
         delay(5000);
         new_desire_left = control.getNewDesireLeft(desire);
         motors.turnDegrees(new_desire_left);
@@ -89,7 +67,7 @@ bool SensorMap::heatVictim(double desire) {
     }
     else if (temperatureCelcius(temperature_sensor_left) > 28 and temperatureCelcius(temperature_sensor_left) < 40) {
             motors.stopEngines();
-            get.turnLED();
+            logic.turnLED();
             delay(5000);
             new_desire_right = control.getNewDesireRight(desire);
             motors.turnDegrees(new_desire_right);

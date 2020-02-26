@@ -16,7 +16,7 @@ double BNO::getDifferenceWithZero() {
   double error_generated = 0;
   
   double current_angle_x = getAngleBNOX();
-  if (current_angle >= 180) {
+  if (current_angle_x >= 180) {
     error_generated = (360 - current_angle_x);
   }
   

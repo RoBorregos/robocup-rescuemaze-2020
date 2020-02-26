@@ -24,7 +24,7 @@ class SensorMap {
     Control control;
     Movement motors;
     DropKit dispenser;
-    BNO get;
+    BNO logic;
 
     // Get the Ultrasonic Distance Right Up.
     double getDistanceRightUp();

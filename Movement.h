@@ -21,7 +21,7 @@ class Movement {
     BNO logic;
 
     // Move the robot forward.   
-    void advance(const double desire);
+    void advance(const double desire, const double desireUltrasonic);
     // Turn the robot 90 degrees to the left.
     void turnLeft(const uint8_t vel);
     // Turn the robot 90 degrees to the right.
