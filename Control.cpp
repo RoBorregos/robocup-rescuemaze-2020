@@ -9,46 +9,9 @@
 
 Control::Control() {}
 
-double Control::getDifferenceWithZero() { 
-  double error_generated = 0;
-  
-  double current_angle = getAngleBNOX();
-  if (current_angle >= 180) {
-    error_generated = (360 - current_angle);
-  }
-  
-  else {
-    error_generated = current_angle;
-    error_generated = -(error_generated);
-  }
-  
-  return error_generated;
-}
-
-double Control::getAngleBNOX() { 
-  sensors_event_t event;
-  bno.getEvent(&event);
-  
-  return event.orientation.x;
-}
-
-double Control::getAngleBNOY() { 
-  sensors_event_t event;
-  bno.getEvent(&event);
-  
-  return event.orientation.y;
-}
-
-double Control::getAngleBNOZ() { 
-  sensors_event_t event;
-  bno.getEvent(&event);
-  
-  return event.orientation.z;
-}
-
 double Control::getDesiredAngle(double desire) {
-  double initial_difference = getDifferenceWithZero(); 
-  double current_angle = getAngleBNOX();
+  double initial_difference = logic.getDifferenceWithZero(); 
+  double current_angle = logic.getAngleBNOX();
   
   if (current_angle > 180) {
     desire = desire - initial_difference;

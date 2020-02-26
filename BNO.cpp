@@ -1,20 +1,49 @@
-/* Roborregos Maze 2020.
- * This Calibration Class has all the functions 
- * To calibrate all robot sensors with precision.
- * This class is so necessary because before you
- * Initialize the robot, the robot needs to be with
- * A perfect calibration.
- * To get more information, go to Calibration.h file.
-*/
-#include "Calibration.h"
+#include "BNO.h"
 
 LiquidCrystal_I2C lcd(0x27,20,4);
 
-Calibration::Calibration(){
+BNO::BNO(){
     bno = Adafruit_BNO055();
 }
 
-void Calibration::LCDCalibration() {
+double BNO::getDifferenceWithZero() { 
+  double error_generated = 0;
+  
+  double current_angle = getAngleBNOX();
+  if (current_angle >= 180) {
+    error_generated = (360 - current_angle);
+  }
+  
+  else {
+    error_generated = current_angle;
+    error_generated = -(error_generated);
+  }
+  
+  return error_generated;
+}
+
+double BNO::getAngleBNOX() { 
+  sensors_event_t event;
+  bno.getEvent(&event);
+  
+  return event.orientation.x;
+}
+
+double BNO::getAngleBNOY() { 
+  sensors_event_t event;
+  bno.getEvent(&event);
+  
+  return event.orientation.y;
+}
+
+double BNO::getAngleBNOZ() { 
+  sensors_event_t event;
+  bno.getEvent(&event);
+  
+  return event.orientation.z;
+}
+
+void BNO::LCDCalibration() {
   lcd.init(); 
   lcd.backlight();
   lcd.print("Hola Mundo");
@@ -24,7 +53,7 @@ void Calibration::LCDCalibration() {
   delay(kTimeToPrint);
 }
 
-void Calibration::BNOCalibration() {
+void BNO::BNOCalibration() {
   Serial.println("Orientation Sensor Test"); Serial.println("");   
   if(!bno.begin())
   {
@@ -67,7 +96,7 @@ void Calibration::BNOCalibration() {
   Serial.println(mag, DEC);
 }
 
-uint8_t Calibration::orientationStatus() {
+uint8_t BNO::orientationStatus() {
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
   uint8_t system, gyro, accel, mag = 0;
   bno.getCalibration(&system, &gyro, &accel, &mag);
@@ -75,7 +104,7 @@ uint8_t Calibration::orientationStatus() {
   return mag;
 }
 
-void Calibration::calibrationAll() {
+void BNO::calibrationAll() {
   bno.begin();
   bno.setExtCrystalUse(true);
   lcd.init();
@@ -93,8 +122,8 @@ void Calibration::calibrationAll() {
 
   delay(kDelayAfterBNO);
 
-  pinMode(sensor.LED, INPUT); 
-  digitalWrite(sensor.LED, LOW);
+  pinMode(LED, INPUT); 
+  digitalWrite(LED, LOW);
   
   pinMode(motors.kMotorLeftForward1, OUTPUT);
   pinMode(motors.kMotorLeftForward2, OUTPUT);
@@ -109,28 +138,28 @@ void Calibration::calibrationAll() {
   bno.getEvent(&event);
 }
 
-void Calibration::writeNumLCD(const int num) {
+void BNO::writeNumLCD(const int num) {
   lcd.clear();
   lcd.print(num);
 }
 
-void Calibration::writeLyricsLCD(const char letra) {
+void BNO::writeLyricsLCD(const char letra) {
   lcd.print(letra);
 }
 
-void Calibration::writeLCD(const String sE1, const String sE2) {
+void BNO::writeLCD(const String sE1, const String sE2) {
   lcd.clear();
   lcd.print(sE1);
   lcd.setCursor(0, 1);
   lcd.print(sE2);
 }
 
-void Calibration::writeLCDdown(const String sE1) {
+void BNO::writeLCDdown(const String sE1) {
   lcd.setCursor(0, 1);
   lcd.print(sE1);
 }
 
-void Calibration::printLocation(const double x, const double y, const double z) {
+void BNO::printLocation(const double x, const double y, const double z) {
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("X:");
@@ -150,3 +179,9 @@ void Calibration::printLocation(const double x, const double y, const double z) 
 delay(kTimeSeeLocation);
 }
 
+void BNO::turnLED() {
+    digitalWrite(LED, HIGH);
+    delay(100);
+    digitalWrite(LED, LOW);
+    delay(100);
+}

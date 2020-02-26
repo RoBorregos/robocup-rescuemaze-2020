@@ -23,11 +23,11 @@ class DropKit {
     // Drop two kits for Visual Victims(Stable).
     void dropTwoKitsLeft();
 
-    const uint8_t dispenserDegrees_0 = 0;
-    const uint8_t dispenserDegrees_80 = 80;
-    const uint8_t dispenserDegrees_90 = 90;
-    const uint8_t dispenserDegrees_100 = 100;
-    const uint8_t dispenserDegrees_180 = 180;
+    const uint8_t kDispenserDegrees0 = 0;
+    const uint8_t kDispenserDegrees80 = 80;
+    const uint8_t kDispenserDegrees90 = 90;
+    const uint8_t kDispenserDegrees100 = 100;
+    const uint8_t kDispenserDegrees180 = 180;
 
     const int kTime_1sec = 1000;
     const uint8_t kTime_2ms = 200;

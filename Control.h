@@ -9,22 +9,15 @@
 
 #include <Wire.h>
 #include "arduino.h"
-#include "Calibration.h"
+#include "BNO.h"
 
 class Control {
   
   public:
     Control();
-    Adafruit_BNO055 bno; 
-
+    BNO logic;
     // Get the difference of the current angle with the 0, and return a new error.
     double getDifferenceWithZero();
-    // Get the current angle, return the event.orientation.x through a function.
-    double getAngleBNOX();
-    // Get the current angle, return the event.orientation.Y through a function.
-    double getAngleBNOY();
-    // Get the current angle, return the event.orientation.Z through a function.
-    double getAngleBNOZ();
     // Get the new desired angle respect to the difference achieved.
     double getDesiredAngle(double desire);
     // Get the difference with the desired angle to the current angle, return error.

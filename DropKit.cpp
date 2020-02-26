@@ -13,49 +13,39 @@ void DropKit::setup() {
 }
 
 void DropKit::dropOneKitLeft() {
-  dispenser.write(dispenserDegrees_0);
+  dispenser.write(kDispenserDegrees0);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_100);
+  dispenser.write(kDispenserDegrees100);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_90);
+  dispenser.write(kDispenserDegrees90);
   delay(kTime_2ms);
 }
 
 void DropKit::dropOneKitRight() {
-  dispenser.write(dispenserDegrees_180);
+  dispenser.write(kDispenserDegrees180);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_80);
+  dispenser.write(kDispenserDegrees80);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_90);
+  dispenser.write(kDispenserDegrees90);
   delay(kTime_2ms);
 }
 
 void DropKit::dropTwoKitsRight() {
-  dispenser.write(dispenserDegrees_180);
+  dispenser.write(kDispenserDegrees180);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_80);
+  dispenser.write(kDispenserDegrees80);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_90);
+  dispenser.write(kDispenserDegrees90);
   delay(kTime_2ms);
-  dispenser.write(dispenserDegrees_180);
-  delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_80);
-  delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_90);
-  delay(kTime_2ms);
+  dropTwoKitsRight();
 }
 
 void DropKit::dropTwoKitsLeft() {
-  dispenser.write(dispenserDegrees_0);
+  dispenser.write(kDispenserDegrees0);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_100);
+  dispenser.write(kDispenserDegrees100);
   delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_90);
+  dispenser.write(kDispenserDegrees90);
   delay(kTime_2ms);
-  dispenser.write(dispenserDegrees_0);
-  delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_100);
-  delay(kTime_1sec);
-  dispenser.write(dispenserDegrees_90);
-  delay(kTime_2ms);
+  dropTwoKitsLeft();
 }

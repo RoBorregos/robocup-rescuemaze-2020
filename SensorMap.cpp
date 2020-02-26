@@ -61,36 +61,22 @@ double SensorMap::getDistanceLeftDown() {
 }
 
 bool SensorMap::checkWallsRight() {
-  double current_distance_right_up = getDistanceRightUp();
-  double current_distance_right_down = getDistanceRightDown();
-  if (current_distance_right_up < 15 and current_distance_right_down < 15) {
-    return true;
-  }
-  else if (current_distance_right_up > 15 || current_distance_right_down > 15) {
-    return false;
-  }
+    return (getDistanceRightUp() < 15 || getDistanceRightDown() < 15);
 }
 
 bool SensorMap::checkWallsLeft() {
-  double current_distance_left_up = getDistanceLeftUp();
-  double current_distance_left_down = getDistanceLeftDown();
-  if (current_distance_left_up < 15 and current_distance_left_down < 15) {
-    return true;
-  }
-  else if (current_distance_left_up > 15 || current_distance_left_down > 15) {
-    return false;
-  }
+  return (getDistanceLeftUp() < 15 || getDistanceLeftDown() < 15);
 }
 
 bool SensorMap::heatVictim(double desire) {
-    double current_angle = control.getAngleBNOX();
+    double current_angle = logic.getAngleBNOX();
     desire = control.getDesiredAngle(desire);
     double new_desire_left = 0;
     double new_desire_right = 0;
 
     if (temperatureCelcius(temperature_sensor_right) > 28 and temperatureCelcius(temperature_sensor_right) < 40) {
         motors.stopEngines();
-        turnLED();
+        get.turnLED();
         delay(5000);
         new_desire_left = control.getNewDesireLeft(desire);
         motors.turnDegrees(new_desire_left);
@@ -101,10 +87,9 @@ bool SensorMap::heatVictim(double desire) {
         motors.turnDegrees(new_desire_right);
         return 1; // Victim Right
     }
-    else {
-        if (temperatureCelcius(temperature_sensor_left) > 28 and temperatureCelcius(temperature_sensor_left) < 40) {
+    else if (temperatureCelcius(temperature_sensor_left) > 28 and temperatureCelcius(temperature_sensor_left) < 40) {
             motors.stopEngines();
-            turnLED();
+            get.turnLED();
             delay(5000);
             new_desire_right = control.getNewDesireRight(desire);
             motors.turnDegrees(new_desire_right);
@@ -114,7 +99,6 @@ bool SensorMap::heatVictim(double desire) {
             new_desire_left = control.getNewDesireLeft(new_desire_right);
             motors.turnDegrees(new_desire_left);
             return 2; // Victim Left
-        }
     }
 }
 
@@ -151,11 +135,3 @@ float SensorMap::temperatureCelcius(int mlx) {
   
   return celcius;
 }
-
-void SensorMap::turnLED() {
-    digitalWrite(LED, HIGH);
-    delay(100);
-    digitalWrite(LED, LOW);
-    delay(100);
-}
-

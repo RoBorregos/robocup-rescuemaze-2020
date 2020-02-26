@@ -11,7 +11,7 @@
 #include <i2cmaster.h>
 #include "Movement.h"
 #include "DropKit.h"
-#include "Calibration.h"
+#include "BNO.h"
 #include "Control.h"
 
 #define SONAR_NUM 6      // Number of sensors.
@@ -24,6 +24,7 @@ class SensorMap {
     Control control;
     Movement motors;
     DropKit dispenser;
+    BNO get;
 
     // Get the Ultrasonic Distance Right Up.
     double getDistanceRightUp();
@@ -49,14 +50,33 @@ class SensorMap {
     bool colouredVictim(); 
     // Temperature return in degrees celcius.
     float temperatureCelcius(int mlx);
-    // Turn on a LED for 5 seconds.
-    void turnLED();
-
-    int LED = 4;
 
     const uint8_t kWaitBetweenUltrasonic = 50;
 
-    int temperature_sensor_right = 0x50<<1;   // Sensor adress 1
-    int temperature_sensor_left = 0x55<<1;    // Sensor adress 2
+    const int temperature_sensor_right = 0x50<<1;   // Sensor adress 1
+    const int temperature_sensor_left = 0x55<<1;    // Sensor adress 2
+
+   private:
+    const uint8_t kSonarLeftFrontTrigger = 4;
+    const uint8_t kSonarLeftFrontEcho = 5;
+    const uint8_t kSonarRightFrontTrigger = 6;
+    const uint8_t kSonarRightFrontEcho = 7;
+    const uint8_t kSonarRightUpTrigger = 8;
+    const uint8_t kSonarRightUpEcho = 9;
+    const uint8_t kSonarRightDownTrigger = 10;
+    const uint8_t kSonarRightDownEcho = 11;
+    const uint8_t kSonarLeftUpTrigger = 12;
+    const uint8_t kSonarLeftUpEcho = 13;
+    const uint8_t kSonarLeftDownTrigger = 14;
+    const uint8_t kSonarLeftDownEcho = 15;
+
+    NewPing sonar[SONAR_NUM] = {   // Sensor object array.
+    NewPing(kSonarLeftFrontTrigger, kSonarLeftFrontEcho, kSonarMaxDistance), // Each sensor's trigger pin, echo pin, and max distance to ping. 
+    NewPing(kSonarRightFrontTrigger, kSonarRightFrontEcho, kSonarMaxDistance), 
+    NewPing(kSonarRightUpTrigger, kSonarRightUpEcho, kSonarMaxDistance), 
+    NewPing(kSonarRightDownTrigger, kSonarRightDownEcho, kSonarMaxDistance), 
+    NewPing(kSonarLeftUpTrigger, kSonarLeftUpEcho, kSonarMaxDistance), 
+    NewPing(kSonarLeftDownTrigger, kSonarLeftDownEcho, kSonarMaxDistance)
+    };
 };
 #endif
