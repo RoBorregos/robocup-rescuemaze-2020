@@ -16,8 +16,6 @@ class Control {
   public:
     Control();
     BNO logic;
-    // Get the difference of the current angle with the 0, and return a new error.
-    double getDifferenceWithZero();
     // Get the new desired angle respect to the difference achieved.
     double getDesiredAngle(double desire);
     // Get the difference with the desired angle to the current angle, return error.
@@ -30,6 +28,8 @@ class Control {
     double getNewDesireLeft(double new_desire);
     // Get a new desire to drop a kit to the left.
     double getNewDesireRight(double new_desire);
+    // Return true if there is a ramp, and return false if there isn't a ramp.
+    bool detectRamp();
 
     const uint8_t kLimit_sup_pwm = 255; 
     const uint8_t kLimit_inf_pwm = 145;

@@ -1,3 +1,8 @@
+/* Roborregos Maze 2020
+ * This BNO class has all functions to get
+ * the robot angle, write on screen, and
+ * calibrate all sensors.
+*/
 #ifndef BNO_H
 #define BNO_H
 

@@ -1,3 +1,9 @@
+/* Roborregos Maze 2020
+ * This BNO class has all functions to get
+ * the robot angle, write on screen, and
+ * calibrate all sensors.
+ * To get more information, go to BNO.h file.
+*/
 #include "BNO.h"
 
 LiquidCrystal_I2C lcd(0x27,20,4);
@@ -9,9 +15,9 @@ BNO::BNO(){
 double BNO::getDifferenceWithZero() { 
   double error_generated = 0;
   
-  double current_angle = getAngleBNOX();
+  double current_angle_x = getAngleBNOX();
   if (current_angle >= 180) {
-    error_generated = (360 - current_angle);
+    error_generated = (360 - current_angle_x);
   }
   
   else {

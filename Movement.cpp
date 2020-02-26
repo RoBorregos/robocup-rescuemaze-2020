@@ -8,7 +8,7 @@
 
 Movement::Movement() {}
 
-void Movement::advance(const double desire) {
+void Movement::advance(const double desire, const double desireUltrasonic) {
   eCount1 = 0;
   eCount2 = 0;
 
@@ -25,7 +25,7 @@ void Movement::advance(const double desire) {
     double pwm_right_ultrasonic_left_up = 0;
     double pwm_left_ultrasonic_left_down = 0;
     double pwm_right_ultrasonic_left_down = 0;
-    double current_angle = logic.getAngleBNOX();  
+    double current_angle_x = logic.getAngleBNOX();  
     const double current_distance_right_down = sensor.getDistanceRightDown();
     const double current_distance_left_up = sensor.getDistanceLeftUp();
     const double current_distance_left_down = sensor.getDistanceLeftDown();
@@ -88,7 +88,7 @@ void Movement::advance(const double desire) {
         }
   }
   else {}
-    double errorBNO = control.getAngleError(current_angle, desire);
+    double errorBNO = control.getAngleError(current_angle_x, desire);
     if (errorBNO > 0) {
         pwm_right_final = kLimit_inf_pwm;
         pwm_left_BNO = kPAdvance * errorBNO;
@@ -106,8 +106,7 @@ void Movement::advance(const double desire) {
   while (eCount1 < 500 and eCount2 < 500);
   }
 
-double Movement::errorUltrasonicAdvance(const double desireUltrasonic) {
-}
+// double Movement::errorUltrasonicAdvance(const double desireUltrasonic) {}
 
 void Movement::turnLeft(const uint8_t vel) { 
     digitalWrite(kMotorLeftForward2, HIGH);
@@ -134,11 +133,11 @@ void Movement::turnRight(const uint8_t vel) {
 void Movement::turnDegrees(double desire) {
   double vel = 0;
   double error = 0;
-  double current_angle = logic.getAngleBNOX();
+  double current_angle_x = logic.getAngleBNOX();
   desire = control.getDesiredAngle(desire);
   
   do{
-    error = control.getAngleError(current_angle, desire);
+    error = control.getAngleError(current_angle_x, desire);
     Serial.println(error);
     vel = kPTurns * error;
     

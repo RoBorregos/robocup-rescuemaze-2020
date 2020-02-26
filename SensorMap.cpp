@@ -69,7 +69,7 @@ bool SensorMap::checkWallsLeft() {
 }
 
 bool SensorMap::heatVictim(double desire) {
-    double current_angle = logic.getAngleBNOX();
+    double current_angle_x = logic.getAngleBNOX();
     desire = control.getDesiredAngle(desire);
     double new_desire_left = 0;
     double new_desire_right = 0;

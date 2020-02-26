@@ -11,9 +11,9 @@ Control::Control() {}
 
 double Control::getDesiredAngle(double desire) {
   double initial_difference = logic.getDifferenceWithZero(); 
-  double current_angle = logic.getAngleBNOX();
+  double current_angle_x = logic.getAngleBNOX();
   
-  if (current_angle > 180) {
+  if (current_angle_x > 180) {
     desire = desire - initial_difference;
     if (desire < 0) {
       desire += 360;
@@ -31,8 +31,8 @@ double Control::getDesiredAngle(double desire) {
   return desire;
 }
 
-double Control::getAngleError(const double current_angle, const double desire){
-  double error = desire - current_angle;
+double Control::getAngleError(const double current_angle_x, const double desire){
+  double error = desire - current_angle_x;
   
   if (error < -180) {
      error += 360;
@@ -76,4 +76,18 @@ double Control::getNewDesireRight(double new_desire) {
   }
   else{}
   return new_desire;
+}
+
+bool Control::detectRamp() {
+  if (logic.getAngleBNOY() < -4 && logic.getAngleBNOY() > -35) {
+    if (logic.getAngleBNOZ() < 3 && logic.getAngleBNOZ() > -3) {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  else{
+    return false;
+  }
 }
