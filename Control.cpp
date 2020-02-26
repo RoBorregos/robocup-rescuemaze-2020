@@ -10,8 +10,8 @@
 Control::Control() {}
 
 double Control::getDesiredAngle(double desire) {
-  double initial_difference = logic.getDifferenceWithZero(); 
-  double current_angle_x = logic.getAngleBNOX();
+  double initial_difference = bno_.getDifferenceWithZero(); 
+  double current_angle_x = bno_.getAngleX();
   
   if (current_angle_x > 180) {
     desire = desire - initial_difference;
@@ -45,18 +45,18 @@ double Control::getAngleError(const double current_angle_x, const double desire)
   return error;
 }
 
-double Control::getErrorUltrasonic(const double current_distance, const double desire) {
-  double error = current_distance - desire;
+double Control::getErrorUltrasonic(const double current_distance, const double desireUltrasonic) {
+  double error = current_distance - desireUltrasonic;
   return error;
 }
 
-void Control::getPwm(double &vel) { 
-  if (vel < kLimit_inf_pwm) {
-    vel = kLimit_inf_pwm;
+void Control::getPwm(double &speed) { 
+  if (speed < kLimit_inf_pwm) {
+    speed = kLimit_inf_pwm;
   }
   
-  else if (vel > kLimit_sup_pwm) {
-    vel = kLimit_sup_pwm;
+  else if (speed > kLimit_sup_pwm) {
+    speed = kLimit_sup_pwm;
   }
 }
 
@@ -79,15 +79,57 @@ double Control::getNewDesireRight(double new_desire) {
 }
 
 bool Control::detectRamp() {
-  if (logic.getAngleBNOY() < -4 && logic.getAngleBNOY() > -35) {
-    if (logic.getAngleBNOZ() < 3 && logic.getAngleBNOZ() > -3) {
+  if (bno_.getAngleY() < -4 && bno_.getAngleY() > -35) {
+    if (bno_.getAngleZ() < 3 && bno_.getAngleZ() > -3) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
-  else{
+  else {
+    return false;
+  }
+}
+
+bool Control::bumperLevel1() {
+  if (bno_.getAngleY() < -2 && bno_.getAngleY() > -5) {
+    if (bno_.getAngleZ() > 3 || bno_.getAngleZ() < -3) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  else {
+    return false;
+  }
+}
+
+bool Control::bumperLevel2() {
+  if (bno_.getAngleY() < -5 && bno_.getAngleY() > -9) {
+    if (bno_.getAngleZ() > 3 || bno_.getAngleZ() < -3) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  else {
+    return false;
+  }
+}
+
+bool Control::bumperLevel3() {
+  if (bno_.getAngleY() < -9 && bno_.getAngleY() > -15) {
+    if (bno_.getAngleZ() > 3 || bno_.getAngleZ() < -3) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  else {
     return false;
   }
 }

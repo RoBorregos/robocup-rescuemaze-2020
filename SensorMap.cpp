@@ -38,23 +38,191 @@ double SensorMap::getDistanceLeftDown() {
   return sonar[5].ping_cm(); 
 }
 
+double SensorMap::getPwmUltrasonicLeft() { // Positive.
+    double pwm_right = 0;
+    double pwm_left = 0;
+    const double desireUltrasonic = 15;
+    double pwm_right_ultrasonic_right_up = 0;
+    double pwm_left_ultrasonic_right_up = 0;
+    double pwm_left_ultrasonic_right_down = 0;
+    double pwm_right_ultrasonic_right_down = 0;
+    double pwm_left_ultrasonic_left_up = 0;
+    double pwm_right_ultrasonic_left_up = 0;
+    double pwm_left_ultrasonic_left_down = 0;
+    double pwm_right_ultrasonic_left_down = 0; 
+    const double current_distance_right_down = sensor.getDistanceRightDown();
+    const double current_distance_left_up = sensor.getDistanceLeftUp();
+    const double current_distance_left_down = sensor.getDistanceLeftDown();
+    const double current_distance_right_up = sensor.getDistanceRightUp();
+
+    if (current_distance_right_up < 20) {
+        double error_right_up = control.getErrorUltrasonic(current_distance_right_up, desireUltrasonic);
+        if (error_right_up > 0) {
+          pwm_right = motors.kLimit_inf_pwm;
+          pwm_left_ultrasonic_right_up = motors.kPAdvance * error_right_up;
+        }
+
+        else {
+          pwm_left = motors.kLimit_inf_pwm;
+          pwm_right_ultrasonic_right_up = motors.kPAdvance * error_right_up;
+        }
+    }
+
+    else {}
+
+    if (current_distance_right_down < 20) {
+        double error_right_down = control.getErrorUltrasonic(current_distance_right_down, desireUltrasonic);
+        if (error_right_down > 0) {
+            pwm_left = motors.kLimit_inf_pwm;
+            pwm_right_ultrasonic_right_down = motors.kPAdvance * error_right_down;
+            pwm_right_ultrasonic_right_down += pwm_right_ultrasonic_right_up;
+        }
+
+        else {
+            pwm_right = motors.kLimit_inf_pwm;
+            pwm_left_ultrasonic_right_down = motors.kPAdvance * error_right_down;
+            pwm_left_ultrasonic_right_down += pwm_left_ultrasonic_right_up;
+        }
+    }
+
+    else{}
+
+    if (current_distance_left_up < 20) {
+        double error_left_up = control.getErrorUltrasonic(current_distance_left_up, desireUltrasonic);
+        if (error_left_up > 0) {
+            pwm_left = motors.kLimit_inf_pwm;
+            pwm_right_ultrasonic_left_up = motors.kPAdvance * error_left_up;
+            pwm_right_ultrasonic_left_up += pwm_right_ultrasonic_right_down;
+        }
+
+        else {
+            pwm_right = motors.kLimit_inf_pwm;
+            pwm_left_ultrasonic_left_up = motors.kPAdvance * error_left_up;
+            pwm_left_ultrasonic_left_up += pwm_left_ultrasonic_right_down;
+        }
+    }
+
+    else {}
+
+    if (current_distance_left_down < 20) {
+        double error_left_down = control.getErrorUltrasonic(current_distance_left_down, desireUltrasonic);
+        if (error_left_down > 0) {
+            pwm_right = motors.kLimit_inf_pwm;
+            pwm_left_ultrasonic_left_down = motors.kPAdvance * error_left_down;
+            pwm_left_ultrasonic_left_down += pwm_left_ultrasonic_left_up;
+        }
+
+        else {
+            pwm_left = motors.kLimit_inf_pwm;
+            pwm_right_ultrasonic_left_down = motors.kPAdvance * error_left_down;
+            pwm_right_ultrasonic_left_down += pwm_right_ultrasonic_left_up;
+        }
+  }
+  else {}
+  return pwm_left_ultrasonic_left_down;
+}
+
+double SensorMap::getPwmUltrasonicRight() { // Negative.
+    double pwm_left = 0;
+    double pwm_right = 0;
+    const double desireUltrasonic = 15;
+    double pwm_right_ultrasonic_right_up = 0;
+    double pwm_left_ultrasonic_right_up = 0;
+    double pwm_left_ultrasonic_right_down = 0;
+    double pwm_right_ultrasonic_right_down = 0;
+    double pwm_left_ultrasonic_left_up = 0;
+    double pwm_right_ultrasonic_left_up = 0;
+    double pwm_left_ultrasonic_left_down = 0;
+    double pwm_right_ultrasonic_left_down = 0; 
+    const double current_distance_right_down = sensor.getDistanceRightDown();
+    const double current_distance_left_up = sensor.getDistanceLeftUp();
+    const double current_distance_left_down = sensor.getDistanceLeftDown();
+    const double current_distance_right_up = sensor.getDistanceRightUp();
+
+    if (current_distance_right_up < 20) {
+        double error_right_up = control.getErrorUltrasonic(current_distance_right_up, desireUltrasonic);
+        if (error_right_up > 0) {
+          pwm_right = motors.kLimit_inf_pwm;
+          pwm_left_ultrasonic_right_up = motors.kPAdvance * error_right_up;
+        }
+
+        else {
+          pwm_left = kLimit_inf_pwm;
+          pwm_right_ultrasonic_right_up = mototrs.kPAdvance * error_right_up;
+        }
+    }
+
+    else {}
+
+    if (current_distance_right_down < 20) {
+        double error_right_down = control.getErrorUltrasonic(current_distance_right_down, desireUltrasonic);
+        if (error_right_down > 0) {
+            pwm_left = motors.kLimit_inf_pwm;
+            pwm_right_ultrasonic_right_down = motors.kPAdvance * error_right_down;
+            pwm_right_ultrasonic_right_down += pwm_right_ultrasonic_right_up;
+        }
+
+        else {
+            pwm_right = motors.kLimit_inf_pwm;
+            pwm_left_ultrasonic_right_down = motors.kPAdvance * error_right_down;
+            pwm_left_ultrasonic_right_down += pwm_left_ultrasonic_right_up;
+        }
+    }
+
+    else{}
+
+    if (current_distance_left_up < 20) {
+        double error_left_up = control.getErrorUltrasonic(current_distance_left_up, desireUltrasonic);
+        if (error_left_up > 0) {
+            pwm_left = motors.kLimit_inf_pwm;
+            pwm_right_ultrasonic_left_up = motors.kPAdvance * error_left_up;
+            pwm_right_ultrasonic_left_up += pwm_right_ultrasonic_right_down;
+        }
+
+        else {
+            pwm_right = motors.kLimit_inf_pwm;
+            pwm_left_ultrasonic_left_up = motors.kPAdvance * error_left_up;
+            pwm_left_ultrasonic_left_up += pwm_left_ultrasonic_right_down;
+        }
+    }
+
+    else {}
+
+    if (current_distance_left_down < 20) {
+        double error_left_down = control.getErrorUltrasonic(current_distance_left_down, desireUltrasonic);
+        if (error_left_down > 0) {
+            pwm_right = motors.kLimit_inf_pwm;
+            pwm_left_ultrasonic_left_down = motors.kPAdvance * error_left_down;
+            pwm_left_ultrasonic_left_down += pwm_left_ultrasonic_left_up;
+        }
+
+        else {
+            pwm_left = motors.kLimit_inf_pwm;
+            pwm_right_ultrasonic_left_down = motors.kPAdvance * error_left_down;
+            pwm_right_ultrasonic_left_down += pwm_right_ultrasonic_left_up;
+        }
+  }
+  else {}
+  return pwm_right_ultrasonic_left_down;
+}
+
 bool SensorMap::checkWallsRight() {
-    return (getDistanceRightUp() < 15 || getDistanceRightDown() < 15);
+    return (getDistanceRightUp() < kMaxWallDistance || getDistanceRightDown() < kMaxWallDistance);
 }
 
 bool SensorMap::checkWallsLeft() {
-  return (getDistanceLeftUp() < 15 || getDistanceLeftDown() < 15);
+  return (getDistanceLeftUp() < kMaxWallDistance || getDistanceLeftDown() < kMaxWallDistance);
 }
 
 bool SensorMap::heatVictim(double desire) {
-    double current_angle_x = logic.getAngleBNOX();
+    double current_angle_x = bno_.getAngleX();
     desire = control.getDesiredAngle(desire);
     double new_desire_left = 0;
     double new_desire_right = 0;
 
-    if (temperatureCelcius(temperature_sensor_right) > 28 and temperatureCelcius(temperature_sensor_right) < 40) {
+    if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature and temperatureCelcius(temperature_sensor_right) < kMaximumTemperature) {
         motors.stopEngines();
-        logic.turnLED();
+        bno_.turnLED();
         delay(kWaitFiveSeconds);
         new_desire_left = control.getNewDesireLeft(desire);
         motors.turnDegrees(new_desire_left);
@@ -65,9 +233,10 @@ bool SensorMap::heatVictim(double desire) {
         motors.turnDegrees(new_desire_right);
         return 1; // Victim Right
     }
-    else if (temperatureCelcius(temperature_sensor_left) > 28 and temperatureCelcius(temperature_sensor_left) < 40) {
+
+    else if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature and temperatureCelcius(temperature_sensor_left) < kMaximumTemperature) {
             motors.stopEngines();
-            logic.turnLED();
+            bno_.turnLED();
             delay(kWaitFiveSeconds);
             new_desire_right = control.getNewDesireRight(desire);
             motors.turnDegrees(new_desire_right);

@@ -24,7 +24,7 @@ class SensorMap {
     Control control;
     Movement motors;
     DropKit dispenser;
-    BNO logic;
+    BNO bno_;
 
     // Get the Ultrasonic Distance Right Up.
     double getDistanceRightUp();
@@ -38,6 +38,10 @@ class SensorMap {
     double getDistanceFrontLeft();
     // Get the Ultrasonic Distance Front Right.
     double getDistanceFrontRight();
+    // Get pwm through error(Positive).
+    double getPwmUltrasonicLeft();
+    // Get pwm through error(Negative).
+    double getPwmUltrasonicRight();
     // Check if the right wall is complete.
     bool checkWallsRight();
     // Check if the left wall is complete.
@@ -54,6 +58,9 @@ class SensorMap {
     const uint8_t kWaitBetweenUltrasonic = 50;
     const int kWaitFiveSeconds = 5000;
     const int kWaitBetweenDropKit = 2000;
+    const uint8_t kMaxWallDistance = 15;
+    const uint8_t kMinimumTemperature = 28;
+    const uint8_t kMaximumTemperature = 40;
 
     const int temperature_sensor_right = 0x50<<1;   // Sensor adress 1
     const int temperature_sensor_left = 0x55<<1;    // Sensor adress 2

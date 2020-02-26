@@ -8,145 +8,66 @@
 
 Movement::Movement() {}
 
-void Movement::advance(const double desire, const double desireUltrasonic) {
+void Movement::advance(const double desire) {
   eCount1 = 0;
   eCount2 = 0;
 
   do {
-    double pwm_left_final = 0;
-    double pwm_right_final = 0;
-    double pwm_right_BNO = 0;
-    double pwm_left_BNO = 0;
-    double pwm_right_ultrasonic_right_up = 0;
-    double pwm_left_ultrasonic_right_up = 0;
-    double pwm_left_ultrasonic_right_down = 0;
-    double pwm_right_ultrasonic_right_down = 0;
-    double pwm_left_ultrasonic_left_up = 0;
-    double pwm_right_ultrasonic_left_up = 0;
-    double pwm_left_ultrasonic_left_down = 0;
-    double pwm_right_ultrasonic_left_down = 0;
-    double current_angle_x = logic.getAngleBNOX();  
-    const double current_distance_right_down = sensor.getDistanceRightDown();
-    const double current_distance_left_up = sensor.getDistanceLeftUp();
-    const double current_distance_left_down = sensor.getDistanceLeftDown();
-    const double current_distance_right_up = sensor.getDistanceRightUp();
+      double pwm_right_enginees = bno_.getPwmBNORight(desire); // Negative.
+      double pwm_left_enginees = bno_.getPwmBNOLeft(desire); // Positive. 
+      if (pwm_left_enginees > 1) {
+          pwm_left_enginees = kLimit_inf_pwm;
+          control.getPwm(pwm_left_enginees);
+      }
 
-    if (current_distance_right_up < 20) {
-        double error_right_up = control.getErrorUltrasonic(current_distance_right_up, desireUltrasonic);
-        if (error_right_up > 0) {
-          pwm_right_final = kLimit_inf_pwm;
-          pwm_left_ultrasonic_right_up = kPAdvance * error_right_up;
-        }
-        else {
-          pwm_left_final = kLimit_inf_pwm;
-          pwm_right_ultrasonic_right_up = kPAdvance * error_right_up;
-        }
+      else if (pwm_right_enginees < 0) {
+          pwm_right_enginees = kLimit_inf_pwm;
+          control.getPwm(pwm_right_enginees);
+      }
+      forwardPwm(pwm_right_enginees, pwm_left_enginees);
     }
-    else {}
-
-    if (current_distance_right_down < 20) {
-        double error_right_down = control.getErrorUltrasonic(current_distance_right_down, desireUltrasonic);
-        if (error_right_down > 0) {
-            pwm_left_final = kLimit_inf_pwm;
-            pwm_right_ultrasonic_right_down = kPAdvance * error_right_down;
-            pwm_right_ultrasonic_right_down += pwm_right_ultrasonic_right_up;
-        }
-        else {
-            pwm_right_final = kLimit_inf_pwm;
-            pwm_left_ultrasonic_right_down = kPAdvance * error_right_down;
-            pwm_left_ultrasonic_right_down += pwm_left_ultrasonic_right_up;
-        }
-    }
-    else{}
-
-    if (current_distance_left_up < 20) {
-        double error_left_up = control.getErrorUltrasonic(current_distance_left_up, desireUltrasonic);
-        if (error_left_up > 0) {
-            pwm_left_final = kLimit_inf_pwm;
-            pwm_right_ultrasonic_left_up = kPAdvance * error_left_up;
-            pwm_right_ultrasonic_left_up += pwm_right_ultrasonic_right_down;
-        }
-        else {
-            pwm_right_final = kLimit_inf_pwm;
-            pwm_left_ultrasonic_left_up = kPAdvance * error_left_up;
-            pwm_left_ultrasonic_left_up += pwm_left_ultrasonic_right_down;
-        }
-    }
-    else {}
-
-    if (current_distance_left_down < 20) {
-        double error_left_down = control.getErrorUltrasonic(current_distance_left_down, desireUltrasonic);
-        if (error_left_down > 0) {
-            pwm_right_final = kLimit_inf_pwm;
-            pwm_left_ultrasonic_left_down = kPAdvance * error_left_down;
-            pwm_left_ultrasonic_left_down += pwm_left_ultrasonic_left_up;
-        }
-        else {
-            pwm_left_final = kLimit_inf_pwm;
-            pwm_right_ultrasonic_left_down = kPAdvance * error_left_down;
-            pwm_right_ultrasonic_left_down += pwm_right_ultrasonic_left_up;
-        }
-  }
-  else {}
-    double errorBNO = control.getAngleError(current_angle_x, desire);
-    if (errorBNO > 0) {
-        pwm_right_final = kLimit_inf_pwm;
-        pwm_left_BNO = kPAdvance * errorBNO;
-        pwm_left_final = pwm_left_BNO + pwm_left_ultrasonic_left_down;
-        control.getPwm(pwm_left_final);
-        }
-    else {
-        pwm_left_final = kLimit_inf_pwm;
-        pwm_right_BNO = kPAdvance * errorBNO;
-        pwm_right_final = pwm_right_BNO + pwm_right_ultrasonic_left_down;
-        control.getPwm(pwm_right_final);  
-    }
-    forwardPwm(pwm_right_final, pwm_left_final);
-    }
-  while (eCount1 < 500 and eCount2 < 500);
-  }
-
-// double Movement::errorUltrasonicAdvance(const double desireUltrasonic) {}
-
-void Movement::turnLeft(const uint8_t vel) { 
-    digitalWrite(kMotorLeftForward2, HIGH);
-    analogWrite(kMotorLeftForward1, vel);
-    digitalWrite(kMotorLeftBack1, HIGH);
-    analogWrite(kMotorLeftBack2, vel);
-    digitalWrite(kMotorRightForward2, HIGH);
-    analogWrite(kMotorRightForward1, vel);
-    digitalWrite(kMotorRightBack2, HIGH);
-    analogWrite(kMotorRightBack1, vel);
+    while (eCount1 < 500 and eCount2 < 500);
 }
 
-void Movement::turnRight(const uint8_t vel) { 
+void Movement::turnLeft(const uint8_t speed) { 
+    digitalWrite(kMotorLeftForward2, HIGH);
+    analogWrite(kMotorLeftForward1, speed);
+    digitalWrite(kMotorLeftBack1, HIGH);
+    analogWrite(kMotorLeftBack2, speed);
+    digitalWrite(kMotorRightForward2, HIGH);
+    analogWrite(kMotorRightForward1, speed);
+    digitalWrite(kMotorRightBack2, HIGH);
+    analogWrite(kMotorRightBack1, speed);
+}
+
+void Movement::turnRight(const uint8_t speed) { 
     digitalWrite(kMotorLeftForward2, LOW);
-    analogWrite(kMotorLeftForward1, vel);
+    analogWrite(kMotorLeftForward1, speed);
     digitalWrite(kMotorLeftBack1, LOW);
-    analogWrite(kMotorLeftBack2, vel);
+    analogWrite(kMotorLeftBack2, speed);
     digitalWrite(kMotorRightForward2, LOW);
-    analogWrite(kMotorRightForward1, vel);
+    analogWrite(kMotorRightForward1, speed);
     digitalWrite(kMotorRightBack2, LOW);
-    analogWrite(kMotorRightBack1, vel);  
+    analogWrite(kMotorRightBack1, speed);  
 }
 
 void Movement::turnDegrees(double desire) {
-  double vel = 0;
+  double speed = 0;
   double error = 0;
-  double current_angle_x = logic.getAngleBNOX();
+  double current_angle_x = bno_.getAngleX();
   desire = control.getDesiredAngle(desire);
   
   do{
     error = control.getAngleError(current_angle_x, desire);
     Serial.println(error);
-    vel = kPTurns * error;
+    speed = kPTurns * error;
     
-    control.getPwm(vel); // Verify to the pwm stay in the range.
+    control.getPwm(speed); // Verify to the pwm stay in the range.
     if (error < 0) { 
-      turnLeft(vel);
+      turnLeft(speed);
     }   
     else {
-      turnRight(vel);
+      turnRight(speed);
     } 
   }
   while ( error < -(kRange_error) || error > kRange_error); // Asigne a range to stop the robot.

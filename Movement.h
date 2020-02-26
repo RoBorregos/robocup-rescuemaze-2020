@@ -18,14 +18,14 @@ class Movement {
     Movement();
     Control control;
     SensorMap sensor;
-    BNO logic;
+    BNO bno_;
 
     // Move the robot forward.   
-    void advance(const double desire, const double desireUltrasonic);
+    void advance(const double desire);
     // Turn the robot 90 degrees to the left.
-    void turnLeft(const uint8_t vel);
+    void turnLeft(const uint8_t speed);
     // Turn the robot 90 degrees to the right.
-    void turnRight(const uint8_t vel);
+    void turnRight(const uint8_t speed);
     // Turn left or right depending on the desired angle.
     void turnDegrees(double desire);
     // Stop the robot.
@@ -46,16 +46,16 @@ class Movement {
     const uint8_t kMotorRightBack1 = 7;
     const uint8_t kMotorRightBack2 = 6;  
 
-    const uint8_t kLimit_sup_pwm = 255; 
     const uint8_t kLimit_inf_pwm = 145;
+    const uint8_t kLimit_sup_pwm = 255;
 
     // Turns.
     const double kPTurns = 1.07; 
     const double kITurns = 2.91; 
     const double kDTurns = 3.33;
 
-    // Advance.
-    const double kPAdvance = 4.52; 
+    // Advance. 
+    const double kPAdvance = 4.52;
     const double kIAdvance = 3.45; 
     const double kDAdvance = 2.05;
 
