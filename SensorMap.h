@@ -52,6 +52,8 @@ class SensorMap {
     float temperatureCelcius(int mlx);
 
     const uint8_t kWaitBetweenUltrasonic = 50;
+    const int kWaitFiveSeconds = 5000;
+    const int kWaitBetweenDropKit = 2000;
 
     const int temperature_sensor_right = 0x50<<1;   // Sensor adress 1
     const int temperature_sensor_left = 0x55<<1;    // Sensor adress 2

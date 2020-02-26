@@ -55,12 +55,12 @@ bool SensorMap::heatVictim(double desire) {
     if (temperatureCelcius(temperature_sensor_right) > 28 and temperatureCelcius(temperature_sensor_right) < 40) {
         motors.stopEngines();
         logic.turnLED();
-        delay(5000);
+        delay(kWaitFiveSeconds);
         new_desire_left = control.getNewDesireLeft(desire);
         motors.turnDegrees(new_desire_left);
-        delay(2000);
+        delay(kWaitBetweenDropKit);
         dispenser.dropOneKitRight();
-        delay(2000);
+        delay(kWaitBetweenDropKit);
         new_desire_right = control.getNewDesireRight(new_desire_left);
         motors.turnDegrees(new_desire_right);
         return 1; // Victim Right
@@ -68,12 +68,12 @@ bool SensorMap::heatVictim(double desire) {
     else if (temperatureCelcius(temperature_sensor_left) > 28 and temperatureCelcius(temperature_sensor_left) < 40) {
             motors.stopEngines();
             logic.turnLED();
-            delay(5000);
+            delay(kWaitFiveSeconds);
             new_desire_right = control.getNewDesireRight(desire);
             motors.turnDegrees(new_desire_right);
-            delay(2000);
+            delay(kWaitBetweenDropKit);
             dispenser.dropOneKitLeft();
-            delay(2000);
+            delay(kWaitBetweenDropKit);
             new_desire_left = control.getNewDesireLeft(new_desire_right);
             motors.turnDegrees(new_desire_left);
             return 2; // Victim Left

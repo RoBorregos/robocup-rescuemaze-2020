@@ -21,7 +21,7 @@ double BNO::getDifferenceWithZero() {
   }
   
   else {
-    error_generated = current_angle;
+    error_generated = current_angle_x;
     error_generated = -(error_generated);
   }
   
