@@ -39,5 +39,17 @@ class Control {
 
     const uint8_t kLimit_sup_pwm = 255; 
     const uint8_t kLimit_inf_pwm = 145;
+
+    const uint8_t kLimitSupDegrees = 35;
+    const uint8_t kLimitInfDegrees = 4;
+    const uint8_t kRangeAngleZ = 3;
+    const uint8_t kLimitInfBumper1 = 2;
+    const uint8_t kLimitSupBumper1 = 5;
+    const uint8_t kLimitSupBumper2 = 9;
+    const uint8_t kLimitSupBumper3 = 15;
+
+    const uint8_t kDegrees90 = 90;
+    const int kDegrees360 = 360;
+    const uint8_t kDegrees180 = 180;
 };
 #endif

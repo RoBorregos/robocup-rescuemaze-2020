@@ -13,10 +13,10 @@ double Control::getDesiredAngle(double desire) {
   double initial_difference = bno_.getDifferenceWithZero(); 
   double current_angle_x = bno_.getAngleX();
   
-  if (current_angle_x > 180) {
+  if (current_angle_x > kDegrees180) {
     desire = desire - initial_difference;
     if (desire < 0) {
-      desire += 360;
+      desire += kDegrees360;
     }
     
     else{
@@ -34,12 +34,12 @@ double Control::getDesiredAngle(double desire) {
 double Control::getAngleError(const double current_angle_x, const double desire){
   double error = desire - current_angle_x;
   
-  if (error < -180) {
-     error += 360;
+  if (error < -kDegrees180) {
+     error += kDegrees360;
    }
     
-  else if (error > 180) {
-    error -= 360;
+  else if (error > kDegrees180) {
+    error -= kDegrees360;
   }
   
   return error;
@@ -61,75 +61,33 @@ void Control::getPwm(double &speed) {
 }
 
 double Control::getNewDesireLeft(double new_desire) {
-  new_desire = new_desire - 90;
+  new_desire = new_desire - kDegrees90;
   if (new_desire < 0) {
-    new_desire = new_desire + 360;
+    new_desire = new_desire + kDegrees360;
   }
-  else {}
   return new_desire;
 }
 
 double Control::getNewDesireRight(double new_desire) {
-  new_desire = new_desire + 90;
-  if (new_desire > 360) {
-    new_desire = new_desire - 360;
+  new_desire = new_desire + kDegrees90;
+  if (new_desire > kDegrees360) {
+    new_desire = new_desire - kDegrees360;
   }
-  else{}
   return new_desire;
 }
 
 bool Control::detectRamp() {
-  if (bno_.getAngleY() < -4 && bno_.getAngleY() > -35) {
-    if (bno_.getAngleZ() < 3 && bno_.getAngleZ() > -3) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  else {
-    return false;
-  }
+  return (bno_.getAngleY() < -kLimitInfDegrees && bno_.getAngleY() > -kLimitSupDegrees && bno_.getAngleZ() < kRangeAngleZ && bno_.getAngleZ() > -kRangeAngleZ);
 }
 
 bool Control::bumperLevel1() {
-  if (bno_.getAngleY() < -2 && bno_.getAngleY() > -5) {
-    if (bno_.getAngleZ() > 3 || bno_.getAngleZ() < -3) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  else {
-    return false;
-  }
+  return (bno_.getAngleY() < -kLimitInfBumper1 && bno_.getAngleY() > -kLimitSupBumper1 && bno_.getAngleZ() > kRangeAngleZ || bno_.getAngleZ() < -kRangeAngleZ);
 }
 
 bool Control::bumperLevel2() {
-  if (bno_.getAngleY() < -5 && bno_.getAngleY() > -9) {
-    if (bno_.getAngleZ() > 3 || bno_.getAngleZ() < -3) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  else {
-    return false;
-  }
+  return (bno_.getAngleY() < -kLimitSupBumper1 && bno_.getAngleY() > -kLimitSupBumper2 && bno_.getAngleZ() > kRangeAngleZ || bno_.getAngleZ() < -kRangeAngleZ);
 }
 
 bool Control::bumperLevel3() {
-  if (bno_.getAngleY() < -9 && bno_.getAngleY() > -15) {
-    if (bno_.getAngleZ() > 3 || bno_.getAngleZ() < -3) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  else {
-    return false;
-  }
+  return (bno_.getAngleY() < -kLimitSupBumper2 && bno_.getAngleY() > -kLimitSupBumper3 && bno_.getAngleZ() > kRangeAngleZ || bno_.getAngleZ() < -kRangeAngleZ);
 }

@@ -9,7 +9,7 @@ DropKit::DropKit() {}
 
 void DropKit::setup() {
   dispenser.attach(42);
-  dispenser.write(90);   // Initialize the dispenser in 90 degrees(in the middle).
+  dispenser.write(kDispenserDegrees90);   // Initialize the dispenser in 90 degrees(in the middle).
 }
 
 void DropKit::dropOneKitLeft() {
@@ -31,21 +31,11 @@ void DropKit::dropOneKitRight() {
 }
 
 void DropKit::dropTwoKitsRight() {
-  dispenser.write(kDispenserDegrees180);
-  delay(kTime_1sec);
-  dispenser.write(kDispenserDegrees80);
-  delay(kTime_1sec);
-  dispenser.write(kDispenserDegrees90);
-  delay(kTime_2ms);
-  dropTwoKitsRight();
+    dropOneKitRight();
+    dropOneKitRight();
 }
 
 void DropKit::dropTwoKitsLeft() {
-  dispenser.write(kDispenserDegrees0);
-  delay(kTime_1sec);
-  dispenser.write(kDispenserDegrees100);
-  delay(kTime_1sec);
-  dispenser.write(kDispenserDegrees90);
-  delay(kTime_2ms);
-  dropTwoKitsLeft();
+    dropOneKitLeft();
+    dropOneKitLeft();
 }

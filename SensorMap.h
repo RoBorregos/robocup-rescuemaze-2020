@@ -62,6 +62,8 @@ class SensorMap {
     const uint8_t kMinimumTemperature = 28;
     const uint8_t kMaximumTemperature = 40;
 
+    const uint8_t kDistanceWall = 20;
+
     const int temperature_sensor_right = 0x50<<1;   // Sensor adress 1
     const int temperature_sensor_left = 0x55<<1;    // Sensor adress 2
 

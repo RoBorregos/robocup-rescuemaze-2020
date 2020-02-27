@@ -49,6 +49,8 @@ class Movement {
     const uint8_t kLimit_inf_pwm = 145;
     const uint8_t kLimit_sup_pwm = 255;
 
+    const int kUnitLimit = 500;
+
     // Turns.
     const double kPTurns = 1.07; 
     const double kITurns = 2.91; 
@@ -66,8 +68,8 @@ class Movement {
     const uint8_t S = 180;
     const int W = 270;  
 
-    volatile uint16_t eCount1;
-    volatile uint16_t eCount2;
+    volatile uint16_t encouder_count_left;
+    volatile uint16_t encouder_count_right;
 
     const uint8_t kTimeToStop = 10; 
 };

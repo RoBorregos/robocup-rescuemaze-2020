@@ -9,8 +9,8 @@
 Movement::Movement() {}
 
 void Movement::advance(const double desire) {
-  eCount1 = 0;
-  eCount2 = 0;
+  encouder_count_left = 0;
+  encouder_count_right = 0;
 
   do {
       double pwm_right_enginees = bno_.getPwmBNORight(desire); // Negative.
@@ -26,7 +26,7 @@ void Movement::advance(const double desire) {
       }
       forwardPwm(pwm_right_enginees, pwm_left_enginees);
     }
-    while (eCount1 < 500 and eCount2 < 500);
+    while (encouder_count_left < kUnitLimit and encouder_count_right < kUnitLimit);
 }
 
 void Movement::turnLeft(const uint8_t speed) { 

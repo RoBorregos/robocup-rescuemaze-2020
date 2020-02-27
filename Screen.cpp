@@ -81,9 +81,9 @@ delay(kTimeSeeLocation);
 
 void Screen::turnLED() {
     digitalWrite(LED, HIGH);
-    delay(100);
+    delay(kTime100ms);
     digitalWrite(LED, LOW);
-    delay(100);
+    delay(kTime100ms);
 }
 
 void Screen::LCDCalibration() {

@@ -54,7 +54,7 @@ double BNO::getPwmBNOLeft(const double desire) { // Positive.
     double pwm_right_BNO = 0;
     double pwm_left_BNO = 0;
     double current_angle_x = getAngleX(); 
-    double errorBNO = control.getAngleError(current_angle_x, desire);
+    const double errorBNO = control.getAngleError(current_angle_x, desire);
 
     if (errorBNO > 0) {
         pwm_right = motors.kLimit_inf_pwm;
@@ -77,7 +77,7 @@ double BNO::getPwmBNORight(const double desire) { // Negative.
     double pwm_right_BNO = 0;
     double pwm_left_BNO = 0;
     double current_angle_x = getAngleX(); 
-    double errorBNO = control.getAngleError(current_angle_x, desire);
+    const double errorBNO = control.getAngleError(current_angle_x, desire);
 
     if (errorBNO > 0) {
         pwm_right = motors.kLimit_inf_pwm;

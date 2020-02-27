@@ -33,5 +33,7 @@ class Screen {
       const uint8_t kTimeSeeLocation = 100;
       const uint8_t kTimeToPrintLCD = 100;
       const int kDelayAfterBNO = 2700;  
+
+      const uint8_t kTime100ms = 100;
 };
 #endif
