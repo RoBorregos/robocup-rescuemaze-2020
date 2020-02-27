@@ -8,7 +8,7 @@
 
 Movement::Movement() {}
 
-void Movement::advance(const double desire) {
+void Movement::advanceP(const double desire) {
   encouder_count_left = 0;
   encouder_count_right = 0;
 
@@ -25,6 +25,27 @@ void Movement::advance(const double desire) {
           control.getPwm(pwm_right_enginees);
       }
       forwardPwm(pwm_right_enginees, pwm_left_enginees);
+    }
+    while (encouder_count_left < kUnitLimit and encouder_count_right < kUnitLimit);
+}
+
+void Movement::moveBackP(const double desire) {
+  encouder_count_left = 0;
+  encouder_count_right = 0;
+
+  do {
+      double pwm_right_enginees = bno_.getPwmBNORight(desire); // Negative.
+      double pwm_left_enginees = bno_.getPwmBNOLeft(desire); // Positive. 
+      if (pwm_left_enginees > 1) {
+          pwm_left_enginees = kLimit_inf_pwm;
+          control.getPwm(pwm_left_enginees);
+      }
+
+      else if (pwm_right_enginees < 0) {
+          pwm_right_enginees = kLimit_inf_pwm;
+          control.getPwm(pwm_right_enginees);
+      }
+      backwardPwm(pwm_right_enginees, pwm_left_enginees);
     }
     while (encouder_count_left < kUnitLimit and encouder_count_right < kUnitLimit);
 }
@@ -100,6 +121,10 @@ void Movement::fastForward() {
   forwardPwm(kLimit_sup_pwm, kLimit_sup_pwm);
 }
 
+void Movement::fastBackward() {
+    backwardPwm(kLimit_sup_pwm, kLimit_sup_pwm);
+}
+
 void Movement::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
     digitalWrite(kMotorLeftForward2, LOW);
     analogWrite(kMotorLeftForward2, pwm_left);
@@ -108,6 +133,17 @@ void Movement::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
     digitalWrite(kMotorRightForward1, LOW);
     analogWrite(kMotorRightForward2, pwm_right);
     digitalWrite(kMotorRightBack1, LOW);
+    analogWrite(kMotorRightBack2, pwm_right);
+}
+
+void Movement::backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
+    digitalWrite(kMotorLeftForward2, HIGH);
+    analogWrite(kMotorLeftForward2, pwm_left);
+    digitalWrite(kMotorLeftBack1, HIGH);
+    analogWrite(kMotorLeftBack2, pwm_left);
+    digitalWrite(kMotorRightForward1, HIGH);
+    analogWrite(kMotorRightForward2, pwm_right);
+    digitalWrite(kMotorRightBack1, HIGH);
     analogWrite(kMotorRightBack2, pwm_right);
 }
 

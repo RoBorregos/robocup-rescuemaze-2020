@@ -20,8 +20,10 @@ class Movement {
     SensorMap sensor;
     BNO bno_;
 
-    // Move the robot forward.   
-    void advance(const double desire);
+    // Move the robot forward with P.   
+    void advanceP(const double desire);
+    // Move the robot backwards with P.
+    void moveBackP(const double desire);
     // Turn the robot 90 degrees to the left.
     void turnLeft(const uint8_t speed);
     // Turn the robot 90 degrees to the right.
@@ -32,10 +34,14 @@ class Movement {
     void stopEngines();
     // Go fast to the ramp.
     void fastForward();
+    // Go back fast.
+    void fastBackward();
     // Move the robot backwards.
     void moveBack();
-    // Move the robot forward through the pwm asigned in each side.
+    // Move the robot forward through the pwm assigned in each side.
     void forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
+    // Move the robot backward through the pwm assigned in each side.
+    void backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
 
     const uint8_t kMotorLeftForward1 = 9;  
     const uint8_t kMotorLeftForward2 = 8;  
