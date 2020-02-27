@@ -62,7 +62,7 @@ double BNO::getPwmBNOLeft(const double desire) { // Positive.
         pwm_left_final = pwm_left_BNO + sensor.getPwmUltrasonicLeft();
         }
     else {
-        pwm_left = 145;
+        pwm_left = motors.kLimit_inf_pwm;
         pwm_right_BNO = motors.kPAdvance * errorBNO;
         pwm_right_final = pwm_right_BNO + sensor.getPwmUltrasonicRight();;
     }
