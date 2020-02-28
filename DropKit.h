@@ -32,6 +32,8 @@ class DropKit {
     const int kTime_1sec = 1000;
     const uint8_t kTime_2ms = 200;
 
+    const uint8_t kPin42 = 42;
+
   private:
      Servo dispenser; 
 };

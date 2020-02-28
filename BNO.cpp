@@ -46,52 +46,6 @@ double BNO::getAngleZ() {
   return event.orientation.z;
 }
 
-double BNO::getPwmBNOLeft(const double desire) { // Positive.
-    double pwm_left = 0;
-    double pwm_right = 0;
-    double pwm_left_final = 0;
-    double pwm_right_final = 0;
-    double pwm_right_BNO = 0;
-    double pwm_left_BNO = 0;
-    double current_angle_x = getAngleX(); 
-    const double errorBNO = control.getAngleError(current_angle_x, desire);
-
-    if (errorBNO > 0) {
-        pwm_right = motors.kLimit_inf_pwm;
-        pwm_left_BNO = motors.kPAdvance * errorBNO;
-        pwm_left_final = pwm_left_BNO + sensor.getPwmUltrasonicLeft();
-        }
-    else {
-        pwm_left = motors.kLimit_inf_pwm;
-        pwm_right_BNO = motors.kPAdvance * errorBNO;
-        pwm_right_final = pwm_right_BNO + sensor.getPwmUltrasonicRight();;
-    }
-    return pwm_left_final;
-}
-
-double BNO::getPwmBNORight(const double desire) { // Negative.
-    double pwm_left = 0;
-    double pwm_right = 0;
-    double pwm_left_final = 0;
-    double pwm_right_final = 0;
-    double pwm_right_BNO = 0;
-    double pwm_left_BNO = 0;
-    double current_angle_x = getAngleX(); 
-    const double errorBNO = control.getAngleError(current_angle_x, desire);
-
-    if (errorBNO > 0) {
-        pwm_right = motors.kLimit_inf_pwm;
-        pwm_left_BNO = motors.kPAdvance * errorBNO;
-        pwm_left_final = pwm_left_BNO + sensor.getPwmUltrasonicLeft();
-        }
-    else {
-        pwm_left = motors.kLimit_inf_pwm;
-        pwm_right_BNO = motors.kPAdvance * errorBNO;
-        pwm_right_final = pwm_right_BNO + sensor.getPwmUltrasonicRight();;  
-    }
-    return pwm_right_final;
-}
-
 void BNO::BNOCalibration() {
   Serial.println("Orientation Sensor Test"); Serial.println("");   
   if(!bno.begin())

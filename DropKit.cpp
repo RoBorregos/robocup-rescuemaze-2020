@@ -8,7 +8,7 @@
 DropKit::DropKit() {}
 
 void DropKit::setup() {
-  dispenser.attach(42);
+  dispenser.attach(kPin42); // Servo Pin
   dispenser.write(kDispenserDegrees90);   // Initialize the dispenser in 90 degrees(in the middle).
 }
 

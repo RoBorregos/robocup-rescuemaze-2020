@@ -9,10 +9,6 @@
 #include "arduino.h"
 #include <NewPing.h>
 #include <i2cmaster.h>
-#include "Movement.h"
-#include "DropKit.h"
-#include "BNO.h"
-#include "Control.h"
 
 #define SONAR_NUM 6      // Number of sensors.
 #define kSonarMaxDistance 200 // Maximum distance (in cm) to ping.
@@ -21,11 +17,6 @@ class SensorMap {
 
    public:
     SensorMap();
-    Control control;
-    Movement motors;
-    DropKit dispenser;
-    BNO bno_;
-
     // Get the Ultrasonic Distance Right Up.
     double getDistanceRightUp();
     // Get the Ultrasonic Distance Right Down.
@@ -38,16 +29,14 @@ class SensorMap {
     double getDistanceFrontLeft();
     // Get the Ultrasonic Distance Front Right.
     double getDistanceFrontRight();
-    // Get pwm through error(Positive).
-    double getPwmUltrasonicLeft();
-    // Get pwm through error(Negative).
-    double getPwmUltrasonicRight();
     // Check if the right wall is complete.
     bool checkWallsRight();
     // Check if the left wall is complete.
     bool checkWallsLeft();
-    // Check in the walls if there are heat victims.
-    bool heatVictim(double desire);
+    // Check in the right wall if there is a heat victim.
+    bool heatVictimRight();
+    // Check in the left wall if there is a heat victim.
+    bool heatVictimLeft();
     // Check in the walls if there are letters.
     bool visualVictim();
     // Check in the walls if there are coloured victims(red, green, yellow).

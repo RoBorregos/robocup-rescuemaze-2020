@@ -8,21 +8,13 @@
 
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-#include <LiquidCrystal_I2C.h>
 #include "arduino.h"
-#include "Movement.h"
-#include "SensorMap.h"
-#include "Control.h"
 
 class BNO {
 
     public:
       BNO(); 
-      Adafruit_BNO055 bno; 
-      SensorMap sensor; 
-      Movement motors;
-      Control control;
-      
+      Adafruit_BNO055 bno;  
       // Get the difference of the current angle with the 0, and return a new error.
       double getDifferenceWithZero();
       // Get the current angle, return the event.orientation.x through a function.
@@ -31,10 +23,6 @@ class BNO {
       double getAngleY();
       // Get the current angle, return the event.orientation.Z through a function.
       double getAngleZ();
-      // Get pwm through error(Positive).
-      double getPwmBNOLeft(const double desire);
-      // Get pwm through error(Negative).
-      double getPwmBNORight(const double desire);
       // Initialize BNO.
       void BNOCalibration();
       /* Return the Orientation Status of the BNO, the numbers to return are... 

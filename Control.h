@@ -9,19 +9,21 @@
 
 #include <Wire.h>
 #include "arduino.h"
+#include "SensorMap.h"
 #include "BNO.h"
+#include "Common.h"
 
 class Control {
   
   public:
     Control();
-    BNO bno_;
+    Control(BNO *c, SensorMap *s);
     // Get the new desired angle respect to the difference achieved.
     double getDesiredAngle(double desire);
     // Get the difference with the desired angle to the current angle, return error.
     double getAngleError(const double angulo_actual, const double desire);
     // Get the difference with the desired distance to the current distance, return error.
-    double getErrorUltrasonic(const double current_distance, const double desire); 
+    double getErrorUltrasonic(const double current_distance, const double desire_ultrasonic); 
     // Verify if the pwm is in the range (kLimit_inf_pwm - kLimit_sup_pwm).
     void getPwm(double &speed);
     // Get a new desire to drop a kit to the right.
@@ -36,9 +38,16 @@ class Control {
     bool bumperLevel2();
     // Return true if there is a bumper level 3.
     bool bumperLevel3();
-
-    const uint8_t kLimit_sup_pwm = 255; 
-    const uint8_t kLimit_inf_pwm = 145;
+    // Get pwm through error(Positive).
+    double getPwmBNOLeft(const double desire);
+    // Get pwm through error(Negative).
+    double getPwmBNORight(const double desire);
+    // Get pwm through error(Positive).
+    double getPwmUltrasonicLeft();
+    // Get pwm through error(Negative).
+    double getPwmUltrasonicRight();
+    // Turn on a LED for 5 seconds.
+    void turnLED();
 
     const uint8_t kLimitSupDegrees = 35;
     const uint8_t kLimitInfDegrees = 4;
@@ -48,8 +57,21 @@ class Control {
     const uint8_t kLimitSupBumper2 = 9;
     const uint8_t kLimitSupBumper3 = 15;
 
+    const uint8_t kTime100ms = 100;
+
     const uint8_t kDegrees90 = 90;
     const int kDegrees360 = 360;
     const uint8_t kDegrees180 = 180;
+
+    const uint8_t LED = 4;
+
+    // Advance. 
+    const double kPAdvance = 4.52;
+    const double kIAdvance = 3.45; 
+    const double kDAdvance = 2.05;
+
+    private:
+      BNO *bno_;
+      SensorMap *map_;
 };
 #endif
