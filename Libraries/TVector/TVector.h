@@ -1,5 +1,7 @@
 #ifndef TVector_h
 #define TVector_h
+
+#include "Arduino.h"
 #include "Tile.h"
 
 template <class T>
@@ -36,7 +38,7 @@ template <class T>
 TVector<T>::TVector(const TVector &V) {
   vector = new T[V.iSize];
   
-  for(int i = 0 ; i < V.iSize ; i++) {
+  for (int i = 0 ; i < V.iSize ; i++) {
     vector[i] = V[i];
   }
 
@@ -119,8 +121,12 @@ void TVector<T>::erase(uint8_t index) {
 
     for(int i = 0 ; i < iSize - 1 ; i++) {
       if ( i != index ) {
-        if ( i < index ) newVector[i] = vector[i];
-        else newVector[i - 1] = vector[i];
+        if ( i < index ) {
+            newVector[i] = vector[i];
+        }
+        else {
+            newVector[i - 1] = vector[i];
+        }
       }
     }
 
@@ -141,7 +147,7 @@ void TVector<T>::operator=(const TVector &V) {
   delete vector;
   vector = new T[V.iSize];
 
-  for(int i = 0 ; i < V.iSize ; i++) {
+  for (int i = 0 ; i < V.iSize ; i++) {
     vector[i] = V[i];
   }
 

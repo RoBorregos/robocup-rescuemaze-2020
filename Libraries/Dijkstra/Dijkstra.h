@@ -10,6 +10,30 @@ struct dijkstra_tile {
   bool checked;
 };
 
+//There is a note of the reason this part is comented on line 128
+/*void printDijkstraMatrix(Map tiles_map, dijkstra_tile *m) {
+  dijkstra_tile *matrix = m;
+
+  for (int i = 0 ; i < tiles_map.getRows() ; ++i) {
+    for (int j = 0 ; j < tiles_map.getColumns() ; ++j) {
+      Serial.print("(");
+      Serial.print(matrix[i][j]->current->x);
+      Serial.print(",");
+      Serial.print(matrix[i][j]->current->y);
+      Serial.print(")");
+      Serial.print("[");
+      Serial.print(matrix[i][j]->prev->x);
+      Serial.print(",");
+      Serial.print(matrix[i][j]->prev->y);
+      Serial.print("]");
+      Serial.print(matrix[i][j]->weight);
+      Serial.print("  ");
+    }
+    Serial.println("");
+  }
+  Serial.println("");
+}*/
+
 TVector<char> dijkstra(Map tiles_map) {
   TVector<coord*> open_vector, non_visited_vector;
   TVector<char> path;
@@ -18,7 +42,7 @@ TVector<char> dijkstra(Map tiles_map) {
   uint8_t current_row = tiles_map.getCurrRow();
   uint8_t current_column = tiles_map.getCurrColumn();
 
-  //Setting all the elements of the matrix with the initial values
+  //Setting all the elements of the matrix with the initial values.
   for (int i = 0 ; i < tiles_map.getRows() ; ++i) {
     for (int j = 0 ; j < tiles_map.getColumns() ; ++j) {
       matrix[i][j].current.x = i;
@@ -28,7 +52,7 @@ TVector<char> dijkstra(Map tiles_map) {
       matrix[i][j].weight = 255;
       matrix[i][j].checked = false;
       
-      if (tiles_map.getTile(i, j).getAccessible() == true && tiles_map.getTile(i, j).getVisited() == false && tiles_map.getTile(i, j).getBlack() == false) {
+      if (tiles_map.getTile(i, j).isAccessible() == true && tiles_map.getTile(i, j).isVisited() == false && tiles_map.getTile(i, j).isBlack() == false) {
         current_coord = &matrix[i][j].current;
         non_visited_vector.pushTop(current_coord);
       }
@@ -36,7 +60,7 @@ TVector<char> dijkstra(Map tiles_map) {
     }
   }
 
-  //Changing values of the current coord in the matrix
+  //Changing values of the current coord in the matrix.
   matrix[current_row][current_column].weight = 0;
   current_coord = &matrix[current_row][current_column].current;
   matrix[current_row][current_column].checked = true;
@@ -45,10 +69,10 @@ TVector<char> dijkstra(Map tiles_map) {
   while (open_vector.getSize() > 0) {
     current_coord = open_vector[0];
 
-    //Pushing new coords to the open_vector
-    //Then checking and updating weights in the matrix
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getNorth() == true && tiles_map.getTile(current_coord->x - 1, current_coord->y).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x - 1, current_coord->y).getVisited() == true && matrix[current_coord->x - 1][current_coord->y].checked == false) {
+    //Pushing new coords to the open_vector.
+    //Then checking and updating weights in the matrix.
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getNorth() == true && tiles_map.getTile(current_coord->x - 1, current_coord->y).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x - 1, current_coord->y).isVisited() == true && matrix[current_coord->x - 1][current_coord->y].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x - 1][current_coord->y].current);
         matrix[current_coord->x - 1][current_coord->y].checked = true;
       }
@@ -57,8 +81,8 @@ TVector<char> dijkstra(Map tiles_map) {
         matrix[current_coord->x - 1][current_coord->y].prev = matrix[current_coord->x][current_coord->y].current;
       }
     }
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getEast() == true && tiles_map.getTile(current_coord->x, current_coord->y + 1).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x, current_coord->y + 1).getVisited() == true && matrix[current_coord->x][current_coord->y + 1].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getEast() == true && tiles_map.getTile(current_coord->x, current_coord->y + 1).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x, current_coord->y + 1).isVisited() == true && matrix[current_coord->x][current_coord->y + 1].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x][current_coord->y + 1].current);
         matrix[current_coord->x][current_coord->y + 1].checked = true;
       }
@@ -67,8 +91,8 @@ TVector<char> dijkstra(Map tiles_map) {
         matrix[current_coord->x][current_coord->y + 1].prev = matrix[current_coord->x][current_coord->y].current;
       }
     }
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getSouth() == true && tiles_map.getTile(current_coord->x + 1, current_coord->y).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x + 1, current_coord->y).getVisited() == true && matrix[current_coord->x + 1][current_coord->y].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getSouth() == true && tiles_map.getTile(current_coord->x + 1, current_coord->y).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x + 1, current_coord->y).isVisited() == true && matrix[current_coord->x + 1][current_coord->y].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x + 1][current_coord->y].current);
         matrix[current_coord->x + 1][current_coord->y].checked = true;
       }
@@ -77,8 +101,8 @@ TVector<char> dijkstra(Map tiles_map) {
         matrix[current_coord->x + 1][current_coord->y].prev = matrix[current_coord->x][current_coord->y].current;
       }
     }
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getWest() == true && tiles_map.getTile(current_coord->x, current_coord->y - 1).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x, current_coord->y - 1).getVisited() == true && matrix[current_coord->x][current_coord->y - 1].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getWest() == true && tiles_map.getTile(current_coord->x, current_coord->y - 1).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x, current_coord->y - 1).isVisited() == true && matrix[current_coord->x][current_coord->y - 1].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x][current_coord->y - 1].current);
         matrix[current_coord->x][current_coord->y - 1].checked = true;
       }
@@ -92,14 +116,19 @@ TVector<char> dijkstra(Map tiles_map) {
   }
 
   if (non_visited_vector.getSize() > 0) current_coord = non_visited_vector[0];
-  else Serial.print("No hay tiles por recorrer");
+  else Serial.print("There are no Tiles to travel");
 
-  //Comparing all the non Visited Tiles
+  //Comparing all the non-visited tiles.
   for (int i = 1 ; i < non_visited_vector.getSize() ; ++i) {
     if (matrix[current_coord->x][current_coord->y].weight > matrix[non_visited_vector[i]->x][non_visited_vector[i]->y].weight) {
       current_coord = non_visited_vector[i];
     }
   }
+
+  //I'm trying to send the matrix as a parameter to the function, but still I have not been able to without
+  //using global variables.
+  //dijstra_tile *m = matrix;
+  //printDijkstraMatrix(tiles_map, m);
 
   ///////////////////////////////////////////////////////////////////////////////
   for (int i = 0 ; i < tiles_map.getRows() ; ++i) {
@@ -180,8 +209,8 @@ TVector<char> goToStart(Map tiles_map) {
 
     //Pushing new coords to the open_vector
     //Then checking and updating weights in the matrix
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getNorth() == true && tiles_map.getTile(current_coord->x - 1, current_coord->y).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x - 1, current_coord->y).getVisited() == true && matrix[current_coord->x - 1][current_coord->y].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getNorth() == true && tiles_map.getTile(current_coord->x - 1, current_coord->y).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x - 1, current_coord->y).isVisited() == true && matrix[current_coord->x - 1][current_coord->y].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x - 1][current_coord->y].current);
         matrix[current_coord->x - 1][current_coord->y].checked = true;
       }
@@ -190,8 +219,8 @@ TVector<char> goToStart(Map tiles_map) {
         matrix[current_coord->x - 1][current_coord->y].prev = matrix[current_coord->x][current_coord->y].current;
       }
     }
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getEast() == true && tiles_map.getTile(current_coord->x, current_coord->y + 1).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x, current_coord->y + 1).getVisited() == true && matrix[current_coord->x][current_coord->y + 1].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getEast() == true && tiles_map.getTile(current_coord->x, current_coord->y + 1).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x, current_coord->y + 1).isVisited() == true && matrix[current_coord->x][current_coord->y + 1].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x][current_coord->y + 1].current);
         matrix[current_coord->x][current_coord->y + 1].checked = true;
       }
@@ -200,8 +229,8 @@ TVector<char> goToStart(Map tiles_map) {
         matrix[current_coord->x][current_coord->y + 1].prev = matrix[current_coord->x][current_coord->y].current;
       }
     }
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getSouth() == true && tiles_map.getTile(current_coord->x + 1, current_coord->y).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x + 1, current_coord->y).getVisited() == true && matrix[current_coord->x + 1][current_coord->y].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getSouth() == true && tiles_map.getTile(current_coord->x + 1, current_coord->y).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x + 1, current_coord->y).isVisited() == true && matrix[current_coord->x + 1][current_coord->y].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x + 1][current_coord->y].current);
         matrix[current_coord->x + 1][current_coord->y].checked = true;
       }
@@ -210,8 +239,8 @@ TVector<char> goToStart(Map tiles_map) {
         matrix[current_coord->x + 1][current_coord->y].prev = matrix[current_coord->x][current_coord->y].current;
       }
     }
-    if (tiles_map.getTile(current_coord->x, current_coord->y).getWest() == true && tiles_map.getTile(current_coord->x, current_coord->y - 1).getBlack() == false) {
-      if (tiles_map.getTile(current_coord->x, current_coord->y - 1).getVisited() == true && matrix[current_coord->x][current_coord->y - 1].checked == false) {
+    if (tiles_map.getTile(current_coord->x, current_coord->y).getWest() == true && tiles_map.getTile(current_coord->x, current_coord->y - 1).isBlack() == false) {
+      if (tiles_map.getTile(current_coord->x, current_coord->y - 1).isVisited() == true && matrix[current_coord->x][current_coord->y - 1].checked == false) {
         open_vector.pushTop(&matrix[current_coord->x][current_coord->y - 1].current);
         matrix[current_coord->x][current_coord->y - 1].checked = true;
       }
