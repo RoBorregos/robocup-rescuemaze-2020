@@ -22,12 +22,12 @@ void Movement::advancePID(const double desire) {
       double pwm_right_enginees = system_->getPwmBNORight(desire); // Negative.
       double pwm_left_enginees = system_->getPwmBNOLeft(desire); // Positive. 
       if (pwm_left_enginees > 1) {
-          pwm_left_enginees = Common::kLimit_inf_pwm;
+          pwm_right_enginees = Common::kLimit_inf_pwm;
           system_->getPwm(pwm_left_enginees);
       }
 
       else if (pwm_right_enginees < 0) {
-          pwm_right_enginees = Common::kLimit_inf_pwm;
+          pwm_left_enginees = Common::kLimit_inf_pwm;
           system_->getPwm(pwm_right_enginees);
       }
       robot_->forwardPwm(pwm_right_enginees, pwm_left_enginees);
