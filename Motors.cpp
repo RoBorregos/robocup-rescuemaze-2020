@@ -1,8 +1,14 @@
+/* ROBORREGOS MAZE 2020.
+ * This motors class has all the functions to move 
+ * the robot.
+ * To get more information, go to Motors.h file.
+*/
 #include "Motors.h"
 
 Motors::Motors() {}
 
-void Motors::turnLeft(const uint8_t speed) { 
+void Motors::turnLeft(const uint8_t speed)
+{
     digitalWrite(kMotorLeftForward2, HIGH);
     analogWrite(kMotorLeftForward1, speed);
     digitalWrite(kMotorLeftBack1, HIGH);
@@ -13,7 +19,8 @@ void Motors::turnLeft(const uint8_t speed) {
     analogWrite(kMotorRightBack1, speed);
 }
 
-void Motors::turnRight(const uint8_t speed) { 
+void Motors::turnRight(const uint8_t speed)
+{
     digitalWrite(kMotorLeftForward2, LOW);
     analogWrite(kMotorLeftForward1, speed);
     digitalWrite(kMotorLeftBack1, LOW);
@@ -21,10 +28,11 @@ void Motors::turnRight(const uint8_t speed) {
     digitalWrite(kMotorRightForward2, LOW);
     analogWrite(kMotorRightForward1, speed);
     digitalWrite(kMotorRightBack2, LOW);
-    analogWrite(kMotorRightBack1, speed);  
+    analogWrite(kMotorRightBack1, speed);
 }
 
-void Motors::stopEngines() { 
+void Motors::stopEngines()
+{
     digitalWrite(kMotorLeftForward1, HIGH);
     digitalWrite(kMotorLeftForward2, HIGH);
     digitalWrite(kMotorLeftBack1, HIGH);
@@ -43,18 +51,21 @@ void Motors::stopEngines() {
     digitalWrite(kMotorRightForward1, LOW);
     digitalWrite(kMotorRightForward2, LOW);
     digitalWrite(kMotorRightBack1, LOW);
-    digitalWrite(kMotorRightBack2, LOW); 
+    digitalWrite(kMotorRightBack2, LOW);
 }
 
-void Motors::fastForward() {
-  forwardPwm(Common::kLimit_sup_pwm, Common::kLimit_sup_pwm);
+void Motors::fastForward()
+{
+    forwardPwm(Common::kLimitSupPwm, Common::kLimitSupPwm);
 }
 
-void Motors::fastBackward() {
-    backwardPwm(Common::kLimit_sup_pwm, Common::kLimit_sup_pwm);
+void Motors::fastBackward()
+{
+    backwardPwm(Common::kLimitSupPwm, Common::kLimitSupPwm);
 }
 
-void Motors::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
+void Motors::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left)
+{
     digitalWrite(kMotorLeftForward2, LOW);
     analogWrite(kMotorLeftForward2, pwm_left);
     digitalWrite(kMotorLeftBack1, LOW);
@@ -65,7 +76,8 @@ void Motors::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
     analogWrite(kMotorRightBack2, pwm_right);
 }
 
-void Motors::backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
+void Motors::backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left)
+{
     digitalWrite(kMotorLeftForward2, HIGH);
     analogWrite(kMotorLeftForward2, pwm_left);
     digitalWrite(kMotorLeftBack1, HIGH);
@@ -75,15 +87,3 @@ void Motors::backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
     digitalWrite(kMotorRightBack1, HIGH);
     analogWrite(kMotorRightBack2, pwm_right);
 }
-
-void Motors::moveBack() {
-    digitalWrite(kMotorLeftForward1, LOW);
-    analogWrite(kMotorLeftForward2, Common::kLimit_sup_pwm);
-    digitalWrite(kMotorLeftBack2, LOW);
-    analogWrite(kMotorLeftBack1, Common::kLimit_sup_pwm);
-    digitalWrite(kMotorRightForward2, LOW);
-    analogWrite(kMotorRightForward1, Common::kLimit_sup_pwm);
-    digitalWrite(kMotorRightBack2, LOW);
-    analogWrite(kMotorRightBack1, Common::kLimit_sup_pwm);
-}
-

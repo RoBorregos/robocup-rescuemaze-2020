@@ -1,13 +1,15 @@
+/* ROBORREGOS MAZE 2020.
+ * This file has all the variables that you can use
+ * in all the files.
+*/
 #ifndef COMMON_H
 #define COMMON_H
 
 #include "arduino.h"
 
-namespace Common {
-
-extern const uint8_t kLimit_sup_pwm; 
-extern const uint8_t kLimit_inf_pwm;
-
-} // Common.
-
+namespace Common
+{
+extern const uint8_t kLimitSupPwm;
+extern const uint8_t kLimitInfPwm;
+} // namespace Common
 #endif

@@ -1,4 +1,4 @@
-/* Roborregos Maze 2020
+/* ROBORREGOS MAZE 2020.
  * This BNO class has all functions to get
  * the robot angle, write on screen, and
  * calibrate all sensors.
@@ -6,59 +6,23 @@
 */
 #include "BNO.h"
 
-BNO::BNO(){
-    bno = Adafruit_BNO055();
-}
-
-double BNO::getDifferenceWithZero() { 
-  double error_generated = 0;
-  
-  double current_angle_x = getAngleX();
-  if (current_angle_x >= 180) {
-    error_generated = (360 - current_angle_x);
-  }
-  
-  else {
-    error_generated = -current_angle_x;
-  }
-  
-  return error_generated;
-}
-
-double BNO::getAngleX() { 
-  sensors_event_t event;
-  bno.getEvent(&event);
-  
-  return event.orientation.x;
-}
-
-double BNO::getAngleY() { 
-  sensors_event_t event;
-  bno.getEvent(&event);
-  
-  return event.orientation.y;
-}
-
-double BNO::getAngleZ() { 
-  sensors_event_t event;
-  bno.getEvent(&event);
-  
-  return event.orientation.z;
-}
-
-void BNO::BNOCalibration() {
-  Serial.println("Orientation Sensor Test"); Serial.println("");   
-  if(!bno.begin())
+BNO::BNO()
+{
+  bno_ = Adafruit_BNO055();
+  Serial.println("Orientation Sensor Test");
+  Serial.println("");
+  if (!bno_.begin())
   {
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while(1);
+    while (1)
+      ;
   }
-  delay(kTimeToPrintBNO); 
-  
-  bno.setExtCrystalUse(true);
-  sensors_event_t event; 
-  bno.getEvent(&event);
-  
+  delay(kTimeToPrintBNO);
+
+  bno_.setExtCrystalUse(true);
+  sensors_event_t event;
+  bno_.getEvent(&event);
+
   Serial.print("X: ");
   Serial.print(event.orientation.x, 4);
   Serial.print("\tY: ");
@@ -66,19 +30,61 @@ void BNO::BNOCalibration() {
   Serial.print("\tZ: ");
   Serial.print(event.orientation.z, 4);
   Serial.println("");
-  
-  delay(kRepose);
 
+  delay(kRepose);
+}
+
+double BNO::getDifferenceWithZero()
+{
+  double error_generated = 0;
+
+  if (getAngleX() >= 180)
+  {
+    error_generated = (360 - getAngleX());
+  }
+  else
+  {
+    error_generated = -getAngleX();
+  }
+  return error_generated;
+}
+
+double BNO::getAngleX()
+{
+  sensors_event_t event;
+  bno_.getEvent(&event);
+
+  return event.orientation.x;
+}
+
+double BNO::getAngleY()
+{
+  sensors_event_t event;
+  bno_.getEvent(&event);
+
+  return event.orientation.y;
+}
+
+double BNO::getAngleZ()
+{
+  sensors_event_t event;
+  bno_.getEvent(&event);
+
+  return event.orientation.z;
+}
+
+void BNO::BNOCalibration()
+{
   uint8_t system, gyro, accel, mag;
   system = gyro = accel = mag = 0;
-  bno.getCalibration(&system, &gyro, &accel, &mag);
- 
+  bno_.getCalibration(&system, &gyro, &accel, &mag);
+
   Serial.print("\t");
   if (!system)
   {
     Serial.print("! ");
   }
-  
+
   Serial.print("Sys:");
   Serial.print(system, DEC);
   Serial.print(" G:");
@@ -89,10 +95,11 @@ void BNO::BNOCalibration() {
   Serial.println(mag, DEC);
 }
 
-uint8_t BNO::orientationStatus() {
-  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+uint8_t BNO::orientationStatus()
+{
+  imu::Vector<3> euler = bno_.getVector(Adafruit_BNO055::VECTOR_EULER);
   uint8_t system, gyro, accel, mag = 0;
-  bno.getCalibration(&system, &gyro, &accel, &mag);
+  bno_.getCalibration(&system, &gyro, &accel, &mag);
 
   return mag;
 }

@@ -1,4 +1,5 @@
-/* This DropKit class has all the functions to drop
+/* ROBORREGOS MAZE 2020.
+ * This DropKit class has all the functions to drop
  * A kit if the robot detect a Victim on the map.
  * This class works with the robot dispenser.
  * To get more information, go to DropKit.h file.
@@ -7,12 +8,14 @@
 
 DropKit::DropKit() {}
 
-void DropKit::setup() {
-  dispenser.attach(kPin42); // Servo Pin
-  dispenser.write(kDispenserDegrees90);   // Initialize the dispenser in 90 degrees(in the middle).
+void DropKit::setup()
+{
+  dispenser.attach(kPin); // Servo Pin
+  dispenser.write(kDispenserDegrees90); // Initialize the dispenser in 90 degrees(in the middle).
 }
 
-void DropKit::dropOneKitLeft() {
+void DropKit::dropOneKitLeft()
+{
   dispenser.write(kDispenserDegrees0);
   delay(kTime_1sec);
   dispenser.write(kDispenserDegrees100);
@@ -21,7 +24,8 @@ void DropKit::dropOneKitLeft() {
   delay(kTime_2ms);
 }
 
-void DropKit::dropOneKitRight() {
+void DropKit::dropOneKitRight()
+{
   dispenser.write(kDispenserDegrees180);
   delay(kTime_1sec);
   dispenser.write(kDispenserDegrees80);
@@ -30,12 +34,14 @@ void DropKit::dropOneKitRight() {
   delay(kTime_2ms);
 }
 
-void DropKit::dropTwoKitsRight() {
-    dropOneKitRight();
-    dropOneKitRight();
+void DropKit::dropTwoKitsRight()
+{
+  dropOneKitRight();
+  dropOneKitRight();
 }
 
-void DropKit::dropTwoKitsLeft() {
-    dropOneKitLeft();
-    dropOneKitLeft();
+void DropKit::dropTwoKitsLeft()
+{
+  dropOneKitLeft();
+  dropOneKitLeft();
 }

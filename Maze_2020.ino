@@ -43,22 +43,23 @@
 }
 */
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   SensorMap sensorr;
   SensorMap *const sensor = &sensorr;
 
   Screen Lcd;
-  Screen *const screen = &Lcd;
+  Screen const screen = Lcd;
 
   Movement motors;
-  Movement *const motor = &motors;
+  Movement const motor = motors;
 
   DropKit kit;
-  DropKit *const dispenser = &kit;
+  DropKit const dispenser = kit;
 
   Control controll;
-  Control *const control = &controll;
+  Control const control = controll;
 
   BNO degrees;
   BNO *const bno = &degrees;
@@ -69,6 +70,7 @@ void setup() {
   //robot.calibrationAll();
 }
 
-void loop() {
+void loop()
+{
   //robot.turnDegrees(robot.E);
 }
