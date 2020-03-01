@@ -1,3 +1,9 @@
+// Code made by the RoBorregos team in 2020 for the RoboCup JR. Rescue Maze category.
+// Grecia Flores, Diego Prado, Marlon Romo, and Emérico Pedraza.
+//
+// This class is intended to be able to work with Vectors in Arduino.
+// Some of the main functions are: to push data
+
 #include "Map.h"
 #include "Arduino.h"
 
@@ -60,20 +66,20 @@ void moveMapWest() {
 }
 
 void printMap(Map tiles_map, const uint8_t iFloor) {
-  char char_map[tiles_map.getRows()*2 + 1][tiles_map.getColumns()*2 + 1];
+  char char_map[tiles_map.numberOfRows()*2 + 1][tiles_map.numberOfColumns()*2 + 1];
   int row_char, column_char;
 
-  for(int i = 0; i < tiles_map.getRows()*2 + 1; ++i) {
-    for(int j = 0; j < tiles_map.getColumns()*2 + 1; ++j) {
+  for(int i = 0; i < tiles_map.numberOfRows()*2 + 1; ++i) {
+    for(int j = 0; j < tiles_map.numberOfColumns()*2 + 1; ++j) {
       char_map[i][j] = '.';
     }
   }
   
   row_char = 1;
 
-  for (int row_tile = 0 ; row_tile < tiles_map.getRows() ; row_tile++) {
+  for (int row_tile = 0 ; row_tile < tiles_map.numberOfRows() ; row_tile++) {
     column_char = 1;
-    for (int column_tile = 0 ; column_tile < tiles_map.getColumns() ; column_tile++) {
+    for (int column_tile = 0 ; column_tile < tiles_map.numberOfColumns() ; column_tile++) {
       if(tiles_map.getTile(row_tile, column_tile).getStart()) {
         char_map[row_char][column_char] = 'S';
       }
@@ -127,10 +133,10 @@ void printMap(Map tiles_map, const uint8_t iFloor) {
     row_char += 2;
   }
 
-  char_map[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 + 1] = 'R';
+  char_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] = 'R';
   
-  for(int i = 0 ; i < tiles_map.getRows()*2 + 1 ; i++) {
-    for(int j = 0 ; j < tiles_map.getColumns()*2 + 1 ; j++) {
+  for(int i = 0 ; i < tiles_map.numberOfRows()*2 + 1 ; i++) {
+    for(int j = 0 ; j < tiles_map.numberOfColumns()*2 + 1 ; j++) {
       Serial.print(char_map[i][j]);
       Serial.print(" ");
     }
@@ -162,7 +168,7 @@ Map followPath(TVector<char> path, Map tiles_map) {
     printVirtualMap();
     Serial.println("");
 
-    path.popFront();
+    path.popFirst();
   }
 
   return tiles_map;
@@ -174,33 +180,33 @@ Map updateTiles(Map tiles_map) {
   current_tile = tiles_map.currTile();
     current_tile.setVisited();
 
-    if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 + 1] == '1') {
+    if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '1') {
       current_tile.setWeight(1);
     }
-    else if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 + 1] == '2') {
+    else if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '2') {
       current_tile.setWeight(2);
     }
-    else if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 + 1] == '3') {
+    else if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '3') {
       current_tile.setWeight(3);
     }
     
     //Update North
-    if (kVirtualMap[tiles_map.getCurrRow()*2][tiles_map.getCurrColumn()*2 + 1] != 'W') {
+    if (kVirtualMap[tiles_map.currentRow()*2][tiles_map.currentColumn()*2 + 1] != 'W') {
       current_tile.setNorth();
-      if (tiles_map.getCurrRow() > 0 && tiles_map.northTile().isVisited() == false) {
+      if (tiles_map.currentRow() > 0 && tiles_map.northTile().isVisited() == false) {
         Tile north_tile = tiles_map.northTile();
         north_tile.setSouth();
         north_tile.setAccessible();
         tiles_map.setTile(north_tile, 'N');
       }
-      else if (tiles_map.getCurrRow() == 0) {
+      else if (tiles_map.currentRow() == 0) {
         Tile north_tile;
         north_tile.setSouth();
         north_tile.setAccessible();
         tiles_map.addRowFirst(north_tile);
       }
       
-      if (kVirtualMap[tiles_map.getCurrRow()*2 - 1][tiles_map.getCurrColumn()*2 + 1] == 'B') {
+      if (kVirtualMap[tiles_map.currentRow()*2 - 1][tiles_map.currentColumn()*2 + 1] == 'B') {
         Tile north_tile = tiles_map.northTile();
         north_tile.setBlack();
         tiles_map.setTile(north_tile, 'N');
@@ -208,22 +214,22 @@ Map updateTiles(Map tiles_map) {
     }
 
     //Update East
-    if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 + 2] != 'W') {
+    if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 2] != 'W') {
       current_tile.setEast();
-      if (tiles_map.getCurrColumn() < tiles_map.getColumns() - 1 && tiles_map.eastTile().isVisited() == false) { //if it is not the one on the last column
+      if (tiles_map.currentColumn() < tiles_map.numberOfColumns() - 1 && tiles_map.eastTile().isVisited() == false) { //if it is not the one on the last column
         Tile east_tile = tiles_map.eastTile();
         east_tile.setWest();
         east_tile.setAccessible();
         tiles_map.setTile(east_tile, 'E');
       }
-      else if (tiles_map.getCurrColumn() == tiles_map.getColumns() - 1) {
+      else if (tiles_map.currentColumn() == tiles_map.numberOfColumns() - 1) {
         Tile east_tile;
         east_tile.setWest();
         east_tile.setAccessible();
         tiles_map.addColumnLast(east_tile);
       }
       
-      if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 + 3] == 'B') {
+      if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 3] == 'B') {
         Tile east_tile = tiles_map.northTile();
         east_tile.setBlack();
         tiles_map.setTile(east_tile, 'E');
@@ -231,22 +237,22 @@ Map updateTiles(Map tiles_map) {
     }
 
     //Update South
-    if (kVirtualMap[tiles_map.getCurrRow()*2 + 2][tiles_map.getCurrColumn()*2 + 1] != 'W') {
+    if (kVirtualMap[tiles_map.currentRow()*2 + 2][tiles_map.currentColumn()*2 + 1] != 'W') {
       current_tile.setSouth();
-      if (tiles_map.getCurrRow() < tiles_map.getRows() - 1 && tiles_map.southTile().isVisited() == false) {
+      if (tiles_map.currentRow() < tiles_map.numberOfRows() - 1 && tiles_map.southTile().isVisited() == false) {
         Tile south_tile = tiles_map.southTile();
         south_tile.setNorth();
         south_tile.setAccessible();
         tiles_map.setTile(south_tile, 'S');
       } 
-      else if (tiles_map.getCurrRow() == tiles_map.getRows() - 1) {
+      else if (tiles_map.currentRow() == tiles_map.numberOfRows() - 1) {
         Tile south_tile;
         south_tile.setNorth();
         south_tile.setAccessible();
         tiles_map.addRowLast(south_tile);
       }
       
-      if (kVirtualMap[tiles_map.getCurrRow()*2 + 3][tiles_map.getCurrColumn()*2 + 1] == 'B') {
+      if (kVirtualMap[tiles_map.currentRow()*2 + 3][tiles_map.currentColumn()*2 + 1] == 'B') {
         Tile south_tile = tiles_map.northTile(); 
         south_tile.setBlack();
         tiles_map.setTile(south_tile, 'S'); 
@@ -254,22 +260,22 @@ Map updateTiles(Map tiles_map) {
     }
 
     //Update West
-    if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2] != 'W') {
+    if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2] != 'W') {
       current_tile.setWest();
-      if (tiles_map.getCurrColumn() > 0 && tiles_map.westTile().isVisited() == false)  {
+      if (tiles_map.currentColumn() > 0 && tiles_map.westTile().isVisited() == false)  {
         Tile west_tile = tiles_map.westTile();
         west_tile.setEast();
         west_tile.setAccessible();
         tiles_map.setTile(west_tile, 'W');
       }
-      else if (tiles_map.getCurrColumn() == 0) {
+      else if (tiles_map.currentColumn() == 0) {
         Tile west_tile;
         west_tile.setEast();
         west_tile.setAccessible();
         tiles_map.addColumnFirst(west_tile);
       }
 
-      if (kVirtualMap[tiles_map.getCurrRow()*2 + 1][tiles_map.getCurrColumn()*2 - 1] == 'B') {
+      if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 - 1] == 'B') {
         Tile west_tile = tiles_map.northTile();
         west_tile.setBlack();
         tiles_map.setTile(west_tile, 'W');

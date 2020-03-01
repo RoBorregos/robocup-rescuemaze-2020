@@ -1,3 +1,9 @@
+// Code made by the RoBorregos team in 2020 for the RoboCup JR. Rescue Maze category.
+// Grecia Flores, Diego Prado, Marlon Romo, and Emérico Pedraza.
+//
+// This class is intended to be able to work with a simulation of Vectors in Arduino.
+// It's principal use is the creation of an expandable map that helps the robot to travel the maze.
+
 #ifndef TVector_h
 #define TVector_h
 
@@ -7,151 +13,163 @@
 template <class T>
 class TVector {
   private:
-    uint8_t iSize;
-    T *vector;
+    uint8_t size_;
+    T *vector_;
 
   public:
-    TVector();//constructor with 1 element
-    TVector(const TVector &V);//constructor that copies another vector
+    //Constructor with 1 element.
+    TVector();
+    //Constructor that copies another vector.
+    TVector(const TVector &V);
+    //Destructor.
     ~TVector();
 
+    //Returns an uint8_t with the size of the vector.
     uint8_t getSize();
 
-    void pushTop(T t);
-    void pushFront(T t);
-    void popTop();
-    void popFront();
+    //Stock the parameter data at the end of the vector.
+    void pushAsLast(T t);
+    //Stock the parameter data at the beggining of the vector.
+    void pushAsFirst(T t);
+    //Deletes the last element of the vector and reduces it's size.
+    void popLast();
+    //Deletes the first element of the vector and reduces it's size.
+    void popFirst();
+    //Stock the parameter data at the specified index of the vector.
     void set(T t, uint8_t index);
+    //Erase the element on the specified index of the vector and reduces it's size.
     void erase(uint8_t index);
 
+    //Returns the element on the specified index of the vector (inside the []).
     T& operator[](uint8_t index) const;
+    //Allows to equal two vectors.
     void operator=(const TVector &V);
 };
 
 template <class T>
 TVector<T>::TVector() {
-  iSize = 0;
-  vector = NULL;
+  size_ = 0;
+  vector_ = NULL;
 }
 
 template <class T>
 TVector<T>::TVector(const TVector &V) {
-  vector = new T[V.iSize];
+  vector_ = new T[V.size_];
   
-  for (int i = 0 ; i < V.iSize ; i++) {
-    vector[i] = V[i];
+  for (int i = 0 ; i < V.size_ ; i++) {
+    vector_[i] = V[i];
   }
 
-  iSize = V.iSize;
+  size_ = V.size_;
 }
 
 template <class T>
 TVector<T>::~TVector() {
-  delete[] vector;
+  delete[] vector_;
 }
 
 template <class T>
 uint8_t TVector<T>::getSize() {
-  return iSize;
+  return size_;
 }
 
 template <class T>
-void TVector<T>::pushTop(T t) {
-  T *newVector = new T[iSize + 1];
+void TVector<T>::pushAsLast(T t) {
+  T *newVector = new T[size_ + 1];
 
-  for(int i = 0 ; i < iSize ; i++) {
-    newVector[i] = vector[i];
+  for(int i = 0 ; i < size_ ; i++) {
+    newVector[i] = vector_[i];
   }
-  newVector[iSize] = t;
+  newVector[size_] = t;
 
-  delete[] vector;
-  vector = newVector;
-  iSize++;
+  delete[] vector_;
+  vector_ = newVector;
+  size_++;
 }
 
 template <class T>
-void TVector<T>::pushFront(T t) {
-  T *newVector = new T[iSize + 1];
+void TVector<T>::pushAsFirst(T t) {
+  T *newVector = new T[size_ + 1];
 
-  for(int i = 0 ; i < iSize ; i++) {
-    newVector[i+1] = vector[i];
+  for(int i = 0 ; i < size_ ; i++) {
+    newVector[i+1] = vector_[i];
   }
   newVector[0] = t;
 
-  delete[] vector;
-  vector = newVector;
-  iSize++;
+  delete[] vector_;
+  vector_ = newVector;
+  size_++;
 }
 
 template <class T>
-void TVector<T>::popTop() {
-  T *newVector = new T[iSize - 1];
+void TVector<T>::popLast() {
+  T *newVector = new T[size_ - 1];
 
-  for (int i = 0 ; i < iSize - 1 ; i++) {
-    newVector[i] = vector[i];
+  for (int i = 0 ; i < size_ - 1 ; i++) {
+    newVector[i] = vector_[i];
   }
 
-  delete[] vector;
-  vector = newVector;
-  iSize--;
+  delete[] vector_;
+  vector_ = newVector;
+  size_--;
 }
 
 template <class T>
-void TVector<T>::popFront() {
-  T *newVector = new T[iSize - 1];
+void TVector<T>::popFirst() {
+  T *newVector = new T[size_ - 1];
 
-  for (int i = 0 ; i < iSize - 1 ; i++) {
-    newVector[i] = vector[i + 1];
+  for (int i = 0 ; i < size_ - 1 ; i++) {
+    newVector[i] = vector_[i + 1];
   }
 
-  delete[] vector;
-  vector = newVector;
-  iSize--;
+  delete[] vector_;
+  vector_ = newVector;
+  size_--;
 }
 
 template <class T>
 void TVector<T>::set(T t, uint8_t index) {
-  vector[index] = t;
+  vector_[index] = t;
 }
 
 template <class T>
 void TVector<T>::erase(uint8_t index) {
-  if ( index >= 0 && index < iSize ) {
-    T *newVector = new T[iSize - 1];
+  if ( index >= 0 && index < size_ ) {
+    T *newVector = new T[size_ - 1];
 
-    for(int i = 0 ; i < iSize - 1 ; i++) {
+    for(int i = 0 ; i < size_ - 1 ; i++) {
       if ( i != index ) {
         if ( i < index ) {
-            newVector[i] = vector[i];
+            newVector[i] = vector_[i];
         }
         else {
-            newVector[i - 1] = vector[i];
+            newVector[i - 1] = vector_[i];
         }
       }
     }
 
-  delete[] vector;
-  vector = newVector;
-  iSize--;
+  delete[] vector_;
+  vector_ = newVector;
+  size_--;
 
   }
 }
 
 template <class T>
 T& TVector<T>::operator[](uint8_t index) const {
-  return vector[index];
+  return vector_[index];
 }
 
 template <class T>
 void TVector<T>::operator=(const TVector &V) {
-  delete vector;
-  vector = new T[V.iSize];
+  delete vector_;
+  vector_ = new T[V.size_];
 
-  for (int i = 0 ; i < V.iSize ; i++) {
-    vector[i] = V[i];
+  for (int i = 0 ; i < V.size_ ; i++) {
+    vector_[i] = V[i];
   }
 
-  iSize = V.iSize;
+  size_ = V.size_;
 }
 
 #endif

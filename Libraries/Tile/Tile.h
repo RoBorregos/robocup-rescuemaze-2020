@@ -1,3 +1,9 @@
+// Code made by the RoBorregos team in 2020 for the RoboCup JR. Rescue Maze category.
+// Grecia Flores, Diego Prado, Marlon Romo, and Emérico Pedraza.
+//
+// This class is intended to stock values of each part of the maze in "tiles".
+// For example: Location of walls, if the tile is visited, if it is black, etc.
+
 #ifndef Tile_h
 #define Tile_h
 
