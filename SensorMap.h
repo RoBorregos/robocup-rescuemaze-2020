@@ -8,7 +8,6 @@
 
 #include "arduino.h"
 #include "Wire.h"
-#include <NewPing.h>
 #include <i2cmaster.h>
 #include <Adafruit_TCS34725.h>
 #include <Ultrasonic.h>
@@ -18,8 +17,6 @@ extern "C"
 #include "utility/twi.h"
 }
 
-#define SONAR_NUM 6           // Number of sensors.
-#define kSonarMaxDistance 200 // Maximum distance (in cm) to ping.
 #define TCAADDR 0x70          // Multiplexor numbers.
 
 class SensorMap
