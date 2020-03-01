@@ -72,36 +72,33 @@ Tile Map::westTile() {
 }
 
 void Map::setTile(Tile tile, char position) {
-  if (position == '0') {
-      map_[current_row_][current_column_] = tile;
-  }
-  else if (position == 'N') {
-      map_[current_row_ - 1][current_column_] = tile;
-  }
-  else if (position == 'E') {
-      map_[current_row_][current_column_ + 1] = tile;
-  }
-  else if (position == 'S') {
-      map_[current_row_ + 1][current_column_] = tile;
-  }
-  else if (position == 'W') {
-      map_[current_row_][current_column_ - 1] = tile;
+  switch(position) {
+    case 'N':
+        map_[current_row_ - 1][current_column_] = tile;
+      break;
+    case 'E':
+        map_[current_row_][current_column_ + 1] = tile;
+      break;
+    case 'S':
+        map_[current_row_ + 1][current_column_] = tile;
+      break;
+    case 'W':
+        map_[current_row_][current_column_ - 1] = tile;
+      break;
+    default:
+        map_[current_row_][current_column_] = tile;
   }
 }
 
 void Map::addRowFirst(Tile newTile) {
-  TVector<Tile> newRow;
   Tile emptyTile;
-  
-  for(int column = 0 ; column < number_of_columns_ ; column++) {
-    newRow.pushAsLast(emptyTile);
-  }
+  TVector<Tile> newRow(number_of_columns_, emptyTile);
 
   map_.pushAsLast(newRow);
   current_row_++;
   number_of_rows_++;
 
-  for(int row = number_of_rows_ - 1 ; row > 0 ; row--) {
+  for(uint8_t row = number_of_rows_ - 1 ; row > 0 ; row--) {
     map_[row] = map_[row - 1];
   }
 
@@ -113,7 +110,7 @@ void Map::addRowLast(Tile newTile) {
   TVector<Tile> newRow;
   Tile emptyTile;
   
-  for(int i = 0 ; i < number_of_columns_ ; i++) {
+  for(uint8_t i = 0 ; i < number_of_columns_ ; i++) {
     newRow.pushAsLast(emptyTile);
   }
 

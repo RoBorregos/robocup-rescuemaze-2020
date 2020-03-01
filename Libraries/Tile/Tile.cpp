@@ -5,7 +5,7 @@ Tile::Tile(){
   data2_ = 0;
 }
 
-//Getters.
+// Getters.
 bool Tile::isVisited(){
   return (data1_ & 0x80);
 }
@@ -22,19 +22,19 @@ bool Tile::isBlack(){
   return (data1_ & 0x10);
 }
 
-bool Tile::getNorth(){
+bool Tile::ableToGoNorth(){
   return (data1_ & 0x08);
 }
 
-bool Tile::getEast(){
+bool Tile::ableToGoEast(){
   return (data1_ & 0x04);
 }
 
-bool Tile::getSouth(){
+bool Tile::ableToGoSouth(){
   return (data1_ & 0x02);
 }
 
-bool Tile::getWest(){
+bool Tile::ableToGoWest(){
   return (data1_ & 0x01);
 }
 
@@ -61,7 +61,7 @@ uint8_t Tile::getWeight(){
   return weight;
 }
 
-//Setters.
+// Setters.
 void Tile::setVisited(){
   data1_ |= 0x80;
 }

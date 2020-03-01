@@ -21,54 +21,54 @@ class Map {
     TVector<TVector<Tile> > map_;
     
   public:
-    //Constructor with the initial tile.
+    // Constructor with the initial tile.
     Map(Tile initialTile);
 
-    //Returns a uint8_t with the number of rows of the map.
+    // Returns a uint8_t with the number of rows of the map.
     uint8_t numberOfRows();
-    //Returns a uint8_t with the number of columns of the map.
+    // Returns a uint8_t with the number of columns of the map.
     uint8_t numberOfColumns();
-    //Returns a uint8_t representing the row in which the robot is positioned.
+    // Returns a uint8_t representing the row in which the robot is positioned.
     uint8_t currentRow();
-    //Returns a uint8_t representing the column in which the robot is positioned.
+    // Returns a uint8_t representing the column in which the robot is positioned.
     uint8_t currentColumn();
-    //Returns a uint8_t representing the orientation the robot is looking at (1=North, 2=East, 3=South, 4=West).
+    // Returns a uint8_t representing the orientation the robot is looking at (1=North, 2=East, 3=South, 4=West).
     uint8_t getOrientation();
-    //Returns a uint8_t with number of tiles that are accessible and the robot has not visited.
+    // Returns a uint8_t with number of tiles that are accessible and the robot has not visited.
     uint8_t getUnvisitedTiles();
 
-    //Returns the tile ubicated on the specified row and column.
+    // Returns the tile ubicated on the specified row and column.
     Tile getTile(const uint8_t row, const uint8_t column);
-    //Returns the tile in which the robot is placed at the time the function is called.
+    // Returns the tile in which the robot is placed at the time the function is called.
     Tile currTile();
-    //Returns the next tile at the North of the one the robot is placed at the time the function is called.
+    // Returns the next tile at the North of the one the robot is placed at the time the function is called.
     Tile northTile();
-    //Returns the next tile at the East of the one the robot is placed at the time the function is called.
+    // Returns the next tile at the East of the one the robot is placed at the time the function is called.
     Tile eastTile();
-    //Returns the next tile at the South of the one the robot is placed at the time the function is called.
+    // Returns the next tile at the South of the one the robot is placed at the time the function is called.
     Tile southTile();
-    //Returns the next tile at the West of the one the robot is placed at the time the function is called.
+    // Returns the next tile at the West of the one the robot is placed at the time the function is called.
     Tile westTile();
 
-    //Receives a tile and places it at the position specified ('N'=North, 'E'=East, 'S'=South, 'W'=West).
+    // Receives a tile and places it at the position specified ('N'=North, 'E'=East, 'S'=South, 'W'=West).
     void setTile(Tile tile, char position);
 
-    //Creates a new row containing the tile recieved as a parameter and places that row at the begining of the map.
+    // Creates a new row containing the tile recieved as a parameter and places that row at the begining of the map.
     void addRowFirst(Tile newTile);
-    //Creates a new row containing the tile recieved as a parameter and places that row at the end of the map.
+    // Creates a new row containing the tile recieved as a parameter and places that row at the end of the map.
     void addRowLast(Tile newTile);
-    //Creates a new column containing the tile recieved as a parameter and places that column at the begining of the map.
+    // Creates a new column containing the tile recieved as a parameter and places that column at the begining of the map.
     void addColumnFirst(Tile newTile);
-    //Creates a new column containing the tile recieved as a parameter and places that column at the end of the map.
+    // Creates a new column containing the tile recieved as a parameter and places that column at the end of the map.
     void addColumnLast(Tile newTile);
 
-    //Reduces by one current_row_
+    // Reduces by one current_row_.
     void moveNorth();
-    //Increases by one current_column_
+    // Increases by one current_column_.
     void moveEast();
-    //Increases by one current_row_
+    // Increases by one current_row_.
     void moveSouth();
-    //Reduces by one current_column_
+    // Reduces by one current_column_.
     void moveWest();
 };
 

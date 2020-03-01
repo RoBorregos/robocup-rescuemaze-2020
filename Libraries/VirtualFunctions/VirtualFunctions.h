@@ -1,15 +1,23 @@
 // Code made by the RoBorregos team in 2020 for the RoboCup JR. Rescue Maze category.
 // Grecia Flores, Diego Prado, Marlon Romo, and Emérico Pedraza.
 //
-// This class is intended to be able to work with Vectors in Arduino.
-// Some of the main functions are: to push data
+// This file contains functions that help to make virtual tests of the algorythm without the robot.
+// It cointains a char array simulating a physical map.
+// 'W' = wall.
+// 'B = black Tile.
+// 'R' = Robot's current position.
+// ' ' = Empty tile.
+// '.' = Just to fill spaces.
+// '1' = Low tile's difficulty.
+// '2' = Medium tile's difficulty.
+// '3' = High tile's difficulty.
 
 #include "Map.h"
 #include "Arduino.h"
 
 const uint8_t kNumberRows = 11, kNumberColumns = 11;
 uint8_t current_row = 1, current_column = 1;
-char kVirtualMap[11][11] = { {'.','W','.','W','.','W','.','W','.','W','.'},
+char virtual_map[11][11] = { {'.','W','.','W','.','W','.','W','.','W','.'},
                             {'W','R','W','B','W',' ','W',' ','.','2','W'},
                             {'.','.','.','.','.','.','.','.','.','.','.'},
                             {'W',' ','.',' ','.',' ','.',' ','W',' ','W'},
@@ -21,10 +29,11 @@ char kVirtualMap[11][11] = { {'.','W','.','W','.','W','.','W','.','W','.'},
                             {'W',' ','W',' ','W',' ','.',' ','W',' ','W'},
                             {'.','W','.','W','.','W','.','W','.','W','.'} };
 
+// Function that prints the virtual map.
 void printVirtualMap() {
   for(uint8_t row = 0 ; row < kNumberRows ; ++row) {
     for(uint8_t column = 0 ; column < kNumberColumns ; ++column) {
-      Serial.print(kVirtualMap[row][column]);
+      Serial.print(virtual_map[row][column]);
       if(column < kNumberColumns - 1) {
         Serial.print(" ");
       }
@@ -33,44 +42,55 @@ void printVirtualMap() {
   }
 }
 
+// Moves up the position of the robot on the virtual map.
 void moveMapNorth() {
-  kVirtualMap[current_row][current_column] = 'V';
-  if (kVirtualMap[current_row - 2][current_column] != '1' && kVirtualMap[current_row - 2][current_column] != '2' && kVirtualMap[current_row - 2][current_column] != '3') {
-    kVirtualMap[current_row - 2][current_column] = 'R';
+  virtual_map[current_row][current_column] = 'V';
+  if (virtual_map[current_row - 2][current_column] != '1' &&
+  virtual_map[current_row - 2][current_column] != '2' &&
+  virtual_map[current_row - 2][current_column] != '3') {
+    virtual_map[current_row - 2][current_column] = 'R';
   }
   current_row -= 2;
 }
 
+// Moves the position of the robot on the virtual map to the right.
 void moveMapEast() {
-  kVirtualMap[current_row][current_column] = 'V';
-  if (kVirtualMap[current_row][current_column + 2] != '1' && kVirtualMap[current_row][current_column + 2] != '2' && kVirtualMap[current_row][current_column + 2] != '3') {
-    kVirtualMap[current_row][current_column + 2] = 'R';
+  virtual_map[current_row][current_column] = 'V';
+  if (virtual_map[current_row][current_column + 2] != '1'
+  && virtual_map[current_row][current_column + 2] != '2'
+  && virtual_map[current_row][current_column + 2] != '3') {
+    virtual_map[current_row][current_column + 2] = 'R';
   }
   current_column += 2;
 }
 
+// Moves down the position of the robot on the virtual map.
 void moveMapSouth() {
-  kVirtualMap[current_row][current_column] = 'V';
-  if (kVirtualMap[current_row + 2][current_column] != '1' && kVirtualMap[current_row + 2][current_column] != '2' && kVirtualMap[current_row + 2][current_column] != '3') {
-    kVirtualMap[current_row + 2][current_column] = 'R';
+  virtual_map[current_row][current_column] = 'V';
+  if (virtual_map[current_row + 2][current_column] != '1'
+  && virtual_map[current_row + 2][current_column] != '2'
+  && virtual_map[current_row + 2][current_column] != '3') {
+    virtual_map[current_row + 2][current_column] = 'R';
   }
   current_row += 2;
 }
 
+// Moves the position of the robot on the virtual map to the left.
 void moveMapWest() {
-  kVirtualMap[current_row][current_column] = 'V';
-  if (kVirtualMap[current_row][current_column - 2] != '1' && kVirtualMap[current_row][current_column - 2] != '2' && kVirtualMap[current_row][current_column - 2] != '3') {
-    kVirtualMap[current_row][current_column - 2] = 'R';
+  virtual_map[current_row][current_column] = 'V';
+  if (virtual_map[current_row][current_column - 2] != '1' && virtual_map[current_row][current_column - 2] != '2' && virtual_map[current_row][current_column - 2] != '3') {
+    virtual_map[current_row][current_column - 2] = 'R';
   }
   current_column -= 2;
 }
 
+// Function that prints the robot's intern map.
 void printMap(Map tiles_map, const uint8_t iFloor) {
   char char_map[tiles_map.numberOfRows()*2 + 1][tiles_map.numberOfColumns()*2 + 1];
   int row_char, column_char;
 
-  for(int i = 0; i < tiles_map.numberOfRows()*2 + 1; ++i) {
-    for(int j = 0; j < tiles_map.numberOfColumns()*2 + 1; ++j) {
+  for(uint8_t i = 0; i < tiles_map.numberOfRows()*2 + 1; ++i) {
+    for(uint8_t j = 0; j < tiles_map.numberOfColumns()*2 + 1; ++j) {
       char_map[i][j] = '.';
     }
   }
@@ -104,25 +124,25 @@ void printMap(Map tiles_map, const uint8_t iFloor) {
       else if(tiles_map.getTile(row_tile, column_tile).isBlack()) {
         char_map[row_char][column_char] = 'B';
       }
-      if(tiles_map.getTile(row_tile, column_tile).getNorth()) {
+      if(tiles_map.getTile(row_tile, column_tile).ableToGoNorth()) {
         char_map[row_char - 1][column_char] = '.';
       }
       else {
         char_map[row_char - 1][column_char] = 'W';
       }
-      if(tiles_map.getTile(row_tile, column_tile).getEast()) {
+      if(tiles_map.getTile(row_tile, column_tile).ableToGoEast()) {
         char_map[row_char][column_char + 1] = '.';
       }
       else {
         char_map[row_char][column_char + 1] = 'W';
       }
-      if(tiles_map.getTile(row_tile, column_tile).getSouth()) {
+      if(tiles_map.getTile(row_tile, column_tile).ableToGoSouth()) {
         char_map[row_char + 1][column_char] = '.';
       }
       else {
         char_map[row_char+1][column_char] = 'W';
       }
-      if(tiles_map.getTile(row_tile, column_tile).getWest()) {
+      if(tiles_map.getTile(row_tile, column_tile).ableToGoWest()) {
         char_map[row_char][column_char - 1] = '.';
       }
       else {
@@ -135,8 +155,8 @@ void printMap(Map tiles_map, const uint8_t iFloor) {
 
   char_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] = 'R';
   
-  for(int i = 0 ; i < tiles_map.numberOfRows()*2 + 1 ; i++) {
-    for(int j = 0 ; j < tiles_map.numberOfColumns()*2 + 1 ; j++) {
+  for(uint8_t i = 0 ; i < tiles_map.numberOfRows()*2 + 1 ; i++) {
+    for(uint8_t j = 0 ; j < tiles_map.numberOfColumns()*2 + 1 ; j++) {
       Serial.print(char_map[i][j]);
       Serial.print(" ");
     }
@@ -145,6 +165,7 @@ void printMap(Map tiles_map, const uint8_t iFloor) {
   Serial.println(" ");
 }
 
+// Function that moves the position of the robot in the virtual map according to a char vector recieved and returns the resulting tiles map.
 Map followPath(TVector<char> path, Map tiles_map) {
   while (path.getSize() > 0) {
     if (path[0] == 'N') {
@@ -174,24 +195,25 @@ Map followPath(TVector<char> path, Map tiles_map) {
   return tiles_map;
 }
 
+// Function that updates the tiles map according to the virtual map and returns a tiles_map.
 Map updateTiles(Map tiles_map) {
   Tile current_tile;
 
   current_tile = tiles_map.currTile();
     current_tile.setVisited();
 
-    if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '1') {
+    if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '1') {
       current_tile.setWeight(1);
     }
-    else if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '2') {
+    else if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '2') {
       current_tile.setWeight(2);
     }
-    else if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '3') {
+    else if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] == '3') {
       current_tile.setWeight(3);
     }
     
-    //Update North
-    if (kVirtualMap[tiles_map.currentRow()*2][tiles_map.currentColumn()*2 + 1] != 'W') {
+    // Update North.
+    if (virtual_map[tiles_map.currentRow()*2][tiles_map.currentColumn()*2 + 1] != 'W') {
       current_tile.setNorth();
       if (tiles_map.currentRow() > 0 && tiles_map.northTile().isVisited() == false) {
         Tile north_tile = tiles_map.northTile();
@@ -206,17 +228,18 @@ Map updateTiles(Map tiles_map) {
         tiles_map.addRowFirst(north_tile);
       }
       
-      if (kVirtualMap[tiles_map.currentRow()*2 - 1][tiles_map.currentColumn()*2 + 1] == 'B') {
+      if (virtual_map[tiles_map.currentRow()*2 - 1][tiles_map.currentColumn()*2 + 1] == 'B') {
         Tile north_tile = tiles_map.northTile();
         north_tile.setBlack();
         tiles_map.setTile(north_tile, 'N');
       }
     }
 
-    //Update East
-    if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 2] != 'W') {
+    // Update East.
+    if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 2] != 'W') {
       current_tile.setEast();
-      if (tiles_map.currentColumn() < tiles_map.numberOfColumns() - 1 && tiles_map.eastTile().isVisited() == false) { //if it is not the one on the last column
+      if (tiles_map.currentColumn() < tiles_map.numberOfColumns() - 1
+      && tiles_map.eastTile().isVisited() == false) {
         Tile east_tile = tiles_map.eastTile();
         east_tile.setWest();
         east_tile.setAccessible();
@@ -229,17 +252,18 @@ Map updateTiles(Map tiles_map) {
         tiles_map.addColumnLast(east_tile);
       }
       
-      if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 3] == 'B') {
+      if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 3] == 'B') {
         Tile east_tile = tiles_map.northTile();
         east_tile.setBlack();
         tiles_map.setTile(east_tile, 'E');
       }
     }
 
-    //Update South
-    if (kVirtualMap[tiles_map.currentRow()*2 + 2][tiles_map.currentColumn()*2 + 1] != 'W') {
+    // Update South.
+    if (virtual_map[tiles_map.currentRow()*2 + 2][tiles_map.currentColumn()*2 + 1] != 'W') {
       current_tile.setSouth();
-      if (tiles_map.currentRow() < tiles_map.numberOfRows() - 1 && tiles_map.southTile().isVisited() == false) {
+      if (tiles_map.currentRow() < tiles_map.numberOfRows() - 1
+      && tiles_map.southTile().isVisited() == false) {
         Tile south_tile = tiles_map.southTile();
         south_tile.setNorth();
         south_tile.setAccessible();
@@ -252,15 +276,15 @@ Map updateTiles(Map tiles_map) {
         tiles_map.addRowLast(south_tile);
       }
       
-      if (kVirtualMap[tiles_map.currentRow()*2 + 3][tiles_map.currentColumn()*2 + 1] == 'B') {
+      if (virtual_map[tiles_map.currentRow()*2 + 3][tiles_map.currentColumn()*2 + 1] == 'B') {
         Tile south_tile = tiles_map.northTile(); 
         south_tile.setBlack();
         tiles_map.setTile(south_tile, 'S'); 
       }
     }
 
-    //Update West
-    if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2] != 'W') {
+    // Update West.
+    if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2] != 'W') {
       current_tile.setWest();
       if (tiles_map.currentColumn() > 0 && tiles_map.westTile().isVisited() == false)  {
         Tile west_tile = tiles_map.westTile();
@@ -275,7 +299,7 @@ Map updateTiles(Map tiles_map) {
         tiles_map.addColumnFirst(west_tile);
       }
 
-      if (kVirtualMap[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 - 1] == 'B') {
+      if (virtual_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 - 1] == 'B') {
         Tile west_tile = tiles_map.northTile();
         west_tile.setBlack();
         tiles_map.setTile(west_tile, 'W');

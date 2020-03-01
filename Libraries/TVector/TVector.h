@@ -17,33 +17,37 @@ class TVector {
     T *vector_;
 
   public:
-    //Constructor with 1 element.
+    // Constructor with 1 element.
     TVector();
-    //Constructor that copies another vector.
+    // Constructor that copies another vector.
     TVector(const TVector &V);
-    //Destructor.
+    // Constructor that creates a vector with a specified size filled with an specific parameter.
+    TVector(const uint8_t, const T t);
+    // Destructor.
     ~TVector();
 
-    //Returns an uint8_t with the size of the vector.
+    // Returns a uint8_t with the size of the vector.
     uint8_t getSize();
 
-    //Stock the parameter data at the end of the vector.
+    // Stock the parameter data at the end of the vector.
     void pushAsLast(T t);
-    //Stock the parameter data at the beggining of the vector.
+    // Stock the parameter data at the beggining of the vector.
     void pushAsFirst(T t);
-    //Deletes the last element of the vector and reduces it's size.
+    // Deletes the last element of the vector and reduces it's size.
     void popLast();
-    //Deletes the first element of the vector and reduces it's size.
+    // Deletes the first element of the vector and reduces it's size.
     void popFirst();
-    //Stock the parameter data at the specified index of the vector.
+    // Stock the parameter data at the specified index of the vector.
     void set(T t, uint8_t index);
-    //Erase the element on the specified index of the vector and reduces it's size.
+    // Erase the element on the specified index of the vector and reduces it's size.
     void erase(uint8_t index);
 
-    //Returns the element on the specified index of the vector (inside the []).
+    // Returns the element on the specified index of the vector (inside the []).
     T& operator[](uint8_t index) const;
-    //Allows to equal two vectors.
+    // Allows to equal two vectors.
     void operator=(const TVector &V);
+    // Empties the Vector.
+    void empty();
 };
 
 template <class T>
@@ -64,6 +68,15 @@ TVector<T>::TVector(const TVector &V) {
 }
 
 template <class T>
+TVector<T>::TVector(const uint8_t size, const T t) {
+  vector_ = new T[size];
+  size_ = size;
+  for(uint8_t i = 0; i < size; ++i) {
+    vector_[i] = t;
+  }
+}
+
+template <class T>
 TVector<T>::~TVector() {
   delete[] vector_;
 }
@@ -77,7 +90,7 @@ template <class T>
 void TVector<T>::pushAsLast(T t) {
   T *newVector = new T[size_ + 1];
 
-  for(int i = 0 ; i < size_ ; i++) {
+  for(uint8_t i = 0 ; i < size_ ; i++) {
     newVector[i] = vector_[i];
   }
   newVector[size_] = t;
@@ -137,7 +150,7 @@ void TVector<T>::erase(uint8_t index) {
   if ( index >= 0 && index < size_ ) {
     T *newVector = new T[size_ - 1];
 
-    for(int i = 0 ; i < size_ - 1 ; i++) {
+    for(uint8_t i = 0 ; i < size_ - 1 ; i++) {
       if ( i != index ) {
         if ( i < index ) {
             newVector[i] = vector_[i];
@@ -170,6 +183,14 @@ void TVector<T>::operator=(const TVector &V) {
   }
 
   size_ = V.size_;
+}
+
+template <class T>
+void TVector<T>::empty() {
+  T *empty_vector;
+  delete[] vector_;
+  vector_ = empty_vector;
+  size_ = 0;
 }
 
 #endif
