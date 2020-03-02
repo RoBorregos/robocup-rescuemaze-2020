@@ -8,14 +8,9 @@
 
 #include "arduino.h"
 #include "Wire.h"
-#include <i2cmaster.h>
 #include <Adafruit_TCS34725.h>
 #include <Ultrasonic.h>
-
-extern "C"
-{
-#include "utility/twi.h"
-}
+#include "Multiplexor.h"
 
 #define TCAADDR 0x70          // Multiplexor numbers.
 
@@ -23,7 +18,7 @@ class SensorMap
 {
 
 public:
-    SensorMap();
+    SensorMap(Multiplexor *multi);
     // Get the Ultrasonic Distance Right Up.
     int getDistanceRightUp();
     // Get the Ultrasonic Distance Right Down.
@@ -52,8 +47,6 @@ public:
     float temperatureCelcius(int mlx);
     // Detect a black tile.
     bool blackTile();
-    // Give a multiplexor ID to each sensor.
-    void tcaselect(int number);
 
     const uint8_t kWaitBetweenUltrasonic = 50;
     const int kWaitFiveSeconds = 5000;
@@ -82,7 +75,8 @@ private:
         const uint8_t kSonarLeftUpEcho = 13;
         const uint8_t kSonarLeftDownTrigger = 14;
         const uint8_t kSonarLeftDownEcho = 15; */
-
-    Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_1X);
+        
+    Multiplexor *i2c_;
+    Adafruit_TCS34725 tcs_ = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_1X);
 };
 #endif

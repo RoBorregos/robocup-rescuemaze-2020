@@ -13,8 +13,19 @@ Ultrasonic ultrasonicRightDown(10, 11); // Trig, Echo.
 Ultrasonic ultrasonicLeftUp(12, 13);    // Trig, Echo.
 Ultrasonic ultrasonicLeftDown(14, 15);  // Trig, Echo.
 
-SensorMap::SensorMap()
+SensorMap::SensorMap(Multiplexor *multi)
 {
+  i2c_ = multi;
+
+  i2c_->tcaselect(3);
+  tcs_.begin();
+  i2c_->tcaselect(3);
+  if (!tcs_.begin())
+  {
+    Serial.println("Does not work TCS34725 or check your I2C...");
+    while (1)
+      delay(1000);
+  }
 }
 
 int SensorMap::getDistanceFrontLeft()
@@ -117,9 +128,9 @@ float SensorMap::temperatureCelcius(int mlx)
 
 bool SensorMap::blackTile()
 {
-  tcaselect(3);
+  i2c_->tcaselect(3);
   uint16_t r, g, b, c;
-  tcs.getRawData(&r, &g, &b, &c);
+  tcs_.getRawData(&r, &g, &b, &c);
   return (r < 115 && g < 115 && b < 115);
 }
 

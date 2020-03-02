@@ -5,6 +5,7 @@
 #include "Motors.h"
 #include "Movement.h"
 #include "Control.h"
+#include "Multiplexor.h"
 
 /*void calibrationAll() {
   const int kDelayAfterBNO = 2700; 
@@ -46,6 +47,9 @@
 void setup()
 {
   Serial.begin(9600);
+  Multiplexor multi;
+  Multiplexor *const i2c = &multi;
+
   SensorMap sensorr;
   SensorMap *const sensor = &sensorr;
 
