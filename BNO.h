@@ -16,7 +16,6 @@ class BNO
 
 public:
   BNO();
-  BNO(SensorMap *map);
   Adafruit_BNO055 bno_;
   // Get the difference of the current angle with the 0, and return a new error.
   double getDifferenceWithZero();
@@ -37,8 +36,5 @@ public:
 
   const int kTimeToPrintBNO = 1000;
   const uint8_t kRepose = 250;
-
-  private:
-    SensorMap *map_;
 };
 #endif

@@ -8,15 +8,12 @@
 
 BNO::BNO() {}
 
-BNO::BNO(SensorMap *map)
+BNO::BNO()
 {
-  map_ = map;
   bno_ = Adafruit_BNO055();
   Serial.println("Orientation Sensor Test");
   Serial.println("");
-  map_->tcaselect(2);
   bno_.begin();
-  map_->tcaselect(2);
   if (!bno_.begin())
   {
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
@@ -27,7 +24,6 @@ BNO::BNO(SensorMap *map)
 
   bno_.setExtCrystalUse(true);
   sensors_event_t event;
-  map_->tcaselect(2);
   bno_.getEvent(&event);
 
   Serial.print("X: ");
@@ -75,6 +71,7 @@ double BNO::getAngleY()
 double BNO::getAngleZ()
 {
   sensors_event_t event;
+  map_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.z;
