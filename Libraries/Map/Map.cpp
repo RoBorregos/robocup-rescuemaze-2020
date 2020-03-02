@@ -1,15 +1,20 @@
 #include <Map.h>
 #include "TVector.h"
 
-Map::Map(Tile initialTile) {
+Map::Map() {
   current_row_ = 0;
   current_column_ = 0;
+  number_of_rows_ = 0;
+  number_of_columns_ = 0;
+  orientation_ = 1;
+}
+
+void Map::setInitialTile(Tile initial_tile) {
   number_of_rows_ = 1;
   number_of_columns_ = 1;
-  orientation_ = 1;
-  TVector<Tile> row;
 
-  row.pushAsLast(initialTile);
+  TVector<Tile> row;
+  row.pushAsLast(initial_tile);
   map_.pushAsLast(row);
 }
 
@@ -35,12 +40,12 @@ uint8_t Map::getOrientation() {
 
 uint8_t Map::getUnvisitedTiles() {
   unvisited_tiles_ = 0;
-  for (int row = 0 ; row < number_of_rows_ ; row++) {
-    for (int column = 0 ; column < number_of_columns_ ; column++) {
+  for (int row = 0 ; row < number_of_rows_ ; ++row) {
+    for (int column = 0 ; column < number_of_columns_ ; ++column) {
       if (!map_[row][column].isVisited() &&
           map_[row][column].isAccessible() &&
           !map_[row][column].isBlack()) {
-        unvisited_tiles_++;
+        ++unvisited_tiles_;
       }
     }
   }
@@ -95,10 +100,10 @@ void Map::addRowFirst(Tile newTile) {
   TVector<Tile> newRow(number_of_columns_, emptyTile);
 
   map_.pushAsLast(newRow);
-  current_row_++;
-  number_of_rows_++;
+  ++current_row_;
+  ++number_of_rows_;
 
-  for(uint8_t row = number_of_rows_ - 1 ; row > 0 ; row--) {
+  for(uint8_t row = number_of_rows_ - 1 ; row > 0 ; --row) {
     map_[row] = map_[row - 1];
   }
 
@@ -110,23 +115,23 @@ void Map::addRowLast(Tile newTile) {
   TVector<Tile> newRow;
   Tile emptyTile;
   
-  for(uint8_t i = 0 ; i < number_of_columns_ ; i++) {
+  for(uint8_t i = 0 ; i < number_of_columns_ ; ++i) {
     newRow.pushAsLast(emptyTile);
   }
 
   newRow[current_column_] = newTile;
   map_.pushAsLast(newRow);
 
-  number_of_rows_++;
+  ++number_of_rows_;
 }
 
 void Map::addColumnFirst(Tile newTile) {
   Tile emptyTile;
 
-  for (int row = 0 ; row < number_of_rows_ ; row++) {
+  for (int row = 0 ; row < number_of_rows_ ; ++row) {
     map_[row].pushAsLast(emptyTile);
 
-    for (int column = number_of_columns_ ; column > 0 ; column--) {
+    for (int column = number_of_columns_ ; column > 0 ; --column) {
       map_[row][column] = map_[row][column - 1];
     }
 
@@ -135,38 +140,38 @@ void Map::addColumnFirst(Tile newTile) {
 
   map_[current_row_][0] = newTile;
 
-  current_column_++;
-  number_of_columns_++;
+  ++current_column_;
+  ++number_of_columns_;
 }
 
 void Map::addColumnLast(Tile newTile) {
   Tile emptyTile;
 
-  for (int i = 0 ; i < number_of_rows_ ; i++) {
+  for (int i = 0 ; i < number_of_rows_ ; ++i) {
     map_[i].pushAsLast(emptyTile);
   }
 
   map_[current_row_][current_column_ + 1] = newTile;
 
-  number_of_columns_++;
+  ++number_of_columns_;
 }
 
 void Map::moveNorth() {
   orientation_ = 1;
-  current_row_--;
+  --current_row_;
 }
 
 void Map::moveEast() {
   orientation_ = 2;
-  current_column_++;
+  ++current_column_;
 }
 
 void Map::moveSouth() {
   orientation_ = 3;
-  current_row_++;
+  ++current_row_;
 }
 
 void Map::moveWest() {
   orientation_ = 4;
-  current_column_--;
+  --current_column_;
 }

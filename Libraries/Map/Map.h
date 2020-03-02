@@ -21,9 +21,11 @@ class Map {
     TVector<TVector<Tile> > map_;
     
   public:
-    // Constructor with the initial tile.
-    Map(Tile initialTile);
+    // Constructor
+    Map();
 
+    // Adds the initial tile to the map.
+    void setInitialTile(Tile initial_tile);
     // Returns a uint8_t with the number of rows of the map.
     uint8_t numberOfRows();
     // Returns a uint8_t with the number of columns of the map.
