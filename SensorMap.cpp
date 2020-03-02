@@ -133,14 +133,3 @@ bool SensorMap::blackTile()
   tcs_.getRawData(&r, &g, &b, &c);
   return (r < 115 && g < 115 && b < 115);
 }
-
-void SensorMap::tcaselect(int number)
-{
-  if (number > 7)
-    return;
-
-  Wire.beginTransmission(TCAADDR);
-  Wire.write(1 << number);
-  Wire.endTransmission();
-  delay(kWaitToSend);
-}
