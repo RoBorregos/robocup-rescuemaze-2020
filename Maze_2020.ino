@@ -47,8 +47,8 @@
 void setup()
 {
   Serial.begin(9600);
-  Multiplexor multi;
-  Multiplexor *const i2c = &multi;
+  Multiplexor multii;
+  Multiplexor *const i2c = &multii;
 
   SensorMap sensorr;
   SensorMap *const sensor = &sensorr;

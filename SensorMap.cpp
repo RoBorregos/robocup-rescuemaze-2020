@@ -13,6 +13,8 @@ Ultrasonic ultrasonicRightDown(10, 11); // Trig, Echo.
 Ultrasonic ultrasonicLeftUp(12, 13);    // Trig, Echo.
 Ultrasonic ultrasonicLeftDown(14, 15);  // Trig, Echo.
 
+SensorMap::SensorMap(){}
+
 SensorMap::SensorMap(Multiplexor *multi)
 {
   i2c_ = multi;

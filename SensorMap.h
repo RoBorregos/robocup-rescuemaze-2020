@@ -18,6 +18,7 @@ class SensorMap
 {
 
 public:
+    SensorMap();
     SensorMap(Multiplexor *multi);
     // Get the Ultrasonic Distance Right Up.
     int getDistanceRightUp();

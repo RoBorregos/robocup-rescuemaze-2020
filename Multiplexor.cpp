@@ -1,8 +1,8 @@
 #include "Multiplexor.h"
 
-Multiplexor::Multiplexor(){}
+Multiplexor::Multiplexor() {}
 
-void Multiplexor::tcaselect(int number)
+void Multiplexor::tcaselect(uint8_t number)
 {
   if (number > 7)
     return;

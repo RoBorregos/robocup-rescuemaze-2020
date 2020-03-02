@@ -6,8 +6,6 @@
 */
 #include "BNO.h"
 
-BNO::BNO() {}
-
 BNO::BNO()
 {
   bno_ = Adafruit_BNO055();
@@ -71,7 +69,6 @@ double BNO::getAngleY()
 double BNO::getAngleZ()
 {
   sensors_event_t event;
-  map_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.z;
