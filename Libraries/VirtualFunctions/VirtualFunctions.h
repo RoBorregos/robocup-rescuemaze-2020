@@ -97,9 +97,9 @@ void printMap(Map tiles_map, const uint8_t iFloor) {
   
   row_char = 1;
 
-  for (int row_tile = 0 ; row_tile < tiles_map.numberOfRows() ; row_tile++) {
+  for (int row_tile = 0 ; row_tile < tiles_map.numberOfRows() ; ++row_tile) {
     column_char = 1;
-    for (int column_tile = 0 ; column_tile < tiles_map.numberOfColumns() ; column_tile++) {
+    for (int column_tile = 0 ; column_tile < tiles_map.numberOfColumns() ; ++column_tile) {
       if(tiles_map.getTile(row_tile, column_tile).getStart()) {
         char_map[row_char][column_char] = 'S';
       }
@@ -155,8 +155,8 @@ void printMap(Map tiles_map, const uint8_t iFloor) {
 
   char_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] = 'R';
   
-  for(uint8_t i = 0 ; i < tiles_map.numberOfRows()*2 + 1 ; i++) {
-    for(uint8_t j = 0 ; j < tiles_map.numberOfColumns()*2 + 1 ; j++) {
+  for(uint8_t i = 0 ; i < tiles_map.numberOfRows()*2 + 1 ; ++i) {
+    for(uint8_t j = 0 ; j < tiles_map.numberOfColumns()*2 + 1 ; ++j) {
       Serial.print(char_map[i][j]);
       Serial.print(" ");
     }

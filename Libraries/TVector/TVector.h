@@ -60,7 +60,7 @@ template <class T>
 TVector<T>::TVector(const TVector &V) {
   vector_ = new T[V.size_];
   
-  for (int i = 0 ; i < V.size_ ; i++) {
+  for (int i = 0 ; i < V.size_ ; ++i) {
     vector_[i] = V[i];
   }
 
@@ -90,35 +90,35 @@ template <class T>
 void TVector<T>::pushAsLast(T t) {
   T *newVector = new T[size_ + 1];
 
-  for(uint8_t i = 0 ; i < size_ ; i++) {
+  for(uint8_t i = 0 ; i < size_ ; ++i) {
     newVector[i] = vector_[i];
   }
   newVector[size_] = t;
 
   delete[] vector_;
   vector_ = newVector;
-  size_++;
+  ++size_;
 }
 
 template <class T>
 void TVector<T>::pushAsFirst(T t) {
   T *newVector = new T[size_ + 1];
 
-  for(int i = 0 ; i < size_ ; i++) {
+  for(int i = 0; i < size_; ++i) {
     newVector[i+1] = vector_[i];
   }
   newVector[0] = t;
 
   delete[] vector_;
   vector_ = newVector;
-  size_++;
+  ++size_;
 }
 
 template <class T>
 void TVector<T>::popLast() {
   T *newVector = new T[size_ - 1];
 
-  for (int i = 0 ; i < size_ - 1 ; i++) {
+  for (int i = 0 ; i < size_ - 1 ; ++i) {
     newVector[i] = vector_[i];
   }
 
@@ -131,7 +131,7 @@ template <class T>
 void TVector<T>::popFirst() {
   T *newVector = new T[size_ - 1];
 
-  for (int i = 0 ; i < size_ - 1 ; i++) {
+  for (int i = 0 ; i < size_ - 1 ; ++i) {
     newVector[i] = vector_[i + 1];
   }
 
@@ -150,7 +150,7 @@ void TVector<T>::erase(uint8_t index) {
   if ( index >= 0 && index < size_ ) {
     T *newVector = new T[size_ - 1];
 
-    for(uint8_t i = 0 ; i < size_ - 1 ; i++) {
+    for(uint8_t i = 0 ; i < size_ - 1 ; ++i) {
       if ( i != index ) {
         if ( i < index ) {
             newVector[i] = vector_[i];
@@ -178,7 +178,7 @@ void TVector<T>::operator=(const TVector &V) {
   delete vector_;
   vector_ = new T[V.size_];
 
-  for (int i = 0 ; i < V.size_ ; i++) {
+  for (int i = 0 ; i < V.size_ ; ++i) {
     vector_[i] = V[i];
   }
 
