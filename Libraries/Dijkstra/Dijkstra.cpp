@@ -11,10 +11,10 @@ void Dijkstra::initialValues(const Map tiles_map) {
   support_dijkstra_tile.checked = false;
 
   for (uint8_t row = 0; row < tiles_map.numberOfRows(); ++row) {
-    for (uint8_t column = 0; column < tiles_map.numberOfColumns(); ++column) {
       support_dijkstra_tile.current.x = row;
-      support_dijkstra_tile.current.y = column;
       support_dijkstra_tile.prev.x = row;
+    for (uint8_t column = 0; column < tiles_map.numberOfColumns(); ++column) {
+      support_dijkstra_tile.current.y = column;
       support_dijkstra_tile.prev.y = column;
       support_row.pushAsLast(support_dijkstra_tile);
     }
@@ -38,50 +38,34 @@ void Dijkstra::updateMatrix(const Map tiles_map) {
     // Then checking and updating weights in the matrix_.
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoNorth()
     && !tiles_map.getTile(current_coord_->x - 1, current_coord_->y).isBlack()) {
-      if (tiles_map.getTile(current_coord_->x - 1, current_coord_->y).isVisited()
-      && !matrix_[current_coord_->x - 1][current_coord_->y].checked) {
-        open_vector_.pushAsLast(&matrix_[current_coord_->x - 1][current_coord_->y].current);
-        matrix_[current_coord_->x - 1][current_coord_->y].checked = true;
-      }
       if (matrix_[current_coord_->x - 1][current_coord_->y].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x - 1, current_coord_->y).getWeight()) {
         matrix_[current_coord_->x - 1][current_coord_->y].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x - 1, current_coord_->y).getWeight();
         matrix_[current_coord_->x - 1][current_coord_->y].prev = matrix_[current_coord_->x][current_coord_->y].current;
+        open_vector_.pushAsLast(&matrix_[current_coord_->x - 1][current_coord_->y].current);
       }
     }
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoEast()
     && !tiles_map.getTile(current_coord_->x, current_coord_->y + 1).isBlack()) {
-      if (tiles_map.getTile(current_coord_->x, current_coord_->y + 1).isVisited()
-      && !matrix_[current_coord_->x][current_coord_->y + 1].checked) {
-        open_vector_.pushAsLast(&matrix_[current_coord_->x][current_coord_->y + 1].current);
-        matrix_[current_coord_->x][current_coord_->y + 1].checked = true;
-      }
       if (matrix_[current_coord_->x][current_coord_->y + 1].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y + 1).getWeight()) {
         matrix_[current_coord_->x][current_coord_->y + 1].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y + 1).getWeight();
         matrix_[current_coord_->x][current_coord_->y + 1].prev = matrix_[current_coord_->x][current_coord_->y].current;
+        open_vector_.pushAsLast(&matrix_[current_coord_->x][current_coord_->y + 1].current);
       }
     }
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoSouth()
     && !tiles_map.getTile(current_coord_->x + 1, current_coord_->y).isBlack()) {
-      if (tiles_map.getTile(current_coord_->x + 1, current_coord_->y).isVisited()
-      && !matrix_[current_coord_->x + 1][current_coord_->y].checked) {
-        open_vector_.pushAsLast(&matrix_[current_coord_->x + 1][current_coord_->y].current);
-        matrix_[current_coord_->x + 1][current_coord_->y].checked = true;
-      }
       if (matrix_[current_coord_->x + 1][current_coord_->y].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x + 1, current_coord_->y).getWeight()) {
         matrix_[current_coord_->x + 1][current_coord_->y].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x + 1, current_coord_->y).getWeight();
         matrix_[current_coord_->x + 1][current_coord_->y].prev = matrix_[current_coord_->x][current_coord_->y].current;
+        open_vector_.pushAsLast(&matrix_[current_coord_->x + 1][current_coord_->y].current);
       }
     }
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoWest()
     && !tiles_map.getTile(current_coord_->x, current_coord_->y - 1).isBlack()) {
-      if (tiles_map.getTile(current_coord_->x, current_coord_->y - 1).isVisited()
-      && !matrix_[current_coord_->x][current_coord_->y - 1].checked) {
-        open_vector_.pushAsLast(&matrix_[current_coord_->x][current_coord_->y - 1].current);
-        matrix_[current_coord_->x][current_coord_->y - 1].checked = true;
-      }
       if (matrix_[current_coord_->x][current_coord_->y - 1].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y - 1).getWeight()) {
         matrix_[current_coord_->x][current_coord_->y - 1].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y - 1).getWeight();
         matrix_[current_coord_->x][current_coord_->y - 1].prev = matrix_[current_coord_->x][current_coord_->y].current;
+        open_vector_.pushAsLast(&matrix_[current_coord_->x][current_coord_->y - 1].current);
       }
     }
     open_vector_.popFirst();
@@ -115,6 +99,11 @@ void Dijkstra::printDijkstraMatrix(const Map tiles_map) {
       Serial.print(",");
       Serial.print(matrix_[row][column].current.y);
       Serial.print(")");
+      Serial.print("[");
+      Serial.print(matrix_[row][column].prev.x);
+      Serial.print(",");
+      Serial.print(matrix_[row][column].prev.y);
+      Serial.print("]");
       Serial.print(matrix_[row][column].weight);
       Serial.print("  ");
     }

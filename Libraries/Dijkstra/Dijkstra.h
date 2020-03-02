@@ -31,7 +31,9 @@ class Dijkstra {
     uint8_t current_row_;
     uint8_t current_column_;
 
+    // Sets the initial values of the matrix and the open vector.
     void initialValues(const Map tiles_map);
+    // Changes the values of each element of the matrix depending of the current tiles_map.
     void updateMatrix(const Map tiles_map);
   public:
     // Constructor that sets all the elements of the matrix with the initial values.
