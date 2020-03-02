@@ -1,3 +1,8 @@
+/* ROBORREGOS MAZE 2020.
+ * This multiplexor class is to give a ID number
+ * to each I2C sensor.
+ * To get more information, go to Multiplexor.h file.
+*/
 #include "Multiplexor.h"
 
 Multiplexor::Multiplexor() {}

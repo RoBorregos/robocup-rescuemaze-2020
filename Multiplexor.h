@@ -1,3 +1,7 @@
+/* ROBORREGOS MAZE 2020.
+ * This multiplexor class is to give a ID number
+ * to each I2C sensor.
+*/
 #ifndef MULTIPLEXOR_H
 #define MULTIPLEXOR_H
 
