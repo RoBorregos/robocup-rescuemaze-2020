@@ -18,14 +18,27 @@ class Movement
 public:
   Movement();
   Movement(BNO *bno, Control *system, Motors *robot);
-  // Move the robot forward with P.
+  // Move the robot forward with PID.
   void advancePID(const double desire);
-  // Move the robot backwards with P.
+  // Move the robot forward with PID until get out of the obstacle.
+  void advancePIDSwitches(const double desire);
+  // Move the robot backwards with PID.
   void moveBackPID(const double desire);
+  // Move the robot backward with PID until get out of the obstacle.
+  void moveBackPIDSwitches(const double desire);
   // Turn left or right depending on the desired angle.
-  void turnDegrees(double desire);
+  void turnDegrees(const double desire);
+  // Left corner switch on, the robot straightnes.
+  void leftCornerCrash(const double desire, uint8_t straighten_angle);
+  // Right corner switch on, the robot straightens.
+  void rightCornerCrash(const double desire, uint8_t straighten_angle); 
+  // Left switch on, the robot straightens.
+  void leftCrash(const double desire, uint8_t straighten_angle);
+  // Right switch on, the robot straightens.
+  void rightCrash(const double desire, uint8_t straighten_angle);
 
   const int kUnitLimit = 500;
+  const int kUnitLimitSwitch = 200;
 
   // Turns.
   const double kPTurns = 1.07;
