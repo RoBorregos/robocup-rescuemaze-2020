@@ -15,7 +15,7 @@ void setup() {
   Serial.begin(9600);
 
   support_tile = updateFirstTile(support_tile, 0, 0, 0);
-  
+
   // Adding the initial zone to the map.
   Map zone0;
   zone0.setInitialTile(support_tile);
@@ -27,7 +27,7 @@ void setup() {
   printVirtualMap(0);
   Serial.println("");
   printMap(tiles_map[current_zone]);
-  
+
   while (tiles_map[current_zone].getUnvisitedTiles(tiles_map) != 0) {
     Dijkstra dijkstra_matrix(tiles_map[current_zone]);
     path = dijkstra_matrix.getPath(tiles_map[current_zone]);
@@ -45,7 +45,7 @@ void setup() {
       support_tile = updateFirstTile(support_tile, current_zone, 0, 0);
       nextZone.setInitialTile(support_tile);
       tiles_map.pushAsLast(nextZone);
-    }*/
+      }*/
 
     printMap(tiles_map[current_zone]);
     Serial.println("");

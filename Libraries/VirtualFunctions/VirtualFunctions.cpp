@@ -1,6 +1,6 @@
 #include "VirtualFunctions.h"
 
-namespace VirtualMap {
+namespace {
   const uint8_t kNumberZones = 2, kNumberRows = 11, kNumberColumns = 11;
   uint8_t current_row = 1, current_column = 1;
   char virtual_map[kNumberZones][kNumberRows][kNumberColumns] = 
@@ -29,9 +29,7 @@ namespace VirtualMap {
     {'.','W','.','W','.','W','.','W','.','W','.'}}};
 }
 
-namespace VirtualFunctions {
-  using namespace VirtualMap;
-  
+namespace VirtualFunctions {  
   void printVirtualMap(uint8_t zone) {
     for(uint8_t row = 0 ; row < kNumberRows ; ++row) {
       for(uint8_t column = 0 ; column < kNumberColumns ; ++column) {
