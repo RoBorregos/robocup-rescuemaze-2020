@@ -8,14 +8,12 @@
 
 DropKit::DropKit() {}
 
-void DropKit::setup()
-{
+void DropKit::setup() {
   dispenser.attach(kPin); // Servo Pin
   dispenser.write(kDispenserDegrees90); // Initialize the dispenser in 90 degrees(in the middle).
 }
 
-void DropKit::dropOneKitLeft()
-{
+void DropKit::dropOneKitLeft() {
   dispenser.write(kDispenserDegrees0);
   delay(kTime_1sec);
   dispenser.write(kDispenserDegrees100);
@@ -24,8 +22,7 @@ void DropKit::dropOneKitLeft()
   delay(kTime_2ms);
 }
 
-void DropKit::dropOneKitRight()
-{
+void DropKit::dropOneKitRight() {
   dispenser.write(kDispenserDegrees180);
   delay(kTime_1sec);
   dispenser.write(kDispenserDegrees80);
@@ -34,14 +31,12 @@ void DropKit::dropOneKitRight()
   delay(kTime_2ms);
 }
 
-void DropKit::dropTwoKitsRight()
-{
+void DropKit::dropTwoKitsRight() {
   dropOneKitRight();
   dropOneKitRight();
 }
 
-void DropKit::dropTwoKitsLeft()
-{
+void DropKit::dropTwoKitsLeft(){
   dropOneKitLeft();
   dropOneKitLeft();
 }

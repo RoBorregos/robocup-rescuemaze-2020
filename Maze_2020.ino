@@ -44,37 +44,34 @@
 }
 */
 
-void setup()
-{
+Control *system;
+SensorMap *map;
+
+void setup() {
   Serial.begin(9600);
+  Screen const screen;
+  DropKit const dispenser;
+
   Multiplexor multii;
   Multiplexor *const i2c = &multii;
-
-  SensorMap sensorr;
-  SensorMap *const sensor = &sensorr;
-
-  Screen Lcd;
-  Screen const screen = Lcd;
-
-  Movement motors;
-  Movement const motor = motors;
-
-  DropKit kit;
-  DropKit const dispenser = kit;
-
-  Control controll;
-  Control const control = controll;
 
   BNO degrees;
   BNO *const bno = &degrees;
 
   Motors robo;
   Motors *const robot = &robo;
+
+  Control controll(bno, map);
+  system = &controll;
+
+  Movement robocup(bno, system, robot);
+
+  SensorMap sensorr(i2c);
+  map = &sensorr;
   //robot.orientationStatus();
   //robot.calibrationAll();
 }
 
-void loop()
-{
+void loop() {
   //robot.turnDegrees(robot.E);
 }

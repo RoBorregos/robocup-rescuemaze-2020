@@ -4,8 +4,7 @@
 */
 #include "Common.h"
 
-namespace Common
-{
-const uint8_t kLimitSupPwm = 255;
-const uint8_t kLimitInfPwm = 145;
+namespace Common {
+    const uint8_t kLimitSupPwm = 255;
+    const uint8_t kLimitInfPwm = 145;
 }

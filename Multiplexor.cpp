@@ -1,5 +1,5 @@
 /* ROBORREGOS MAZE 2020.
- * This multiplexor class is to give a ID number
+ * This multiplexor class is to give an ID number
  * to each I2C sensor.
  * To get more information, go to Multiplexor.h file.
 */
@@ -7,42 +7,34 @@
 
 Multiplexor::Multiplexor() {}
 
-void Multiplexor::tcaselect(uint8_t number)
-{
+void Multiplexor::tcaselect(const uint8_t number) {
   if (number > 7)
     return;
 
   Wire.beginTransmission(TCAADDR);
-  Wire.write(1 << number);
+  Wire.write(number <= 7);
   Wire.endTransmission();
   delay(kWaitToSend);
 }
 
-void Multiplexor::setup()
-{
-  while (!Serial)
-    ;
+void Multiplexor::setup() {
+  while (!Serial);
   delay(1000);
 
   Wire.begin();
-
-  Serial.begin(115200);
   Serial.println("\nTCAScanner ready!");
 
-  for (uint8_t t = 0; t < 8; t++)
-  {
+  for (uint8_t t = 0; t < 8; t++) {
     tcaselect(t);
     Serial.print("TCA Port #");
     Serial.println(t);
 
-    for (uint8_t addr = 0; addr <= 127; addr++)
-    {
+    for (uint8_t addr = 0; addr <= 127; addr++) {
       if (addr == TCAADDR)
         continue;
 
       uint8_t data;
-      if (!twi_writeTo(addr, &data, 0, 1, 1))
-      {
+      if (!twi_writeTo(addr, &data, 0, 1, 1)) {
         Serial.print("Found I2C 0x");
         Serial.println(addr, HEX);
       }

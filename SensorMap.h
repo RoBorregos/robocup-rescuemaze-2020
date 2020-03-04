@@ -9,16 +9,12 @@
 #include "arduino.h"
 #include "Wire.h"
 #include <Adafruit_TCS34725.h>
-#include <Ultrasonic.h>
 #include "Multiplexor.h"
+#include <Ultrasonic.h>
 
-#define TCAADDR 0x70          // Multiplexor numbers.
-
-class SensorMap
-{
+class SensorMap {
 
 public:
-    SensorMap();
     SensorMap(Multiplexor *multi);
     // Get the Ultrasonic Distance Right Up.
     int getDistanceRightUp();
@@ -57,25 +53,12 @@ public:
     const uint8_t kMaximumTemperature = 40;
 
     const uint8_t kWaitToSend = 20;
+    const int kTimeToPrint = 1000;
 
     const uint8_t kDistanceWall = 20;
 
     const int temperature_sensor_right = 0x50 << 1; // Sensor adress 1
     const int temperature_sensor_left = 0x55 << 1;  // Sensor adress 2
-
-private:
-    /*const uint8_t kSonarLeftFrontTrigger = 4;
-        const uint8_t kSonarLeftFrontEcho = 5;
-        const uint8_t kSonarRightFrontTrigger = 6;
-        const uint8_t kSonarRightFrontEcho = 7;
-        const uint8_t kSonarRightUpTrigger = 8;
-        const uint8_t kSonarRightUpEcho = 9;
-        const uint8_t kSonarRightDownTrigger = 10;
-        const uint8_t kSonarRightDownEcho = 11;
-        const uint8_t kSonarLeftUpTrigger = 12;
-        const uint8_t kSonarLeftUpEcho = 13;
-        const uint8_t kSonarLeftDownTrigger = 14;
-        const uint8_t kSonarLeftDownEcho = 15; */
         
     Multiplexor *i2c_;
     Adafruit_TCS34725 tcs_ = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_1X);

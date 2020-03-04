@@ -9,34 +9,33 @@
 #include "arduino.h"
 #include <Servo.h>
 
-class DropKit
-{
+class DropKit {
 
-public:
-  DropKit();
-  // Initialize the dispenser.
-  void setup();
-  // Drop one kit for Heated Victims and Coloured Victims(red and yellow).
-  void dropOneKitRight();
-  // Drop one kit for Heated Victims and Coloured Victims(red and yellow).
-  void dropOneKitLeft();
-  // Drop two kits for Visual Victims(Stable).
-  void dropTwoKitsRight();
-  // Drop two kits for Visual Victims(Stable).
-  void dropTwoKitsLeft();
+  public:
+    DropKit();
+    // Initialize the dispenser.
+    void setup();
+    // Drop one kit for Heated Victims and Coloured Victims(red and yellow).
+    void dropOneKitRight();
+    // Drop one kit for Heated Victims and Coloured Victims(red and yellow).
+    void dropOneKitLeft();
+    // Drop two kits for Visual Victims(Stable).
+    void dropTwoKitsRight();
+    // Drop two kits for Visual Victims(Stable).
+    void dropTwoKitsLeft();
 
-  const uint8_t kDispenserDegrees0 = 0;
-  const uint8_t kDispenserDegrees80 = 80;
-  const uint8_t kDispenserDegrees90 = 90;
-  const uint8_t kDispenserDegrees100 = 100;
-  const uint8_t kDispenserDegrees180 = 180;
+    const uint8_t kDispenserDegrees0 = 0;
+    const uint8_t kDispenserDegrees80 = 80;
+    const uint8_t kDispenserDegrees90 = 90;
+    const uint8_t kDispenserDegrees100 = 100;
+    const uint8_t kDispenserDegrees180 = 180;
 
-  const int kTime_1sec = 1000;
-  const uint8_t kTime_2ms = 200;
+    const int kTime_1sec = 1000;
+    const uint8_t kTime_2ms = 200;
 
-  const uint8_t kPin = 42;
+    const uint8_t kPin = 42;
 
-private:
-  Servo dispenser;
+  private:
+    Servo dispenser;
 };
 #endif

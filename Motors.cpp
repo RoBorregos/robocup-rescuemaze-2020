@@ -7,8 +7,7 @@
 
 Motors::Motors() {}
 
-void Motors::turnLeft(const uint8_t speed)
-{
+void Motors::turnLeft(const uint8_t speed) {
     digitalWrite(kMotorLeftForward2, HIGH);
     analogWrite(kMotorLeftForward1, speed);
     digitalWrite(kMotorLeftBack1, HIGH);
@@ -19,8 +18,7 @@ void Motors::turnLeft(const uint8_t speed)
     analogWrite(kMotorRightBack1, speed);
 }
 
-void Motors::turnRight(const uint8_t speed)
-{
+void Motors::turnRight(const uint8_t speed) {
     digitalWrite(kMotorLeftForward2, LOW);
     analogWrite(kMotorLeftForward1, speed);
     digitalWrite(kMotorLeftBack1, LOW);
@@ -31,8 +29,7 @@ void Motors::turnRight(const uint8_t speed)
     analogWrite(kMotorRightBack1, speed);
 }
 
-void Motors::stopEngines()
-{
+void Motors::stopEngines() {
     digitalWrite(kMotorLeftForward1, HIGH);
     digitalWrite(kMotorLeftForward2, HIGH);
     digitalWrite(kMotorLeftBack1, HIGH);
@@ -54,18 +51,15 @@ void Motors::stopEngines()
     digitalWrite(kMotorRightBack2, LOW);
 }
 
-void Motors::fastForward()
-{
+void Motors::fastForward() {
     forwardPwm(Common::kLimitSupPwm, Common::kLimitSupPwm);
 }
 
-void Motors::fastBackward()
-{
+void Motors::fastBackward() {
     backwardPwm(Common::kLimitSupPwm, Common::kLimitSupPwm);
 }
 
-void Motors::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left)
-{
+void Motors::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
     digitalWrite(kMotorLeftForward2, LOW);
     analogWrite(kMotorLeftForward2, pwm_left);
     digitalWrite(kMotorLeftBack1, LOW);
@@ -76,8 +70,7 @@ void Motors::forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left)
     analogWrite(kMotorRightBack2, pwm_right);
 }
 
-void Motors::backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left)
-{
+void Motors::backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left) {
     digitalWrite(kMotorLeftForward2, HIGH);
     analogWrite(kMotorLeftForward2, pwm_left);
     digitalWrite(kMotorLeftBack1, HIGH);

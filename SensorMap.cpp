@@ -13,10 +13,7 @@ Ultrasonic ultrasonicRightDown(10, 11); // Trig, Echo.
 Ultrasonic ultrasonicLeftUp(12, 13);    // Trig, Echo.
 Ultrasonic ultrasonicLeftDown(14, 15);  // Trig, Echo.
 
-SensorMap::SensorMap(){}
-
-SensorMap::SensorMap(Multiplexor *multi)
-{
+SensorMap::SensorMap(Multiplexor *multi) {
   i2c_ = multi;
 
   i2c_->tcaselect(3);
@@ -25,71 +22,57 @@ SensorMap::SensorMap(Multiplexor *multi)
   if (!tcs_.begin())
   {
     Serial.println("Does not work TCS34725 or check your I2C...");
-    while (1)
-      delay(1000);
+    while (1);
+      delay(kTimeToPrint);
   }
 }
 
-int SensorMap::getDistanceFrontLeft()
-{
+int SensorMap::getDistanceFrontLeft() {
   return (ultrasonicFrontLeft.read());
 }
 
-int SensorMap::getDistanceFrontRight()
-{
+int SensorMap::getDistanceFrontRight() {
   return (ultrasonicFrontRight.read());
 }
 
-int SensorMap::getDistanceRightUp()
-{
+int SensorMap::getDistanceRightUp() {
   return (ultrasonicRightUp.read());
 }
 
-int SensorMap::getDistanceRightDown()
-{
+int SensorMap::getDistanceRightDown() {
   return (ultrasonicRightDown.read());
 }
 
-int SensorMap::getDistanceLeftUp()
-{
+int SensorMap::getDistanceLeftUp() {
   return (ultrasonicLeftUp.read());
 }
 
-int SensorMap::getDistanceLeftDown()
-{
+int SensorMap::getDistanceLeftDown() {
   return (ultrasonicLeftDown.read());
 }
 
-bool SensorMap::checkWallsRight()
-{
+bool SensorMap::checkWallsRight() {
   return (getDistanceRightUp() < kMaxWallDistance || getDistanceRightDown() < kMaxWallDistance);
 }
 
-bool SensorMap::checkWallsLeft()
-{
+bool SensorMap::checkWallsLeft() {
   return (getDistanceLeftUp() < kMaxWallDistance || getDistanceLeftDown() < kMaxWallDistance);
 }
 
-bool SensorMap::heatVictimRight()
-{
-  if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature && temperatureCelcius(temperature_sensor_right) < kMaximumTemperature)
-  {
+bool SensorMap::heatVictimRight() {
+  if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature && temperatureCelcius(temperature_sensor_right) < kMaximumTemperature) {
     return true;
   }
-  else
-  {
+  else {
     return false;
   }
 }
 
-bool SensorMap::heatVictimLeft()
-{
-  if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature && temperatureCelcius(temperature_sensor_left) < kMaximumTemperature)
-  {
+bool SensorMap::heatVictimLeft() {
+  if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature && temperatureCelcius(temperature_sensor_left) < kMaximumTemperature) {
     return true;
   }
-  else
-  {
+  else {
     return false;
   }
 }
@@ -101,8 +84,7 @@ bool SensorMap::colouredVictim() {
 }
 */
 
-float SensorMap::temperatureCelcius(int mlx)
-{
+float SensorMap::temperatureCelcius(int mlx) {
   int dev = mlx;
   int data_low = 0;
   int data_high = 0;
@@ -128,8 +110,7 @@ float SensorMap::temperatureCelcius(int mlx)
   return celcius;
 }
 
-bool SensorMap::blackTile()
-{
+bool SensorMap::blackTile() {
   i2c_->tcaselect(3);
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);

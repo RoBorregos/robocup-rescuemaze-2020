@@ -6,10 +6,10 @@
 #define COMMON_H
 
 #include "arduino.h"
+#include <Ultrasonic.h>
 
-namespace Common
-{
-extern const uint8_t kLimitSupPwm;
-extern const uint8_t kLimitInfPwm;
+namespace Common {
+    extern const uint8_t kLimitSupPwm;
+    extern const uint8_t kLimitInfPwm;
 } // namespace Common
 #endif

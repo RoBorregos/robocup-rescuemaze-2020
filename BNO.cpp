@@ -6,17 +6,14 @@
 */
 #include "BNO.h"
 
-BNO::BNO()
-{
+BNO::BNO() {
   bno_ = Adafruit_BNO055();
   Serial.println("Orientation Sensor Test");
   Serial.println("");
   bno_.begin();
-  if (!bno_.begin())
-  {
+  if (!bno_.begin()) {
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while (1)
-      ;
+    while (1);
   }
   delay(kTimeToPrintBNO);
 
@@ -35,54 +32,47 @@ BNO::BNO()
   delay(kRepose);
 }
 
-double BNO::getDifferenceWithZero()
-{
+double BNO::getDifferenceWithZero() {
   double error_generated = 0;
+  double current_angle_x = getAngleX();
 
-  if (getAngleX() >= 180)
-  {
-    error_generated = (360 - getAngleX());
+  if (current_angle_x >= 180) {
+    error_generated = (360 - current_angle_x);
   }
-  else
-  {
-    error_generated = -getAngleX();
+  else {
+    error_generated = -(current_angle_x);
   }
   return error_generated;
 }
 
-double BNO::getAngleX()
-{
+double BNO::getAngleX() {
   sensors_event_t event;
   bno_.getEvent(&event);
 
   return event.orientation.x;
 }
 
-double BNO::getAngleY()
-{
+double BNO::getAngleY() {
   sensors_event_t event;
   bno_.getEvent(&event);
 
   return event.orientation.y;
 }
 
-double BNO::getAngleZ()
-{
+double BNO::getAngleZ() {
   sensors_event_t event;
   bno_.getEvent(&event);
 
   return event.orientation.z;
 }
 
-void BNO::BNOCalibration()
-{
+void BNO::BNOCalibration() {
   uint8_t system, gyro, accel, mag;
   system = gyro = accel = mag = 0;
   bno_.getCalibration(&system, &gyro, &accel, &mag);
 
   Serial.print("\t");
-  if (!system)
-  {
+  if (!system) {
     Serial.print("! ");
   }
 
@@ -96,8 +86,7 @@ void BNO::BNOCalibration()
   Serial.println(mag, DEC);
 }
 
-uint8_t BNO::orientationStatus()
-{
+uint8_t BNO::orientationStatus() {
   imu::Vector<3> euler = bno_.getVector(Adafruit_BNO055::VECTOR_EULER);
   uint8_t system, gyro, accel, mag = 0;
   bno_.getCalibration(&system, &gyro, &accel, &mag);
