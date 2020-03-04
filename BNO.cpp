@@ -10,7 +10,9 @@ BNO::BNO() {
   bno_ = Adafruit_BNO055();
   Serial.println("Orientation Sensor Test");
   Serial.println("");
+  // i2c_->tcaselect(2);
   bno_.begin();
+  // i2c_->tcaselect(2);
   if (!bno_.begin()) {
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
     while (1);
@@ -19,6 +21,7 @@ BNO::BNO() {
 
   bno_.setExtCrystalUse(true);
   sensors_event_t event;
+  // i2c_->tcaselect(2);
   bno_.getEvent(&event);
 
   Serial.print("X: ");
@@ -47,6 +50,7 @@ double BNO::getDifferenceWithZero() {
 
 double BNO::getAngleX() {
   sensors_event_t event;
+  // i2c_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.x;
@@ -54,6 +58,7 @@ double BNO::getAngleX() {
 
 double BNO::getAngleY() {
   sensors_event_t event;
+  // i2c_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.y;
@@ -61,6 +66,7 @@ double BNO::getAngleY() {
 
 double BNO::getAngleZ() {
   sensors_event_t event;
+  // i2c_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.z;

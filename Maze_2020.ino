@@ -44,8 +44,8 @@
 }
 */
 
-Control *system;
-SensorMap *map;
+Control *check;
+SensorMap *maps;
 
 void setup() {
   Serial.begin(9600);
@@ -61,13 +61,13 @@ void setup() {
   Motors robo;
   Motors *const robot = &robo;
 
-  Control controll(bno, map);
-  system = &controll;
+  Control controll(bno, maps);
+  check = &controll;
 
-  Movement robocup(bno, system, robot);
+  Movement robocup(bno, check, robot);
 
   SensorMap sensorr(i2c);
-  map = &sensorr;
+  maps = &sensorr;
   //robot.orientationStatus();
   //robot.calibrationAll();
 }
