@@ -3,16 +3,18 @@
  * the robot angle, write on screen, and
  * calibrate all sensors.
  * To get more information, go to BNO.h file.
+ * Marlon Romo (MarlonB500).
 */
 #include "BNO.h"
 
-BNO::BNO() {
+BNO::BNO(Multiplexor *multiplexor) {
+  I2C_ = multiplexor;
   bno_ = Adafruit_BNO055();
   Serial.println("Orientation Sensor Test");
   Serial.println("");
-  // i2c_->tcaselect(2);
+  I2C_->tcaselect(2);
   bno_.begin();
-  // i2c_->tcaselect(2);
+  I2C_->tcaselect(2);
   if (!bno_.begin()) {
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
     while (1);
@@ -21,7 +23,7 @@ BNO::BNO() {
 
   bno_.setExtCrystalUse(true);
   sensors_event_t event;
-  // i2c_->tcaselect(2);
+  I2C_->tcaselect(2);
   bno_.getEvent(&event);
 
   Serial.print("X: ");
@@ -41,8 +43,7 @@ double BNO::getDifferenceWithZero() {
 
   if (current_angle_x >= 180) {
     error_generated = (360 - current_angle_x);
-  }
-  else {
+  } else {
     error_generated = -(current_angle_x);
   }
   return error_generated;
@@ -50,7 +51,7 @@ double BNO::getDifferenceWithZero() {
 
 double BNO::getAngleX() {
   sensors_event_t event;
-  // i2c_->tcaselect(2);
+  I2C_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.x;
@@ -58,7 +59,7 @@ double BNO::getAngleX() {
 
 double BNO::getAngleY() {
   sensors_event_t event;
-  // i2c_->tcaselect(2);
+  I2C_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.y;
@@ -66,34 +67,13 @@ double BNO::getAngleY() {
 
 double BNO::getAngleZ() {
   sensors_event_t event;
-  // i2c_->tcaselect(2);
+  I2C_->tcaselect(2);
   bno_.getEvent(&event);
 
   return event.orientation.z;
 }
 
-void BNO::BNOCalibration() {
-  uint8_t system, gyro, accel, mag;
-  system = gyro = accel = mag = 0;
-  bno_.getCalibration(&system, &gyro, &accel, &mag);
-
-  Serial.print("\t");
-  if (!system) {
-    Serial.print("! ");
-  }
-
-  Serial.print("Sys:");
-  Serial.print(system, DEC);
-  Serial.print(" G:");
-  Serial.print(gyro, DEC);
-  Serial.print(" A:");
-  Serial.print(accel, DEC);
-  Serial.print(" M:");
-  Serial.println(mag, DEC);
-}
-
 uint8_t BNO::orientationStatus() {
-  imu::Vector<3> euler = bno_.getVector(Adafruit_BNO055::VECTOR_EULER);
   uint8_t system, gyro, accel, mag = 0;
   bno_.getCalibration(&system, &gyro, &accel, &mag);
 

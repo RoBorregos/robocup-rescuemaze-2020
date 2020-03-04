@@ -1,6 +1,7 @@
 /* ROBORREGOS MAZE 2020.
  * This multiplexor class is to give an ID number
  * to each I2C sensor.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef MULTIPLEXOR_H
 #define MULTIPLEXOR_H
@@ -21,8 +22,7 @@ class Multiplexor {
         Multiplexor();
         // Give a multiplexor ID to each sensor.
         void tcaselect(uint8_t number);
-        // I2C_scanner.
-        void setup();        
+
         const uint8_t kWaitToSend = 20;
 };
 #endif

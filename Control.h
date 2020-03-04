@@ -3,6 +3,7 @@
  * The angle, desired angle and sensors error.
  * This class is so necessary to move the robot to
  * The correct direction of the robot.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef CONTROL_H
 #define CONTROL_H
@@ -45,6 +46,8 @@ class Control {
     void turnLED();
     // Turn on a LED for 1 second.
     void blinkLED();
+    // Initialze the two leds;
+    void initializeLED();
 
     const uint8_t kLimitSupDegrees = 35;
     const uint8_t kLimitInfDegrees = 4;
@@ -60,7 +63,8 @@ class Control {
     const int kDegrees360 = 360;
     const uint8_t kDegrees180 = 180;
 
-    const uint8_t LED = 4;
+    const uint8_t LED1 = 4;
+    const uint8_t LED2 = 5;
 
     // Advance.
     const double kPAdvance = 4.52;

@@ -2,6 +2,7 @@
  * This SensorMap class has all the functions
  * To identify anything in the Map, this class
  * Works with all the sensors of the robot.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef SENSORMAP_H
 #define SENSORMAP_H
@@ -41,9 +42,11 @@ public:
     // Check in the walls if there are coloured victims(red, green, yellow).
     bool colouredVictim();
     // Temperature return in degrees celcius.
-    float temperatureCelcius(int mlx);
+    float temperatureCelcius(const int mlx);
     // Detect a black tile.
     bool blackTile();
+    // Detect a silver tile.
+    bool silverTile();
 
     const uint8_t kWaitBetweenUltrasonic = 50;
     const int kWaitFiveSeconds = 5000;

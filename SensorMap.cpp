@@ -3,6 +3,7 @@
  * To identify anything in the Map, this class
  * Works with all the sensors of the robot.
  * To get more information, go to SensorMap.h file.
+ * Marlon Romo (MarlonB500).
 */
 #include "SensorMap.h"
 
@@ -22,8 +23,9 @@ SensorMap::SensorMap(Multiplexor *multi) {
   if (!tcs_.begin())
   {
     Serial.println("Does not work TCS34725 or check your I2C...");
-    while (1);
+    while (1) {
       delay(kTimeToPrint);
+    }
   }
 }
 
@@ -60,19 +62,19 @@ bool SensorMap::checkWallsLeft() {
 }
 
 bool SensorMap::heatVictimRight() {
-  if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature && temperatureCelcius(temperature_sensor_right) < kMaximumTemperature) {
+  if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature 
+  && temperatureCelcius(temperature_sensor_right) < kMaximumTemperature) {
     return true;
-  }
-  else {
+  } else {
     return false;
   }
 }
 
 bool SensorMap::heatVictimLeft() {
-  if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature && temperatureCelcius(temperature_sensor_left) < kMaximumTemperature) {
+  if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature 
+  && temperatureCelcius(temperature_sensor_left) < kMaximumTemperature) {
     return true;
-  }
-  else {
+  } else {
     return false;
   }
 }
@@ -84,7 +86,7 @@ bool SensorMap::colouredVictim() {
 }
 */
 
-float SensorMap::temperatureCelcius(int mlx) {
+float SensorMap::temperatureCelcius(const int mlx) {
   int dev = mlx;
   int data_low = 0;
   int data_high = 0;
@@ -115,4 +117,11 @@ bool SensorMap::blackTile() {
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
   return (r < 115 && g < 115 && b < 115);
+}
+
+bool SensorMap::silverTile() {  
+  i2c_->tcaselect(3);
+  uint16_t r, g, b, c;
+  tcs_.getRawData(&r, &g, &b, &c);
+  return (r < 254 && g < 254 && b < 254);
 }

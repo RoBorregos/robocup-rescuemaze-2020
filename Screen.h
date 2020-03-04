@@ -1,6 +1,7 @@
 /* ROBORREGOS MAZE 2020
  * This screen file has all the functions to
  * print in the screen.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef SCREEN_H
 #define SCREEN_H

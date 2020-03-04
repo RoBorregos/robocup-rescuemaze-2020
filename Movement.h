@@ -2,6 +2,7 @@
  * This Movement class has all the functions
  * To move the robot to anywhere on the map.
  * This class works with all robot enginees.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
@@ -15,7 +16,7 @@
 class Movement {
 
   public:
-    Movement(BNO *bno, Control *system, Motors *robot);
+    Movement(BNO *bno, Control *control, Motors *robot);
     // Move the robot forward with PID.
     void advancePID(const double desire);
     // Move the robot forward with PID until get out of the obstacle.
@@ -50,12 +51,12 @@ class Movement {
     const uint8_t S = 180;
     const int W = 270;
 
-    volatile uint16_t encoder_count_left;
-    volatile uint16_t encoder_count_right;
+    volatile uint16_t encoder_count_left_;
+    volatile uint16_t encoder_count_right_;
 
   private:
     BNO *bno_;
-    Control *system_;
+    Control *control_;
     Motors *robot_;
 };
 #endif

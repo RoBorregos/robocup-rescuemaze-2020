@@ -2,6 +2,7 @@
  * This DropKit class has all the functions to drop
  * A kit if the robot detect a Victim on the map.
  * This class works with the robot dispenser.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef DROPKIT_H
 #define DROPKIT_H
@@ -36,6 +37,6 @@ class DropKit {
     const uint8_t kPin = 42;
 
   private:
-    Servo dispenser;
+    Servo dispenser_;
 };
 #endif

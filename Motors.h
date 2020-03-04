@@ -1,6 +1,7 @@
 /* ROBORREGOS MAZE 2020.
  * This Motors class has all the functions to move 
  * the robot.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef MOTORS_H
 #define MOTORS_H
@@ -26,15 +27,17 @@ class Motors {
     void forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
     // Move the robot backward through the pwm assigned in each side.
     void backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
+    // Initialize all motors.
+    void initializeMotors();
 
-    const uint8_t kMotorLeftForward1 = 9;
-    const uint8_t kMotorLeftForward2 = 8;
-    const uint8_t kMotorLeftBack1 = 10;
-    const uint8_t kMotorLeftBack2 = 11;
-    const uint8_t kMotorRightForward1 = 5;
-    const uint8_t kMotorRightForward2 = 4;
-    const uint8_t kMotorRightBack1 = 7;
-    const uint8_t kMotorRightBack2 = 6;
+    const uint8_t kMotorLeftForward1 = 10;
+    const uint8_t kMotorLeftForward2 = 11;
+    const uint8_t kMotorLeftBack1 = 12;
+    const uint8_t kMotorLeftBack2 = 13;
+    const uint8_t kMotorRightForward1 = 6;
+    const uint8_t kMotorRightForward2 = 7;
+    const uint8_t kMotorRightBack1 = 8;
+    const uint8_t kMotorRightBack2 = 9;
 
     const uint8_t kTimeToStop = 10;
 };

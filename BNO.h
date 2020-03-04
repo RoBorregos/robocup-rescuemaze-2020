@@ -2,6 +2,7 @@
  * This BNO class has all functions to get
  * the robot angle, write on screen, and
  * calibrate all sensors.
+ * Marlon Romo (MarlonB500).
 */
 #ifndef BNO_H
 #define BNO_H
@@ -9,12 +10,12 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 #include "arduino.h"
+#include "Multiplexor.h"
 
 class BNO {
 
   public:
-    BNO();
-    Adafruit_BNO055 bno_;
+    BNO(Multiplexor *multiplexor);
     // Get the difference of the current angle with the 0, and return a new error.
     double getDifferenceWithZero();
     // Get the current angle, return the event.orientation.x through a function.
@@ -34,5 +35,10 @@ class BNO {
 
     const int kTimeToPrintBNO = 1000;
     const uint8_t kRepose = 250;
+    const int kDelayAfterBNO = 2700;
+
+    private:
+      Multiplexor *I2C_;
+      Adafruit_BNO055 bno_;
 };
 #endif

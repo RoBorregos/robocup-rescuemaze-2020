@@ -3,12 +3,13 @@
  * To move the robot to anywhere on the map.
  * This class works with all robot enginees.
  * To get more information, go to Movement.h file.
+ * Marlon Romo (MarlonB500).
 */
 #include "Movement.h"
 
-Movement::Movement(BNO *bno, Control *system, Motors *robot) {
+Movement::Movement(BNO *bno, Control *control, Motors *robot) {
   bno_ = bno;
-  system_ = system;
+  control_ = control;
   robot_ = robot;
 }
 
@@ -17,27 +18,26 @@ void Movement::advancePID(const double desire) {
   double pwm_right_final_bno;
   double pwm_left_final_ultrasonic;
   double pwm_right_final_ultrasonic;
-  encoder_count_left = 0;
-  encoder_count_right = 0;
+  encoder_count_left_ = 0;
+  encoder_count_right_ = 0;
 
   do {
-    system_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    system_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
-    
+    control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
+    control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
+
     double pwm_right_enginees = pwm_right_final_bno + pwm_right_final_ultrasonic; // Negative.
     double pwm_left_enginees = pwm_left_final_bno + pwm_left_final_ultrasonic;    // Positive.
 
     if (pwm_left_enginees > 0) {
       pwm_right_enginees = Common::kLimitInfPwm;
-      system_->getPwm(pwm_left_enginees);
-    }
-    else if (pwm_right_enginees < 0) {
+      control_->getPwm(pwm_left_enginees);
+    } else if (pwm_right_enginees < 0) {
       pwm_right_enginees = -(pwm_right_enginees);
       pwm_left_enginees = Common::kLimitInfPwm;
-      system_->getPwm(pwm_right_enginees);
+      control_->getPwm(pwm_right_enginees);
     }
     robot_->forwardPwm(pwm_right_enginees, pwm_left_enginees);
-  } while (encoder_count_left < kUnitLimit && encoder_count_right < kUnitLimit);
+  } while (encoder_count_left_ < kUnitLimit && encoder_count_right_ < kUnitLimit);
 }
 
 void Movement::advancePIDSwitches(const double desire) {
@@ -45,26 +45,25 @@ void Movement::advancePIDSwitches(const double desire) {
   double pwm_right_final_bno;
   double pwm_left_final_ultrasonic;
   double pwm_right_final_ultrasonic;
-  encoder_count_left = 0;
-  encoder_count_right = 0;
+  encoder_count_left_ = 0;
+  encoder_count_right_ = 0;
 
   do {
-    system_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    system_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
+    control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
+    control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
     double pwm_right_enginees = pwm_right_final_bno + pwm_right_final_ultrasonic; // Negative.
     double pwm_left_enginees = pwm_left_final_bno + pwm_left_final_ultrasonic;    // Positive.
 
     if (pwm_left_enginees > 0) {
       pwm_right_enginees = Common::kLimitInfPwm;
-      system_->getPwm(pwm_left_enginees);
-    }
-    else if (pwm_right_enginees < 0) {
+      control_->getPwm(pwm_left_enginees);
+    } else if (pwm_right_enginees < 0) {
       pwm_right_enginees = -(pwm_right_enginees);
       pwm_left_enginees = Common::kLimitInfPwm;
-      system_->getPwm(pwm_right_enginees);
+      control_->getPwm(pwm_right_enginees);
     }
     robot_->forwardPwm(pwm_right_enginees, pwm_left_enginees);
-  } while (encoder_count_left < kUnitLimitSwitch && encoder_count_right < kUnitLimitSwitch);
+  } while (encoder_count_left_ < kUnitLimitSwitch && encoder_count_right_ < kUnitLimitSwitch);
 }
 
 void Movement::moveBackPIDSwitches(const double desire) {
@@ -72,24 +71,23 @@ void Movement::moveBackPIDSwitches(const double desire) {
   double pwm_right_final_bno;
   double pwm_left_final_ultrasonic;
   double pwm_right_final_ultrasonic;
-  encoder_count_left = 0;
-  encoder_count_right = 0;
+  encoder_count_left_ = 0;
+  encoder_count_right_ = 0;
 
   do {
-    system_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    system_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
+    control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
+    control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
     double pwm_right_enginees = pwm_right_final_bno + pwm_right_final_ultrasonic; // Negative.
     double pwm_left_enginees = pwm_left_final_bno + pwm_left_final_ultrasonic;    // Positive.
 
     if (pwm_left_enginees > 0) {
-      system_->getPwm(pwm_left_enginees);
-    }
-    else if (pwm_right_enginees < 0) {
+      control_->getPwm(pwm_left_enginees);
+    } else if (pwm_right_enginees < 0) {
       pwm_right_enginees = -(pwm_right_enginees);
-      system_->getPwm(pwm_right_enginees);
+      control_->getPwm(pwm_right_enginees);
     }
     robot_->backwardPwm(pwm_right_enginees, pwm_left_enginees);
-  } while (encoder_count_left < kUnitLimitSwitch && encoder_count_right < kUnitLimitSwitch);
+  } while (encoder_count_left_ < kUnitLimitSwitch && encoder_count_right_ < kUnitLimitSwitch);
 }
 
 void Movement::moveBackPID(const double desire) {
@@ -97,42 +95,40 @@ void Movement::moveBackPID(const double desire) {
   double pwm_right_final_bno;
   double pwm_left_final_ultrasonic;
   double pwm_right_final_ultrasonic;
-  encoder_count_left = 0;
-  encoder_count_right = 0;
+  encoder_count_left_ = 0;
+  encoder_count_right_ = 0;
 
   do {
-    system_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    system_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
+    control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
+    control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
     double pwm_right_enginees = pwm_right_final_bno + pwm_right_final_ultrasonic; // Negative.
     double pwm_left_enginees = pwm_left_final_bno + pwm_left_final_ultrasonic;    // Positive.
 
     if (pwm_left_enginees > 0) {
       pwm_right_enginees = Common::kLimitInfPwm;
-      system_->getPwm(pwm_left_enginees);
-    }
-    else if (pwm_right_enginees < 0) {
+      control_->getPwm(pwm_left_enginees);
+    } else if (pwm_right_enginees < 0) {
       pwm_right_enginees = -(pwm_right_enginees);
       pwm_left_enginees = Common::kLimitInfPwm;
-      system_->getPwm(pwm_right_enginees);
+      control_->getPwm(pwm_right_enginees);
     }
     robot_->backwardPwm(pwm_right_enginees, pwm_left_enginees);
-  } while (encoder_count_left < kUnitLimitSwitch && encoder_count_right < kUnitLimitSwitch);
+  } while (encoder_count_left_ < kUnitLimitSwitch && encoder_count_right_ < kUnitLimitSwitch);
 }
 
 void Movement::turnDegrees(double desire) {
   double speed = 0;
   double error = 0;
-  desire = system_->getDesiredAngle(desire);
+  desire = control_->getDesiredAngle(desire);
 
   do {
-    error = system_->getAngleError(bno_->getAngleX(), desire);
+    error = control_->getAngleError(bno_->getAngleX(), desire);
     Serial.println(error);
     speed = kPTurns * error;
-    system_->getPwm(speed); // Verify to the pwm stay in the range.
+    control_->getPwm(speed); // Verify to the pwm stay in the range.
     if (error < 0) {
       robot_->turnLeft(speed);
-    }
-    else {
+    } else {
       robot_->turnRight(speed);
     }
   } while (error < -(kRange_error) || error > kRange_error); // Asigne a range to stop the robot.

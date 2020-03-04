@@ -2,34 +2,23 @@
  * This multiplexor class is to give an ID number
  * to each I2C sensor.
  * To get more information, go to Multiplexor.h file.
+ * Marlon Romo (MarlonB500).
 */
 #include "Multiplexor.h"
 
-Multiplexor::Multiplexor() {}
-
-void Multiplexor::tcaselect(const uint8_t number) {
-  if (number > 7)
-    return;
-
-  Wire.beginTransmission(TCAADDR);
-  Wire.write(number <= 7);
-  Wire.endTransmission();
-  delay(kWaitToSend);
-}
-
-void Multiplexor::setup() {
+Multiplexor::Multiplexor() {
   while (!Serial);
   delay(1000);
 
   Wire.begin();
   Serial.println("\nTCAScanner ready!");
 
-  for (uint8_t t = 0; t < 8; t++) {
+  for (uint8_t t = 0; t < 8; ++t) {
     tcaselect(t);
     Serial.print("TCA Port #");
     Serial.println(t);
 
-    for (uint8_t addr = 0; addr <= 127; addr++) {
+    for (uint8_t addr = 0; addr <= 127; ++addr) {
       if (addr == TCAADDR)
         continue;
 
@@ -41,4 +30,16 @@ void Multiplexor::setup() {
     }
   }
   Serial.println("\ndone");
+}
+
+void Multiplexor::tcaselect(const uint8_t number) {
+  if (number > 7)
+    return;
+
+  if (number <= 7) {
+  Wire.beginTransmission(TCAADDR);
+  Wire.write(number << 7);
+  Wire.endTransmission();
+  delay(kWaitToSend);
+  }
 }
