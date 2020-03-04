@@ -1,9 +1,9 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This DropKit class has all the functions to drop
  * A kit if the robot detect a Victim on the map.
  * This class works with the robot dispenser.
  * To get more information, go to DropKit.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "DropKit.h"
 

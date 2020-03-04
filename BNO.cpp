@@ -1,9 +1,9 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This BNO class has all functions to get
  * the robot angle, write on screen, and
  * calibrate all sensors.
  * To get more information, go to BNO.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "BNO.h"
 
@@ -12,9 +12,9 @@ BNO::BNO(Multiplexor *multiplexor) {
   bno_ = Adafruit_BNO055();
   Serial.println("Orientation Sensor Test");
   Serial.println("");
-  I2C_->tcaselect(2);
+  I2C_->tcaselect(kBNOID);
   bno_.begin();
-  I2C_->tcaselect(2);
+  I2C_->tcaselect(kBNOID);
   if (!bno_.begin()) {
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
     while (1);
@@ -23,7 +23,7 @@ BNO::BNO(Multiplexor *multiplexor) {
 
   bno_.setExtCrystalUse(true);
   sensors_event_t event;
-  I2C_->tcaselect(2);
+  I2C_->tcaselect(kBNOID);
   bno_.getEvent(&event);
 
   Serial.print("X: ");
@@ -51,7 +51,7 @@ double BNO::getDifferenceWithZero() {
 
 double BNO::getAngleX() {
   sensors_event_t event;
-  I2C_->tcaselect(2);
+  I2C_->tcaselect(kBNOID);
   bno_.getEvent(&event);
 
   return event.orientation.x;
@@ -59,7 +59,7 @@ double BNO::getAngleX() {
 
 double BNO::getAngleY() {
   sensors_event_t event;
-  I2C_->tcaselect(2);
+  I2C_->tcaselect(kBNOID);
   bno_.getEvent(&event);
 
   return event.orientation.y;
@@ -67,7 +67,7 @@ double BNO::getAngleY() {
 
 double BNO::getAngleZ() {
   sensors_event_t event;
-  I2C_->tcaselect(2);
+  I2C_->tcaselect(kBNOID);
   bno_.getEvent(&event);
 
   return event.orientation.z;

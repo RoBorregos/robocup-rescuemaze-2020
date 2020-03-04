@@ -1,8 +1,8 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This SensorMap class has all the functions
  * To identify anything in the Map, this class
  * Works with all the sensors of the robot.
- * Marlon Romo (MarlonB500).
 */
 #ifndef SENSORMAP_H
 #define SENSORMAP_H
@@ -57,6 +57,8 @@ public:
 
     const uint8_t kWaitToSend = 20;
     const int kTimeToPrint = 1000;
+
+    const uint8_t kColoSensorID = 3;
 
     const uint8_t kDistanceWall = 20;
 

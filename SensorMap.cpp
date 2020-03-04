@@ -1,9 +1,9 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This SensorMap class has all the functions
  * To identify anything in the Map, this class
  * Works with all the sensors of the robot.
  * To get more information, go to SensorMap.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "SensorMap.h"
 
@@ -113,15 +113,15 @@ float SensorMap::temperatureCelcius(const int mlx) {
 }
 
 bool SensorMap::blackTile() {
-  i2c_->tcaselect(3);
+  i2c_->tcaselect(kColoSensorID);
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
   return (r < 115 && g < 115 && b < 115);
 }
 
 bool SensorMap::silverTile() {  
-  i2c_->tcaselect(3);
+  i2c_->tcaselect(kColoSensorID);
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
-  return (r < 254 && g < 254 && b < 254);
+  return (r > 254 && g > 254 && b > 254);
 }

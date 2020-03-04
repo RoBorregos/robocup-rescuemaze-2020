@@ -1,9 +1,9 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This Movement class has all the functions
  * To move the robot to anywhere on the map.
  * This class works with all robot enginees.
  * To get more information, go to Movement.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "Movement.h"
 
@@ -40,6 +40,7 @@ void Movement::advancePID(const double desire) {
   } while (encoder_count_left_ < kUnitLimit && encoder_count_right_ < kUnitLimit);
 }
 
+// TODO(MarlonB500): Implement the correct values for encoders.
 void Movement::advancePIDSwitches(const double desire) {
   double pwm_left_final_bno;
   double pwm_right_final_bno;
@@ -66,6 +67,7 @@ void Movement::advancePIDSwitches(const double desire) {
   } while (encoder_count_left_ < kUnitLimitSwitch && encoder_count_right_ < kUnitLimitSwitch);
 }
 
+// TODO(MarlonB500): Implement the correct values for encoders.
 void Movement::moveBackPIDSwitches(const double desire) {
   double pwm_left_final_bno;
   double pwm_right_final_bno;

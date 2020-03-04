@@ -1,8 +1,8 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This BNO class has all functions to get
  * the robot angle, write on screen, and
  * calibrate all sensors.
- * Marlon Romo (MarlonB500).
 */
 #ifndef BNO_H
 #define BNO_H
@@ -36,6 +36,8 @@ class BNO {
     const int kTimeToPrintBNO = 1000;
     const uint8_t kRepose = 250;
     const int kDelayAfterBNO = 2700;
+
+    const uint8_t kBNOID = 2;
 
     private:
       Multiplexor *I2C_;

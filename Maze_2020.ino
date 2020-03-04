@@ -35,7 +35,7 @@ void setup() {
 
   screen.LCDCalibration();
   while (bno->orientationStatus() != 3) {
-    screen.writeLCDdown("I,m not ready");
+    screen.writeLCDdown("I'm not ready");
   }
   screen.writeLCDdown("I'm ready");
   control->initializeLED();

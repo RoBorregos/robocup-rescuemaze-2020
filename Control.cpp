@@ -1,10 +1,10 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This Control class has all the fuctions to get
  * the angle, desired angle and sensors error.
  * This class is so necessary to move the robot to
  * The correct direction of the robot.
  * To get more information, go to Control.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "Control.h"
 
@@ -19,9 +19,6 @@ double Control::getDesiredAngle(double desire) {
     if (desire < 0) {
       desire += kDegrees360;
     } else {
-      desire = desire;
-    }
-  } else {
     desire -= bno_->getDifferenceWithZero();
   }
   return desire;
@@ -106,7 +103,7 @@ bool Control::bumperLevel3() {
   || current_angle_z < -kRangeAngleZ));
 }
 
-double Control::getPwmBNO(const double desire, double &pwm_left_final, double &pwm_right_final) {// Positive. 
+double Control::getPwmBNO(const double desire, double &pwm_left_final, double &pwm_right_final) {
   const double errorBNO = getAngleError(bno_->getAngleX(), desire);
 
   if (errorBNO > 0) {
@@ -118,7 +115,7 @@ double Control::getPwmBNO(const double desire, double &pwm_left_final, double &p
   }
 }
 
-double Control::getPwmUltrasonic(double &pwm_left_final_ultrasonic, double &pwm_right_final_ultrasonic) {// Negative.
+double Control::getPwmUltrasonic(double &pwm_left_final_ultrasonic, double &pwm_right_final_ultrasonic) {
   const double desire_ultrasonic = 5;
   double pwm_right_ultrasonic_right_up = 0;
   double pwm_left_ultrasonic_right_up = 0;

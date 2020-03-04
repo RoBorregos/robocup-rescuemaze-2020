@@ -1,8 +1,8 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This Movement class has all the functions
  * To move the robot to anywhere on the map.
  * This class works with all robot enginees.
- * Marlon Romo (MarlonB500).
 */
 #ifndef MOVEMENT_H
 #define MOVEMENT_H

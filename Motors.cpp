@@ -1,8 +1,8 @@
 /* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This motors class has all the functions to move 
  * the robot.
  * To get more information, go to Motors.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "Motors.h"
 

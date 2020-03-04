@@ -1,8 +1,8 @@
-/* ROBORREGOS MAZE 2020
+/* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This screen file has all the functions to
  * print in the screen.
  * To get more information, go to Screen.h file.
- * Marlon Romo (MarlonB500).
 */
 #include "Screen.h"
 

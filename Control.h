@@ -1,9 +1,9 @@
 ﻿/* ROBORREGOS MAZE 2020.
+ * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This Control class has all the fuctions to get
  * The angle, desired angle and sensors error.
  * This class is so necessary to move the robot to
  * The correct direction of the robot.
- * Marlon Romo (MarlonB500).
 */
 #ifndef CONTROL_H
 #define CONTROL_H
