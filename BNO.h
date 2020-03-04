@@ -9,7 +9,6 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 #include "arduino.h"
-#include "Multiplexor.h"
 
 class BNO {
 
