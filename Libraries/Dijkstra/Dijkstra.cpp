@@ -1,5 +1,23 @@
 #include "Dijkstra.h"
 
+Dijkstra::Dijkstra(const Map tiles_map) {
+  initialValues(tiles_map);
+
+  for (uint8_t row = 0; row < tiles_map.numberOfRows(); ++row) {
+    for (uint8_t column = 0; column < tiles_map.numberOfColumns(); ++column) {
+      if (tiles_map.tileCandidateToVisit(row, column)) {
+        current_coord_ = &matrix_[row][column].current;
+        non_visited_vector_.pushAsLast(current_coord_);
+      }
+    }
+  }
+}
+
+// TODO(Eme112): Implement the tile_to_find
+Dijkstra::Dijkstra(const Map tiles_map, Tile tile_to_find) {
+  initialValues(tiles_map);
+}
+
 void Dijkstra::initialValues(const Map tiles_map) {
   dijkstraTile support_dijkstra_tile;
   TVector<dijkstraTile> support_row;
@@ -38,7 +56,7 @@ void Dijkstra::updateMatrix(const Map tiles_map) {
     // Then checking and updating weights in the matrix_.
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoNorth()
     && !tiles_map.getTile(current_coord_->x - 1, current_coord_->y).isBlack()) {
-      if (matrix_[current_coord_->x - 1][current_coord_->y].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x - 1, current_coord_->y).getWeight()) {
+      if (matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x - 1, current_coord_->y).getWeight() < matrix_[current_coord_->x - 1][current_coord_->y].weight) {
         matrix_[current_coord_->x - 1][current_coord_->y].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x - 1, current_coord_->y).getWeight();
         matrix_[current_coord_->x - 1][current_coord_->y].prev = matrix_[current_coord_->x][current_coord_->y].current;
         open_vector_.pushAsLast(&matrix_[current_coord_->x - 1][current_coord_->y].current);
@@ -46,7 +64,7 @@ void Dijkstra::updateMatrix(const Map tiles_map) {
     }
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoEast()
     && !tiles_map.getTile(current_coord_->x, current_coord_->y + 1).isBlack()) {
-      if (matrix_[current_coord_->x][current_coord_->y + 1].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y + 1).getWeight()) {
+      if (matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y + 1).getWeight() < matrix_[current_coord_->x][current_coord_->y + 1].weight) {
         matrix_[current_coord_->x][current_coord_->y + 1].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y + 1).getWeight();
         matrix_[current_coord_->x][current_coord_->y + 1].prev = matrix_[current_coord_->x][current_coord_->y].current;
         open_vector_.pushAsLast(&matrix_[current_coord_->x][current_coord_->y + 1].current);
@@ -54,7 +72,7 @@ void Dijkstra::updateMatrix(const Map tiles_map) {
     }
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoSouth()
     && !tiles_map.getTile(current_coord_->x + 1, current_coord_->y).isBlack()) {
-      if (matrix_[current_coord_->x + 1][current_coord_->y].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x + 1, current_coord_->y).getWeight()) {
+      if (matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x + 1, current_coord_->y).getWeight() < matrix_[current_coord_->x + 1][current_coord_->y].weight) {
         matrix_[current_coord_->x + 1][current_coord_->y].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x + 1, current_coord_->y).getWeight();
         matrix_[current_coord_->x + 1][current_coord_->y].prev = matrix_[current_coord_->x][current_coord_->y].current;
         open_vector_.pushAsLast(&matrix_[current_coord_->x + 1][current_coord_->y].current);
@@ -62,7 +80,7 @@ void Dijkstra::updateMatrix(const Map tiles_map) {
     }
     if (tiles_map.getTile(current_coord_->x, current_coord_->y).ableToGoWest()
     && !tiles_map.getTile(current_coord_->x, current_coord_->y - 1).isBlack()) {
-      if (matrix_[current_coord_->x][current_coord_->y - 1].weight > matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y - 1).getWeight()) {
+      if (matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y - 1).getWeight() < matrix_[current_coord_->x][current_coord_->y - 1].weight) {
         matrix_[current_coord_->x][current_coord_->y - 1].weight = matrix_[current_coord_->x][current_coord_->y].weight + tiles_map.getTile(current_coord_->x, current_coord_->y - 1).getWeight();
         matrix_[current_coord_->x][current_coord_->y - 1].prev = matrix_[current_coord_->x][current_coord_->y].current;
         open_vector_.pushAsLast(&matrix_[current_coord_->x][current_coord_->y - 1].current);
@@ -70,25 +88,6 @@ void Dijkstra::updateMatrix(const Map tiles_map) {
     }
     open_vector_.popFirst();
   }
-}
-
-Dijkstra::Dijkstra(const Map tiles_map) {
-  initialValues(tiles_map);
-
-  for (uint8_t row = 0; row < tiles_map.numberOfRows(); ++row) {
-    for (uint8_t column = 0; column < tiles_map.numberOfColumns(); ++column) {
-      if (tiles_map.getTile(row, column).isAccessible() &&
-      !tiles_map.getTile(row, column).isVisited() &&
-      !tiles_map.getTile(row, column).isBlack()) {
-        current_coord_ = &matrix_[row][column].current;
-        non_visited_vector_.pushAsLast(current_coord_);
-      }
-    }
-  }
-}
-
-Dijkstra::Dijkstra(const Map tiles_map, Tile tile_to_find) {
-  initialValues(tiles_map);
 }
 
 void Dijkstra::printDijkstraMatrix(const Map tiles_map) {
@@ -113,8 +112,12 @@ void Dijkstra::printDijkstraMatrix(const Map tiles_map) {
 
 TVector<char> Dijkstra::getPath(const Map tiles_map) {
   updateMatrix(tiles_map);
-  if (non_visited_vector_.getSize() > 0) current_coord_ = non_visited_vector_[0];
-  else Serial.print("There are no Tiles to travel");
+  if (non_visited_vector_.getSize() > 0) {
+    current_coord_ = non_visited_vector_[0];
+  }
+  else {
+    Serial.print("There are no Tiles to travel");
+  }
 
   // Comparing all the non-visited tiles.
   for (int i = 1 ; i < non_visited_vector_.getSize() ; ++i) {
@@ -129,13 +132,13 @@ TVector<char> Dijkstra::getPath(const Map tiles_map) {
     if (current_coord_->x - matrix_[current_coord_->x][current_coord_->y].prev.x == -1) {
       path_.pushAsFirst('N');
     }
-    if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == 1) {
+    else if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == 1) {
       path_.pushAsFirst('E');
     }
-    if (current_coord_->x - matrix_[current_coord_->x][current_coord_->y].prev.x == 1) {
+    else if (current_coord_->x - matrix_[current_coord_->x][current_coord_->y].prev.x == 1) {
       path_.pushAsFirst('S');
     }
-    if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == -1) {
+    else if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == -1) {
       path_.pushAsFirst('W');
     }
     Serial.print("(");

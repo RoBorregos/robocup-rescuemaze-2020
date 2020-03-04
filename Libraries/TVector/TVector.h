@@ -38,12 +38,12 @@ class TVector {
     // Deletes the first element of the vector and reduces it's size.
     void popFirst();
     // Stock the parameter data at the specified index of the vector.
-    void set(T t, uint8_t index);
+    void set(T t, const uint8_t index);
     // Erase the element on the specified index of the vector and reduces it's size.
-    void erase(uint8_t index);
+    void erase(const uint8_t index);
 
     // Returns the element on the specified index of the vector (inside the []).
-    T& operator[](uint8_t index) const;
+    T& operator[](const uint8_t index) const;
     // Allows to equal two vectors.
     void operator=(const TVector &V);
     // Empties the Vector.
@@ -141,12 +141,12 @@ void TVector<T>::popFirst() {
 }
 
 template <class T>
-void TVector<T>::set(T t, uint8_t index) {
+void TVector<T>::set(T t, const uint8_t index) {
   vector_[index] = t;
 }
 
 template <class T>
-void TVector<T>::erase(uint8_t index) {
+void TVector<T>::erase(const uint8_t index) {
   if ( index >= 0 && index < size_ ) {
     T *newVector = new T[size_ - 1];
 
@@ -169,7 +169,7 @@ void TVector<T>::erase(uint8_t index) {
 }
 
 template <class T>
-T& TVector<T>::operator[](uint8_t index) const {
+T& TVector<T>::operator[](const uint8_t index) const {
   return vector_[index];
 }
 

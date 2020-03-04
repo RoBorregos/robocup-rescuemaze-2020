@@ -38,14 +38,14 @@ uint8_t Map::getOrientation() {
   return orientation_;
 }
 
-uint8_t Map::getUnvisitedTiles() {
+uint8_t Map::getUnvisitedTiles(TVector<Map> tiles_map) {
   unvisited_tiles_ = 0;
-  for (int row = 0 ; row < number_of_rows_ ; ++row) {
-    for (int column = 0 ; column < number_of_columns_ ; ++column) {
-      if (!map_[row][column].isVisited() &&
-          map_[row][column].isAccessible() &&
-          !map_[row][column].isBlack()) {
-        ++unvisited_tiles_;
+  for(uint8_t zone = 0; zone < tiles_map.getSize(); ++zone) {
+    for (uint8_t row = 0; row < number_of_rows_; ++row) {
+      for (uint8_t column = 0; column < number_of_columns_; ++column) {
+        if (tiles_map[zone].tileCandidateToVisit(row, column)) {
+          ++unvisited_tiles_;
+        }
       }
     }
   }
@@ -56,7 +56,7 @@ Tile Map::getTile(const uint8_t row, const uint8_t column) {
   return map_[row][column];
 }
 
-Tile Map::currTile() {
+Tile Map::currentTile() {
   return map_[current_row_][current_column_];
 }
 
@@ -174,4 +174,15 @@ void Map::moveSouth() {
 void Map::moveWest() {
   orientation_ = 4;
   --current_column_;
+}
+
+bool Map::tileCandidateToVisit(const uint8_t row, const uint8_t column) {
+  if (map_[row][column].isAccessible()
+  && !map_[row][column].isBlack()
+  && !map_[row][column].isVisited()) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }

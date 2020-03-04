@@ -38,11 +38,11 @@ bool Tile::ableToGoWest(){
   return (data1_ & 0x01);
 }
 
-bool Tile::getRampUp(){
+bool Tile::isRampUp(){
   return (data2_ & 0x80);
 }
 
-bool Tile::getRampDown(){
+bool Tile::isRampDown(){
   return (data2_ & 0x40);
 }
 
@@ -56,8 +56,12 @@ bool Tile::getDeployedKit(){
 
 uint8_t Tile::getWeight(){
   uint8_t weight = 1;
-  if (data2_ & 0x01) weight += 4;
-  if (data2_ & 0x02) weight += 8;
+  if (data2_ & 0x01) {
+    weight += 4;
+  }
+  if (data2_ & 0x02) {
+    weight += 8;
+  }
   return weight;
 }
 

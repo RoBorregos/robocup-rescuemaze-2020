@@ -24,8 +24,6 @@ class Map {
     // Constructor
     Map();
 
-    // Adds the initial tile to the map.
-    void setInitialTile(Tile initial_tile);
     // Returns a uint8_t with the number of rows of the map.
     uint8_t numberOfRows();
     // Returns a uint8_t with the number of columns of the map.
@@ -36,13 +34,13 @@ class Map {
     uint8_t currentColumn();
     // Returns a uint8_t representing the orientation the robot is looking at (1=North, 2=East, 3=South, 4=West).
     uint8_t getOrientation();
-    // Returns a uint8_t with number of tiles that are accessible and the robot has not visited.
-    uint8_t getUnvisitedTiles();
+    // Recieves an array of maps and returns a uint8_t with number of tiles that are accessible and the robot has not visited.
+    uint8_t getUnvisitedTiles(TVector<Map> tiles_map);
 
     // Returns the tile ubicated on the specified row and column.
     Tile getTile(const uint8_t row, const uint8_t column);
     // Returns the tile in which the robot is placed at the time the function is called.
-    Tile currTile();
+    Tile currentTile();
     // Returns the next tile at the North of the one the robot is placed at the time the function is called.
     Tile northTile();
     // Returns the next tile at the East of the one the robot is placed at the time the function is called.
@@ -52,6 +50,8 @@ class Map {
     // Returns the next tile at the West of the one the robot is placed at the time the function is called.
     Tile westTile();
 
+    // Adds the initial tile to the map.
+    void setInitialTile(Tile initial_tile);
     // Receives a tile and places it at the position specified ('N'=North, 'E'=East, 'S'=South, 'W'=West).
     void setTile(Tile tile, char position);
 
@@ -72,6 +72,9 @@ class Map {
     void moveSouth();
     // Reduces by one current_column_.
     void moveWest();
+
+    // Returns true if that tile is a candidate to visit.
+    bool tileCandidateToVisit(const uint8_t row, const uint8_t column);
 };
 
 #endif

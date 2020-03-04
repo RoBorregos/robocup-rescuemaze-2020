@@ -36,9 +36,9 @@ class Tile{
     bool ableToGoWest();
     // Data2.
     // It returns true if the tile is next to a ramp that goes up, false otherwise.
-    bool getRampUp();
+    bool isRampUp();
     // It returns true if the tile is next to a ramp that goes down, false otherwise.
-    bool getRampDown();
+    bool isRampDown();
     // It returns true if the tile is accessible, false otherwise.
     bool isAccessible();
     // It returns true if a kit has been deployed on the tile, false otherwise.
