@@ -37,6 +37,5 @@ void Multiplexor::tcaselect(const uint8_t number) {
   Wire.beginTransmission(TCAADDR);
   Wire.write(number << 7);
   Wire.endTransmission();
-  delay(kWaitToSend);
   }
 }

@@ -16,6 +16,7 @@ Control::Control(BNO *bno, SensorMap *map) {
 double Control::getDesiredAngle(double desire) {
   if (bno_->getAngleX() > kDegrees180) {
     desire -= bno_->getDifferenceWithZero();
+  }
     if (desire < 0) {
       desire += kDegrees360;
     } else {
