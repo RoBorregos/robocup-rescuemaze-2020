@@ -10,6 +10,7 @@
 #include "Arduino.h"
 #include "TVector.h"
 
+// TODO(Eme112): Have a member variable counting the unvisitedtiles, instead of having to check all the map always.
 class Map {
   private:
     uint8_t current_row_;

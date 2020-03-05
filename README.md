@@ -1,3 +1,3 @@
 # RoboCup_RescueMaze_2020
 
-#By Emerico n' Marlon
+# By Grecia Flores, Diego Prado, Marlon Romo, and Emérico Pedraza.

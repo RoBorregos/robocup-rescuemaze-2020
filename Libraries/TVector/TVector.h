@@ -154,8 +154,7 @@ void TVector<T>::erase(const uint8_t index) {
       if ( i != index ) {
         if ( i < index ) {
             newVector[i] = vector_[i];
-        }
-        else {
+        } else {
             newVector[i - 1] = vector_[i];
         }
       }

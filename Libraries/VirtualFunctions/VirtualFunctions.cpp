@@ -1,7 +1,7 @@
 #include "VirtualFunctions.h"
 
 namespace {
-  const uint8_t kNumberZones = 2, kNumberRows = 11, kNumberColumns = 11;
+  constexpr uint8_t kNumberZones = 2, kNumberRows = 11, kNumberColumns = 11;
   uint8_t current_row = 1, current_column = 1;
   char virtual_map[kNumberZones][kNumberRows][kNumberColumns] = 
   {{{'.','W','.','W','.','W','.','W','.','W','.'},
@@ -110,8 +110,8 @@ namespace VirtualFunctions {
     char char_map[number_of_rows][number_of_columns];
     int row_char, column_char;
 
-    for(uint8_t i = 0; i < tiles_map.numberOfRows()*2 + 1; ++i) {
-      for(uint8_t j = 0; j < tiles_map.numberOfColumns()*2 + 1; ++j) {
+    for(uint8_t i = 0; i < number_of_rows; ++i) {
+      for(uint8_t j = 0; j < number_of_columns; ++j) {
         char_map[i][j] = '.';
       }
     }
@@ -141,8 +141,8 @@ namespace VirtualFunctions {
 
     char_map[tiles_map.currentRow()*2 + 1][tiles_map.currentColumn()*2 + 1] = 'R';
     
-    for(uint8_t i = 0 ; i < tiles_map.numberOfRows()*2 + 1 ; ++i) {
-      for(uint8_t j = 0 ; j < tiles_map.numberOfColumns()*2 + 1 ; ++j) {
+    for(uint8_t i = 0 ; i < number_of_rows ; ++i) {
+      for(uint8_t j = 0 ; j < number_of_columns ; ++j) {
         Serial.print(char_map[i][j]);
         Serial.print(" ");
       }
@@ -203,6 +203,7 @@ namespace VirtualFunctions {
     return tile;
   }
 
+  // TODO(Eme112): Implement a function to synthetize how to update North, East, South, and West.
   Map updateTiles(Map tiles_map, const uint8_t zone) {
     Tile current_tile;
 

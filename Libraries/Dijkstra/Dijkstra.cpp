@@ -41,6 +41,7 @@ void Dijkstra::initialValues(const Map tiles_map) {
   }
 }
 
+// TODO(Eme112): Make more compact current_coord->x/y.
 void Dijkstra::updateMatrix(const Map tiles_map) {
   // Changing values of the current coord in the matrix.
   matrix_[current_row_][current_column_].weight = 0;
@@ -114,8 +115,7 @@ TVector<char> Dijkstra::getPath(const Map tiles_map) {
   updateMatrix(tiles_map);
   if (non_visited_vector_.getSize() > 0) {
     current_coord_ = non_visited_vector_[0];
-  }
-  else {
+  } else {
     Serial.print("There are no Tiles to travel");
   }
 
@@ -131,14 +131,11 @@ TVector<char> Dijkstra::getPath(const Map tiles_map) {
   while (current_coord_->x != current_row_ || current_coord_->y != current_column_) {
     if (current_coord_->x - matrix_[current_coord_->x][current_coord_->y].prev.x == -1) {
       path_.pushAsFirst('N');
-    }
-    else if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == 1) {
+    } else if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == 1) {
       path_.pushAsFirst('E');
-    }
-    else if (current_coord_->x - matrix_[current_coord_->x][current_coord_->y].prev.x == 1) {
+    } else if (current_coord_->x - matrix_[current_coord_->x][current_coord_->y].prev.x == 1) {
       path_.pushAsFirst('S');
-    }
-    else if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == -1) {
+    } else if (current_coord_->y - matrix_[current_coord_->x][current_coord_->y].prev.y == -1) {
       path_.pushAsFirst('W');
     }
     Serial.print("(");

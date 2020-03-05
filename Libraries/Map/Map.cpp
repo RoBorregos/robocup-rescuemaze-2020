@@ -177,12 +177,7 @@ void Map::moveWest() {
 }
 
 bool Map::tileCandidateToVisit(const uint8_t row, const uint8_t column) {
-  if (map_[row][column].isAccessible()
+  return (map_[row][column].isAccessible()
   && !map_[row][column].isBlack()
-  && !map_[row][column].isVisited()) {
-    return true;
-  }
-  else {
-    return false;
-  }
+  && !map_[row][column].isVisited());
 }

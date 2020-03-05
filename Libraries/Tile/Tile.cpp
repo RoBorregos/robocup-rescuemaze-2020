@@ -121,11 +121,9 @@ void Tile::setDeployedKit(){
 void Tile::setWeight(const int weight){
   if (weight == 1) {
     data2_ |= 0x01;
-  }
-  if (weight == 2) {
+  } else if (weight == 2) {
     data2_ |= 0x02;
-  }
-  if (weight == 3) {
+  } else if (weight == 3) {
     data2_ |= 0x03;
   }
 }
