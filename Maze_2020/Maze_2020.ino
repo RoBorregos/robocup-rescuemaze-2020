@@ -35,11 +35,9 @@ void setup() {
 
   Movement robocup(bno, control, robot);
   move = &robocup;
-  move->
   
 
   screen.writeLCDdown("Hola");
-  robot->
   
   /*while (bno->orientationStatus() != 3) {
     screen.writeLCDdown("I'm not ready");
