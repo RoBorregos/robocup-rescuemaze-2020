@@ -63,7 +63,7 @@ bool SensorMap::checkWallsLeft() {
 }
 
 bool SensorMap::checkWallsFront() {
-  return(getDistanceFrontLeft < kMaxWallDistance || getDistanceFrontRight() < kMaxWallDistance);
+  return(getDistanceFrontLeft() < kMaxWallDistance || getDistanceFrontRight() < kMaxWallDistance);
 }
 
 bool SensorMap::heatVictimRight() {
