@@ -116,7 +116,7 @@ bool SensorMap::blackTile() {
   i2c_->tcaselect(kColoSensorID);
   const uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
-  return (r < 115 && g < 115 && b < 115);
+  return (r < kRangeBlackTile && g < kRangeBlackTile && b < kRangeBlackTile);
 }
 
 // TODO(MarlonB500): Add the correct values to detect a silver tile and make them constants.
