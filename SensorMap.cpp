@@ -119,7 +119,7 @@ bool SensorMap::blackTile() {
   return (r < 115 && g < 115 && b < 115);
 }
 
-// TODO(MarlonB500): Add the correct values to detect a silver tile.
+// TODO(MarlonB500): Add the correct values to detect a silver tile and make them constants.
 bool SensorMap::silverTile() {  
   i2c_->tcaselect(kColoSensorID);
   uint16_t r, g, b, c;
