@@ -1,7 +1,6 @@
 #include "Map.h"
 #include "Dijkstra.h"
 #include "VirtualFunctions.h"
-#include "Ramp.h"
 
 using namespace VirtualFunctions;
 
