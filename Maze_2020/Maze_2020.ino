@@ -1,19 +1,20 @@
-#include "DropKit.h"
-#include "BNO.h"
 #include "Screen.h"
 #include "SensorMap.h"
 #include "Motors.h"
 #include "Movement.h"
 #include "Control.h"
 #include "Multiplexor.h"
+#include "DropKit.h"
+#include "BNO.h"
 
 void setup() {
   Serial.begin(9600);
+  Screen screen;
   Control *control;
   SensorMap *maps;
   BNO *bno;
 
-  Screen screen;
+
   DropKit dispenser;
 
   Multiplexor multii;
@@ -33,13 +34,16 @@ void setup() {
 
   Movement robocup(bno, control, robot);
 
-  screen.LCDCalibration();
-  while (bno->orientationStatus() != 3) {
+  // screen.writeLCD("Hello, World", "Que");
+
+  robot->turnRight(255);
+  
+  /*while (bno->orientationStatus() != 3) {
     screen.writeLCDdown("I'm not ready");
   }
   screen.writeLCDdown("I'm ready");
   control->initializeLED();
-  robot->initializeMotors();
+  robot->initializeMotors();*/
 }
 
 void loop() {
