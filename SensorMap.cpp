@@ -114,14 +114,15 @@ float SensorMap::temperatureCelcius(const int mlx) {
 
 bool SensorMap::blackTile() {
   i2c_->tcaselect(kColoSensorID);
-  uint16_t r, g, b, c;
+  const uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
   return (r < 115 && g < 115 && b < 115);
 }
 
+// TODO(MarlonB500): Add the correct values to detect a silver tile.
 bool SensorMap::silverTile() {  
   i2c_->tcaselect(kColoSensorID);
-  uint16_t r, g, b, c;
+  const uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
   return (r > 254 && g > 254 && b > 254);
 }
