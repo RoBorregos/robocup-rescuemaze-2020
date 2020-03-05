@@ -13,6 +13,7 @@ Ultrasonic ultrasonicRightUp(8, 9);     // Trig, Echo.
 Ultrasonic ultrasonicRightDown(10, 11); // Trig, Echo.
 Ultrasonic ultrasonicLeftUp(12, 13);    // Trig, Echo.
 Ultrasonic ultrasonicLeftDown(14, 15);  // Trig, Echo.
+Ultrasonic ultrasonicBack(16, 17);  // Trig, Echo.
 
 SensorMap::SensorMap(Multiplexor *multi) {
   i2c_ = multi;
@@ -59,6 +60,10 @@ bool SensorMap::checkWallsRight() {
 
 bool SensorMap::checkWallsLeft() {
   return (getDistanceLeftUp() < kMaxWallDistance || getDistanceLeftDown() < kMaxWallDistance);
+}
+
+bool SensorMap::checkWallsFront() {
+  return (getDistanceFrontLeft() < kMaxWallDistance || getDistanceFrontRight() < kMaxWallDistance);
 }
 
 bool SensorMap::heatVictimRight() {
@@ -114,9 +119,9 @@ float SensorMap::temperatureCelcius(const int mlx) {
 
 bool SensorMap::blackTile() {
   i2c_->tcaselect(kColoSensorID);
-  const uint16_t r, g, b, c;
+  uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
-  return (r < 115 && g < 115 && b < 115);
+  return (r < kRangeBlackTile && g < kRangeBlackTile && b < kRangeBlackTile);
 }
 
 // TODO(MarlonB500): Add the correct values to detect a silver tile and make them constants.

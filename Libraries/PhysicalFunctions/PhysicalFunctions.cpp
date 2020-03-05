@@ -2,7 +2,7 @@
 
 namespace PhyisicalFunctions {
     void moveRobotNorth() {
-        
+        move->turnDegrees(0);
     }
 
     /*Map followPath(TVector<char> path, Map tiles_map, uint8_t zone) {

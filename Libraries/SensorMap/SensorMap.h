@@ -33,6 +33,8 @@ public:
     bool checkWallsRight();
     // Check if the left wall is complete.
     bool checkWallsLeft();
+    // Check if the front wall is complete.
+    bool checkWallsFront();
     // Check in the right wall if there is a heat victim.
     bool heatVictimRight();
     // Check in the left wall if there is a heat victim.
@@ -57,6 +59,8 @@ public:
 
     const uint8_t kWaitToSend = 20;
     const int kTimeToPrint = 1000;
+
+    const uint8_t kRangeBlackTile = 115;
 
     const uint8_t kColoSensorID = 3;
 
