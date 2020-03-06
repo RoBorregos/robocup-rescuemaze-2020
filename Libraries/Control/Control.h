@@ -8,6 +8,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#include <Arduino.h>
 #include <Wire.h>
 #include "arduino.h"
 #include "SensorMap.h"
@@ -17,7 +18,7 @@
 class Control {
 
   public:
-    Control(BNO *bno, SensorMap *map);
+    Control(BNO *bno, SensorMap *mapa);
     // Get the new desired angle respect to the difference achieved.
     double getDesiredAngle(double desire);
     // Get the difference with the desired angle to the current angle, return error.
@@ -25,7 +26,7 @@ class Control {
     // Get the difference with the desired distance to the current distance, return error.
     double getErrorUltrasonic(const double current_distance, const double desire_ultrasonic);
     // Verify if the pwm is in the range (kLimit_inf_pwm - kLimit_sup_pwm).
-    void getPwm(double &speed);
+    void getPwm(double &pwm);
     // Get a new desire to drop a kit to the right.
     double getNewDesireLeft(double new_desire);
     // Get a new desire to drop a kit to the left.
@@ -63,13 +64,9 @@ class Control {
     const int kDegrees360 = 360;
     const uint8_t kDegrees180 = 180;
 
-    const uint8_t LED1 = 4;
-    const uint8_t LED2 = 5;
+    const uint8_t LED1 = 42;
+    const uint8_t LED2 = 41;
 
-    // Advance.
-    const double kPAdvance = 4.52;
-    const double kIAdvance = 3.45;
-    const double kDAdvance = 2.05;
 
   private:
     BNO *bno_;

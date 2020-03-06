@@ -7,13 +7,13 @@
 */
 #include "SensorMap.h"
 
-Ultrasonic ultrasonicFrontLeft(4, 5);   // Trig, Echo.
-Ultrasonic ultrasonicFrontRight(6, 7);  // Trig, Echo.
-Ultrasonic ultrasonicRightUp(8, 9);     // Trig, Echo.
-Ultrasonic ultrasonicRightDown(10, 11); // Trig, Echo.
-Ultrasonic ultrasonicLeftUp(12, 13);    // Trig, Echo.
-Ultrasonic ultrasonicLeftDown(14, 15);  // Trig, Echo.
-Ultrasonic ultrasonicBack(16, 17);  // Trig, Echo.
+Ultrasonic ultrasonicFrontLeft(39, 38);   // Trig, Echo.
+Ultrasonic ultrasonicFrontRight(31, 30);  // Trig, Echo.
+Ultrasonic ultrasonicRightUp(48, 47);     // Trig, Echo.
+Ultrasonic ultrasonicRightDown(23, 49); // Trig, Echo.
+Ultrasonic ultrasonicLeftUp(29, 28);    // Trig, Echo.
+Ultrasonic ultrasonicLeftDown(53, 52);  // Trig, Echo.
+Ultrasonic ultrasonicBack(27, 26);  // Trig, Echo.
 
 SensorMap::SensorMap(Multiplexor *multi) {
   i2c_ = multi;
@@ -94,7 +94,6 @@ bool SensorMap::heatVictimLeft() {
 /*bool SensorMap::visualVictim() {
   
 }
-
 bool SensorMap::colouredVictim() {
 }
 */
@@ -129,7 +128,7 @@ bool SensorMap::blackTile() {
   i2c_->tcaselect(kColoSensorID);
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
-  return (r < kRangeBlackTile && g < kRangeBlackTile && b < kRangeBlackTile);
+  return (r < 270 && g < 150 && b < 130 && c < 270);
 }
 
 // TODO(MarlonB500): Add the correct values to detect a silver tile and make them constants.

@@ -7,19 +7,17 @@
 */
 #include "DropKit.h"
 
-DropKit::DropKit() {}
-
-void DropKit::setup() {
+DropKit::DropKit() {
   dispenser_.attach(kPin); // Servo Pin
-  dispenser_.write(kDispenserDegrees90); // Initialize the dispenser in 90 degrees(in the middle).
+  dispenser_.write(0); // Initialize the dispenser in 90 degrees(in the middle).
 }
 
 void DropKit::dropOneKitLeft() {
-  dispenser_.write(kDispenserDegrees0);
-  delay(kTime_1sec);
-  dispenser_.write(kDispenserDegrees100);
-  delay(kTime_1sec);
   dispenser_.write(kDispenserDegrees90);
+  delay(kTime_1sec);
+  dispenser_.write(kDispenserDegrees10);
+  delay(kTime_1sec);
+  dispenser_.write(kDispenserDegrees0);
   delay(kTime_2ms);
 }
 

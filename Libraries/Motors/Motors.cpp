@@ -6,27 +6,36 @@
 */
 #include "Motors.h"
 
-Motors::Motors() {}
-
-void Motors::turnLeft(const uint8_t speed) {
-    digitalWrite(kMotorLeftForward2, speed);
-    digitalWrite(kMotorLeftForward1, LOW);
-    digitalWrite(kMotorLeftBack1, LOW);
-    digitalWrite(kMotorLeftBack2, speed);
-    digitalWrite(kMotorRightForward2, speed);
-    digitalWrite(kMotorRightForward1, LOW);
-    digitalWrite(kMotorRightBack2, LOW);
-    digitalWrite(kMotorRightBack1, speed);
+Motors::Motors() {
+  pinMode(kMotorLeftForward1, OUTPUT);
+  pinMode(kMotorLeftForward2, OUTPUT);
+  pinMode(kMotorLeftBack1, OUTPUT);
+  pinMode(kMotorLeftBack2, OUTPUT);
+  pinMode(kMotorRightForward1, OUTPUT);
+  pinMode(kMotorRightForward2, OUTPUT);
+  pinMode(kMotorRightBack1, OUTPUT);
+  pinMode(kMotorRightBack2, OUTPUT);
 }
 
-void Motors::turnRight(const uint8_t speed) {
+void Motors::turnLeft(const uint8_t pwm) {
+    digitalWrite(kMotorLeftForward2, pwm);
+    digitalWrite(kMotorLeftForward1, LOW);
+    digitalWrite(kMotorLeftBack1, LOW);
+    digitalWrite(kMotorLeftBack2, pwm);
+    digitalWrite(kMotorRightForward2, pwm);
+    digitalWrite(kMotorRightForward1, LOW);
+    digitalWrite(kMotorRightBack2, LOW);
+    digitalWrite(kMotorRightBack1, pwm);
+}
+
+void Motors::turnRight(const uint8_t pwm) {
     digitalWrite(kMotorLeftForward2, LOW);
-    digitalWrite(kMotorLeftForward1, speed);
-    digitalWrite(kMotorLeftBack1, speed);
+    digitalWrite(kMotorLeftForward1, pwm);
+    digitalWrite(kMotorLeftBack1, pwm);
     digitalWrite(kMotorLeftBack2, LOW);
     digitalWrite(kMotorRightForward2, LOW);
-    digitalWrite(kMotorRightForward1, speed);
-    digitalWrite(kMotorRightBack2, speed);
+    digitalWrite(kMotorRightForward1, pwm);
+    digitalWrite(kMotorRightBack2, pwm);
     digitalWrite(kMotorRightBack1, LOW);
 }
 

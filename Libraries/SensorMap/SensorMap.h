@@ -57,7 +57,7 @@ public:
     const uint8_t kWaitBetweenUltrasonic = 50;
     const int kWaitFiveSeconds = 5000;
     const int kWaitBetweenDropKit = 2000;
-    const uint8_t kMaxWallDistance = 15;
+    const uint8_t kMaxWallDistance = 7;
     const uint8_t kMinimumTemperature = 28;
     const uint8_t kMaximumTemperature = 40;
 

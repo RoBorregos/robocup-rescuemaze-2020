@@ -13,12 +13,14 @@
 
 class Robot {
     private:
-        SensorMap *maps_;
-        BNO *bno_;
-        Movement *movement_;
-        Screen *screen_;
-        DropKit *dispenser_;
-        Multiplexor *i2c_;
+    SensorMap *maps_;
+    BNO *bno_;
+    Movement *movement_;
+    Screen *screen_;
+    DropKit *dispenser_;
+    Multiplexor *i2c_;
+    Control *control_;
+      
     public:
         Robot();
         SensorMap* getMap();

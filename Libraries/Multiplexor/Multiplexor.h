@@ -22,7 +22,5 @@ class Multiplexor {
         Multiplexor();
         // Give a multiplexor ID to each sensor.
         void tcaselect(uint8_t number);
-
-        const uint8_t kWaitToSend = 20;
 };
 #endif

@@ -1,13 +1,23 @@
 #include "Robot.h"
 
 Robot::Robot() {
-    i2c_ = new Multiplexor();
+  Multiplexor multii;
+  Multiplexor *const i2c = &multii;
 
-    bno_ = new BNO(i2c_);
+  Motors robo;
+  Motors *const robot = &robo;
 
-    maps_ = new SensorMap(i2c_);
+  BNO direct(i2c);
+  bno_ = &direct;
 
-    movement_ = new Movement(bno_, new Control(bno_, maps_), new Motors());
+  SensorMap sensorr(i2c);
+  maps_ = &sensorr;
+
+  Control controll(bno_, maps_);
+  control_ = &controll;
+
+  Movement robocup(bno_, control_, robot);
+  movement_ = &robocup;
 }
 
 SensorMap* Robot::getMap() {

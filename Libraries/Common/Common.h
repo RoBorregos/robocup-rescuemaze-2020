@@ -6,10 +6,14 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <Arduino.h>
 #include "arduino.h"
 
 namespace Common {
     extern const uint8_t kLimitSupPwm;
     extern const uint8_t kLimitInfPwm;
+    extern const double kPAdvance;
+    extern const double kIAdvance;
+    extern const double kDAdvance;
 } // namespace Common
 #endif

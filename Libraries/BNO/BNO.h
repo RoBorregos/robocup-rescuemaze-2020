@@ -7,10 +7,12 @@
 #ifndef BNO_H
 #define BNO_H
 
+#include <Arduino.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 #include "arduino.h"
 #include "Multiplexor.h"
+#include "Wire.h"
 
 class BNO {
 
@@ -41,6 +43,6 @@ class BNO {
 
     private:
       Multiplexor *I2C_;
-      Adafruit_BNO055 bno_;
+      Adafruit_BNO055 bno_ = Adafruit_BNO055(55);
 };
 #endif
