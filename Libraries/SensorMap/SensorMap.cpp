@@ -54,6 +54,10 @@ int SensorMap::getDistanceLeftDown() {
   return (ultrasonicLeftDown.read());
 }
 
+int SensorMap::getDistanceBack() {
+  return (ultrasonicBack.read());
+}
+
 bool SensorMap::checkWallsRight() {
   return (getDistanceRightUp() < kMaxWallDistance || getDistanceRightDown() < kMaxWallDistance);
 }
@@ -64,6 +68,10 @@ bool SensorMap::checkWallsLeft() {
 
 bool SensorMap::checkWallsFront() {
   return (getDistanceFrontLeft() < kMaxWallDistance || getDistanceFrontRight() < kMaxWallDistance);
+}
+
+bool SensorMap::checkWallsBack() {
+  return (getDistanceBack() < kMaxWallDistance);
 }
 
 bool SensorMap::heatVictimRight() {

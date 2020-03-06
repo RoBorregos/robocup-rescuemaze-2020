@@ -1,4 +1,3 @@
-#include "Map.h"
 #include "Dijkstra.h"
 #include "VirtualFunctions.h"
 
@@ -9,7 +8,7 @@ void setup() {
   TVector<char> path;
   unsigned short int current_zone = 0, unvisited_tiles = 1;
   TVector<Map> tiles_map;
-  TVector<Ramp> ramps_vector;
+  //TVector<Ramp> ramps_vector;
 
   Serial.begin(9600);
 

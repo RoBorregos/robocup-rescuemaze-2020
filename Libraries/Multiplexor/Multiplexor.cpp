@@ -36,6 +36,5 @@ void Multiplexor::tcaselect(const uint8_t number) {
   if (number <= 7) {
   Wire.beginTransmission(TCAADDR);
   Wire.write(number << 7);
-  Wire.endTransmission();
   }
 }

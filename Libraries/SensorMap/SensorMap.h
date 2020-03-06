@@ -29,12 +29,16 @@ public:
     int getDistanceFrontLeft();
     // Get the Ultrasonic Distance Front Right.
     int getDistanceFrontRight();
+    // Get the Ultrasonic Distance Back.
+    int getDistanceBack();
     // Check if the right wall is complete.
     bool checkWallsRight();
     // Check if the left wall is complete.
     bool checkWallsLeft();
     // Check if the front wall is complete.
     bool checkWallsFront();
+    // Check if the back wall is complete.
+    bool checkWallsBack();
     // Check in the right wall if there is a heat victim.
     bool heatVictimRight();
     // Check in the left wall if there is a heat victim.
