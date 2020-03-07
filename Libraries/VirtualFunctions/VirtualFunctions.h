@@ -28,6 +28,8 @@ namespace VirtualFunctions {
   void moveMapWest(uint8_t zone);
   // Function that prints the robot's internal map.
   void printMap(Map tiles_map);
+  // Function that prints a char vector.
+  void printCharVector(const TVector<char> path);
   // Function that moves the position of the robot in the virtual map according to a char vector recieved and returns the resulting tiles map.
   Map followPathVirtual(TVector<char> path, Map tiles_map, uint8_t zone);
   // Function that updates the values of the first tile recieved according to the virtual map.

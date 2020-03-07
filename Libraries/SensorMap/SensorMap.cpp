@@ -28,6 +28,9 @@ SensorMap::SensorMap(Multiplexor *multi) {
       delay(kTimeToPrint);
     }
   }
+  i2c_->tcaselect(0);
+  i2c_init();
+  PORTC = (1 << PORTC4) | (1 << PORTC5);
 }
 
 int SensorMap::getDistanceFrontLeft() {
@@ -75,8 +78,10 @@ bool SensorMap::checkWallsBack() {
 }
 
 bool SensorMap::heatVictimRight() {
-  if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature 
-  && temperatureCelcius(temperature_sensor_right) < kMaximumTemperature) {
+  i2c_->tcaselect(0);
+  float celcius1 = temperatureCelcius(temperature_sensor_right);
+  if (celcius1 > kMinimumTemperature 
+  && celcius1 < kMaximumTemperature) {
     return true;
   } else {
     return false;
@@ -84,8 +89,11 @@ bool SensorMap::heatVictimRight() {
 }
 
 bool SensorMap::heatVictimLeft() {
-  if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature 
-  && temperatureCelcius(temperature_sensor_left) < kMaximumTemperature) {
+  i2c_->tcaselect(0);
+  float celcius2 = temperatureCelcius(temperature_sensor_left);
+  Serial.println(celcius2);
+  if (celcius2 > kMinimumTemperature 
+  && celcius2 < kMaximumTemperature) {
     return true;
   } else {
     return false;

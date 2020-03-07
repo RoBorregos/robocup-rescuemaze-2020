@@ -1,52 +1,74 @@
 #include "PhysicalFunctions.h"
 
-PhysicalFunctions::PhysicalFunctions(Movement *movement, SensorMap *map) {
+PhysicalFunctions::PhysicalFunctions(Movement *movement, SensorMap *map, Control *control) {
   movement_ = movement;
   map_ = map;
+  control_ = control;
 }
 
-void PhysicalFunctions::moveRobot(const char orientation) {
+bool PhysicalFunctions::moveRobot(const char orientation) {
   switch (orientation) {
     case 'N':
         movement_->turnDegrees(0);
-        delay(500);
-        movement_->advancePID(0);
+        delay(1000);
+        if (movement_->advancePID(0)) return true;
       break;
     case 'E':
         movement_->turnDegrees(90);
-        delay(500);
-        movement_->advancePID(90);
+        delay(100);
+        if (movement_->advancePID(90)) return true;;
       break;
     case 'S':
         movement_->turnDegrees(180);
-        delay(500);
-        movement_->advancePID(180);
+        delay(1000);
+        if (movement_->advancePID(180)) return true;
       break;
     case 'W':
         movement_->turnDegrees(270);
-        delay(500);
-        movement_->advancePID(270);
+        delay(1000);
+        if (movement_->advancePID(270)) return true;
       break;        
   }
+  return false;
 }
 
 Map PhysicalFunctions::followPath(TVector<char> path, Map tiles_map, uint8_t zone) {
   while (path.getSize() > 0) {
     if (path[0] == 'N') {
-      tiles_map.moveNorth();
-      moveRobot('N');
+      if (moveRobot('N')) {
+        Tile blackTile = tiles_map.northTile();
+        blackTile.setBlack();
+        tiles_map.setTile(blackTile, 'N');
+      } else {
+        tiles_map.moveNorth();
+      }
     }
     else if (path[0] == 'E') {
-      tiles_map.moveEast();
-      moveRobot('E');
+      if (moveRobot('E')) {
+        Tile blackTile = tiles_map.eastTile();
+        blackTile.setBlack();
+        tiles_map.setTile(blackTile, 'E');
+      } else {
+        tiles_map.moveEast();
+      }
     }
     else if (path[0] == 'S') {
-      tiles_map.moveSouth();
-      moveRobot('S');
+      if (moveRobot('S')) {
+        Tile blackTile = tiles_map.southTile();
+        blackTile.setBlack();
+        tiles_map.setTile(blackTile, 'S');
+      } else {
+        tiles_map.moveSouth();
+      }
     }
     else if (path[0] == 'W') {
-      tiles_map.moveWest();
-      moveRobot('W');
+      if (moveRobot('W')) {
+        Tile blackTile = tiles_map.westTile();
+        blackTile.setBlack();
+        tiles_map.setTile(blackTile, 'W');
+      } else {
+        tiles_map.moveWest();
+      }
     }
 
     path.popFirst();
@@ -296,4 +318,51 @@ Map PhysicalFunctions::updateTiles(Map tiles_map, const uint8_t zone) {
   tiles_map.setTile(current_tile, '0');
 
   return tiles_map;
+}
+
+bool PhysicalFunctions::detectVictim(const uint8_t orientation) {
+  if (map_->heatVictimLeft()) {
+    //control_->turnLED();
+    switch (orientation) {
+      case 1:
+          movement_->turnDegrees(90);
+          dispenser.dropOneKitLeft();
+          delay(300);
+          movement_->turnDegrees(0);
+          delay(500);
+        break;
+      case 2:
+          movement_->turnDegrees(180);
+          dispenser.dropOneKitLeft();
+          delay(300);
+          movement_->turnDegrees(90);
+          delay(500);
+        break;
+      case 3:
+          movement_->turnDegrees(270);
+          dispenser.dropOneKitLeft();
+          delay(300);
+          movement_->turnDegrees(180);
+          delay(500);
+        break;
+      case 4:
+          movement_->turnDegrees(0);
+          dispenser.dropOneKitLeft();
+          delay(300);
+          movement_->turnDegrees(270);
+          delay(500);
+        break;
+    }
+    return true;
+  }
+  return false;
+}
+
+bool PhysicalFunctions::passRamp() {
+  bool is_a_ramp = control_->detectRamp();
+  while (is_a_ramp) {
+    motor_.fastForward();
+    delay(500);
+    is_a_ramp = control_->detectRamp();
+  }
 }

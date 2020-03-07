@@ -26,8 +26,6 @@ class BNO {
     double getAngleY();
     // Get the current angle, return the event.orientation.Z through a function.
     double getAngleZ();
-    // Initialize BNO.
-    void BNOCalibration();
     /* Return the Orientation Status of the BNO, the numbers to return are... 
         * 1. This number means that the variable "x" is already calibrated.
         * 2. This number means that the variable "y" is already calibrated
@@ -43,6 +41,6 @@ class BNO {
 
     private:
       Multiplexor *I2C_;
-      Adafruit_BNO055 bno_ = Adafruit_BNO055(55);
+     Adafruit_BNO055 bno_;
 };
 #endif

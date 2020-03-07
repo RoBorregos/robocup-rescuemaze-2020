@@ -51,7 +51,7 @@ class Control {
     void initializeLED();
 
     const uint8_t kLimitSupDegrees = 35;
-    const uint8_t kLimitInfDegrees = 4;
+    const uint8_t kLimitInfDegrees = 0;
     const uint8_t kRangeAngleZ = 3;
     const uint8_t kLimitInfBumper1 = 2;
     const uint8_t kLimitSupBumper1 = 5;

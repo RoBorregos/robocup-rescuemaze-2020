@@ -8,7 +8,7 @@
 namespace Common {
     const uint8_t kLimitSupPwm = 255;
     const uint8_t kLimitInfPwm = 145;
-    const double kPAdvance = 5.96;
+    const double kPAdvance = 9;
     const double kIAdvance = 3.45;
     const double kDAdvance = 2.05;
 }

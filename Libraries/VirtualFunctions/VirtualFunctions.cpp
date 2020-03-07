@@ -151,6 +151,15 @@ namespace VirtualFunctions {
     Serial.println(" ");
   }
 
+  void printCharVector(const TVector<char> path) {
+    for (int i = 0; i < path.getSize(); i++) {
+      Serial.print(path[0]);
+      Serial.print(" ");
+      path.popFirst();
+    }
+    Serial.println("");
+  }
+
   Map followPathVirtual(TVector<char> path, Map tiles_map, uint8_t zone) {
     while (path.getSize() > 0) {
       if (path[0] == 'N') {

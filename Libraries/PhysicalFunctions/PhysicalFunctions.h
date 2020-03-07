@@ -17,22 +17,28 @@
 
 class PhysicalFunctions {
   public:
-    PhysicalFunctions(Movement *movement, SensorMap *map);
+    PhysicalFunctions(Movement *movement, SensorMap *map, Control *control);
     // Functions that moves the robot to the North.
-    void moveRobot(const char orientation);
+    bool moveRobot(const char orientation);
     // Function that moves the position of the robot according to a char vector recieved and returns the resulting tiles map.
     Map followPath(TVector<char> path, Map tiles_map, uint8_t zone);
     // Function that updates the values of the first tile recieved according to the real map.
     Map updateFirstTile(Map tiles_map, uint8_t zone);
     // Function that updates the tiles map according to the real map and returns a tiles_map.
     Map updateTiles(Map tiles_map, const uint8_t zone);
+    // Function that detects a heat victim and returns true if detected. In that case, drops a kit.
+    bool detectVictim(const uint8_t orientation);
+    // Function that makes the robot pass a ramp.
+    bool passRamp();
 
     private:
     Movement *movement_;
     Control *control_;
     Screen *screen_;
-    DropKit *dropkit_;
+    DropKit dropkit_;
     SensorMap *map_;
+    DropKit dispenser;
+    Motors motor_;
 };
 
 #endif

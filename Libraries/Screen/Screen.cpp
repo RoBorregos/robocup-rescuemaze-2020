@@ -8,7 +8,10 @@
 
 LiquidCrystal_I2C lcd_(0x3F, 16, 2);
 
-Screen::Screen() {}
+Screen::Screen() {
+  lcd_.init();
+  lcd_.backlight();
+}
 
 void Screen::writeNumLCD(const int num) {
   lcd_.clear();

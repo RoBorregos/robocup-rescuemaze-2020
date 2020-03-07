@@ -11,6 +11,7 @@
 #include "Control.h"
 
 //using namespace PhysicalFunctions;
+using namespace VirtualFunctions;
 
 int encoder_1 = 2;
 int encoder_2 = 3;
@@ -27,7 +28,6 @@ void encoderCountRight() {
 void setup() {
   Serial.begin(9600);
   Screen screen;
-  DropKit dispenser;
   BNO *bno_;
   SensorMap *maps_;
   Control *control_;
@@ -47,7 +47,7 @@ void setup() {
   Control controll(bno_, maps_);
   control_ = &controll;
 
-  Movement robocup(bno_, control_, robot);
+  Movement robocup(bno_, control_, robot, maps_);
   movement_ = &robocup;
 
   movement_->initializePinEconders();
@@ -59,10 +59,13 @@ void setup() {
   unsigned short int current_zone = 0, unvisited_tiles = 1;
   TVector<Map> tiles_map;
   //TVector<Ramp> ramps_vector;
-  PhysicalFunctions physicalFunctions(movement_, maps_);
+  PhysicalFunctions physicalFunctions(movement_, maps_, control_);
   physical_ = &physicalFunctions;
+  while (bno_->orientationStatus() != 3) {
+    screen.writeLCDdown("I'm not ready");
+  }
+  screen.writeLCDdown("I'm ready");
 
-  delay(2000);
   ////////////////////////////////
 
   // Adding the initial zone to the map.
@@ -79,10 +82,15 @@ void setup() {
   /////////////////////////////////////////////////////////////
   
   while (tiles_map[current_zone].getUnvisitedTiles(tiles_map) != 0) {
+    Serial.println("");
+    printMap(tiles_map[current_zone]);  
     Dijkstra dijkstra_matrix(tiles_map[current_zone]);
     path = dijkstra_matrix.getPath(tiles_map[current_zone]);
+    printCharVector(path);
+    physical_->detectVictim(tiles_map[current_zone].getOrientation());
 
     tiles_map[current_zone] = physical_->followPath(path, tiles_map[current_zone], current_zone);
+    physical_->passRamp();
     delay(1500);
     tiles_map[current_zone] = physical_->updateTiles(tiles_map[current_zone], current_zone);
 

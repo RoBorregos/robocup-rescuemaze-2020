@@ -11,10 +11,10 @@
 Control::Control(BNO *bno, SensorMap *mapa) {
   bno_ = bno;
   map_ = mapa;
-  pinMode(LED1, INPUT); 
+  /*pinMode(LED1, INPUT); 
   digitalWrite(LED1, LOW);
   pinMode(LED2, INPUT); 
-  digitalWrite(LED2, LOW);
+  digitalWrite(LED2, LOW);*/
 }
 
 double Control::getDesiredAngle(double desire) {
@@ -69,13 +69,10 @@ double Control::getNewDesireRight(double new_desire) {
 }
 
 bool Control::detectRamp() {
-  const double current_angle_y = bno_->getAngleY();
+  // const double current_angle_y = bno_->getAngleY();
   const double current_angle_z = bno_->getAngleZ();
 
-  return (current_angle_y < -kLimitInfDegrees 
-  && current_angle_y > -kLimitSupDegrees 
-  && current_angle_z < kRangeAngleZ 
-  && current_angle_z > -kRangeAngleZ);
+  return (current_angle_z < kLimitInfDegrees);
 }
 
 bool Control::bumperLevel1() {
@@ -109,9 +106,8 @@ bool Control::bumperLevel3() {
 }
 
 double Control::getPwmBNO(const double desire, double &pwm_left_final, double &pwm_right_final) {
-  const double errorBNO = getAngleError(bno_->getAngleX(), desire);
-  pwm_left_final = Common::kLimitInfPwm;
-  pwm_right_final = Common::kLimitInfPwm;
+  const double current_angle_x = bno_->getAngleX();
+  const double errorBNO = getAngleError(current_angle_x, desire);
 
   if (errorBNO > 0) {
     pwm_left_final = Common::kLimitInfPwm;

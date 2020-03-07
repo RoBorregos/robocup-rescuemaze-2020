@@ -57,7 +57,7 @@ public:
     const uint8_t kWaitBetweenUltrasonic = 50;
     const int kWaitFiveSeconds = 5000;
     const int kWaitBetweenDropKit = 2000;
-    const uint8_t kMaxWallDistance = 7;
+    const uint8_t kMaxWallDistance = 10;
     const uint8_t kMinimumTemperature = 28;
     const uint8_t kMaximumTemperature = 40;
 
@@ -70,8 +70,8 @@ public:
 
     const uint8_t kDistanceWall = 20;
 
-    const int temperature_sensor_right = 0x50 << 1; // Sensor adress 1
-    const int temperature_sensor_left = 0x55 << 1;  // Sensor adress 2
+    const int temperature_sensor_left = 0x50 << 1; // Sensor adress 1
+    const int temperature_sensor_right = 0x55 << 1;  // Sensor adress 2
         
     Multiplexor *i2c_;
     Adafruit_TCS34725 tcs_ = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_1X);

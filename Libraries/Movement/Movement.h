@@ -17,9 +17,9 @@
 class Movement {
 
   public:
-    Movement(BNO *bno, Control *control, Motors *robot);
+    Movement(BNO *bno, Control *control, Motors *robot, SensorMap *mapa);
     // Move the robot forward with PID.
-    void advancePID(const double desire);
+    bool advancePID(const double desire);
     // Move the robot forward with PID until get out of the obstacle.
     void advancePIDSwitches(const double desire);
     // Move the robot backwards with PID.
@@ -27,7 +27,7 @@ class Movement {
     // Move the robot backward with PID until get out of the obstacle.
     void moveBackPIDSwitches(const double desire);
     // Turn left or right depending on the desired angle.
-    void turnDegrees(const double desire);
+    void turnDegrees(double desire);
     // Left corner switch on, the robot straightnes.
     void leftCornerCrash(const double desire, uint8_t straighten_angle);
     // Right corner switch on, the robot straightens.
@@ -40,7 +40,7 @@ class Movement {
     void encoderCountLeft();
     void encoderCountRight();
 
-    const int kUnitLimit = 600;
+    const int kUnitLimit = 630;
     const int kUnitLimitSwitch = 200;
 
     // Turns.
@@ -48,7 +48,7 @@ class Movement {
     const double kITurns = 2.91;
     const double kDTurns = 3.33;
 
-    const uint8_t kRange_error = 4;
+    const uint8_t kRange_error = 14;
 
     const uint8_t N = 0;
     const uint8_t E = 90;
@@ -59,6 +59,7 @@ class Movement {
     int CANAL_B = 3;
 
   private:
+    SensorMap *maps_;
     BNO *bno_;
     Control *control_;
     Motors *robot_;
