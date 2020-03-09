@@ -58,7 +58,7 @@ public:
     const int kWaitFiveSeconds = 5000;
     const int kWaitBetweenDropKit = 2000;
     const uint8_t kMaxWallDistance = 10;
-    const uint8_t kMinimumTemperature = 28;
+    const uint8_t kMinimumTemperature = 26;
     const uint8_t kMaximumTemperature = 40;
 
     const uint8_t kWaitToSend = 20;
@@ -68,7 +68,7 @@ public:
 
     const uint8_t kColoSensorID = 3;
 
-    const uint8_t kDistanceWall = 20;
+    const uint8_t kDistanceWall = 8;
 
     const int temperature_sensor_left = 0x50 << 1; // Sensor adress 1
     const int temperature_sensor_right = 0x55 << 1;  // Sensor adress 2

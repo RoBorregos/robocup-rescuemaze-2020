@@ -11,10 +11,8 @@
 Control::Control(BNO *bno, SensorMap *mapa) {
   bno_ = bno;
   map_ = mapa;
-  /*pinMode(LED1, INPUT); 
-  digitalWrite(LED1, LOW);
-  pinMode(LED2, INPUT); 
-  digitalWrite(LED2, LOW);*/
+  pinMode(LED1, OUTPUT); 
+  pinMode(LED2, OUTPUT); 
 }
 
 double Control::getDesiredAngle(double desire) {
@@ -75,6 +73,7 @@ bool Control::detectRamp() {
   return (current_angle_z < kLimitInfDegrees);
 }
 
+
 bool Control::bumperLevel1() {
   const double current_angle_y = bno_->getAngleY();
   const double current_angle_z = bno_->getAngleZ();
@@ -111,10 +110,10 @@ double Control::getPwmBNO(const double desire, double &pwm_left_final, double &p
 
   if (errorBNO > 0) {
     pwm_left_final = Common::kLimitInfPwm;
-    pwm_right_final = Common::kLimitInfPwm + Common::kPAdvance * errorBNO;
+    pwm_right_final = Common::kPAdvance * errorBNO;
   } else {
     pwm_right_final = Common::kLimitInfPwm;
-    pwm_left_final = Common::kLimitInfPwm; + Common::kPAdvance * (-(errorBNO));
+    pwm_left_final = Common::kPAdvance * (-(errorBNO));
   }
 }
 
@@ -181,6 +180,7 @@ double Control::getPwmUltrasonic(double &pwm_left_final_ultrasonic, double &pwm_
       pwm_left_final_ultrasonic = Common::kLimitInfPwm;
       pwm_right_ultrasonic_left_down = Common::kPAdvance * error_left_down;
       pwm_right_final_ultrasonic += pwm_right_ultrasonic_left_up + pwm_right_ultrasonic_left_down;
+      pwm_right_final_ultrasonic = -(pwm_right_final_ultrasonic);
     }
   }
 }
@@ -192,28 +192,22 @@ void Control::turnLED() {
 }
 
 void Control::blinkLED() {
-  digitalWrite(LED1, HIGH);
-  //digitalWrite(LED2, LOW);
-  delay(kTime200ms);
   digitalWrite(LED1, LOW);
-  //digitalWrite(LED2, HIGH);
-  delay(kTime200ms);
   digitalWrite(LED2, HIGH);
-  digitalWrite(LED1, HIGH);
-  delay(kTime200ms);
-  digitalWrite(LED2, LOW);
-  digitalWrite(LED1, LOW);
   delay(kTime200ms);
   digitalWrite(LED1, HIGH);
   digitalWrite(LED2, LOW);
   delay(kTime200ms);
-  digitalWrite(LED1, HIGH);
-  digitalWrite(LED2, HIGH);
-}
-
-  void Control::initializeLED() {
-  pinMode(LED1, INPUT); 
   digitalWrite(LED1, LOW);
-  pinMode(LED2, INPUT); 
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED1, LOW);
   digitalWrite(LED2, LOW);
 }

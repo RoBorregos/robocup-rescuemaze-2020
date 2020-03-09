@@ -11,4 +11,5 @@ namespace Common {
     const double kPAdvance = 9;
     const double kIAdvance = 3.45;
     const double kDAdvance = 2.05;
+    const double kPUltrasonic = 7.2;
 }

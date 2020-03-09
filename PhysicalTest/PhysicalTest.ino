@@ -58,13 +58,12 @@ void setup() {
   TVector<char> path;
   unsigned short int current_zone = 0, unvisited_tiles = 1;
   TVector<Map> tiles_map;
-  //TVector<Ramp> ramps_vector;
   PhysicalFunctions physicalFunctions(movement_, maps_, control_);
   physical_ = &physicalFunctions;
   while (bno_->orientationStatus() != 3) {
     screen.writeLCDdown("I'm not ready");
   }
-  screen.writeLCDdown("I'm ready");
+  screen.writeLCDdown("MAZE 2020");
 
   ////////////////////////////////
 
@@ -73,35 +72,22 @@ void setup() {
   zone0.setInitialTile(support_tile);
   tiles_map.pushAsFirst(zone0);
   tiles_map[current_zone] = physical_->updateFirstTile(tiles_map[current_zone], current_zone);
-
-  /////////////////////////////////////////////////////////////
-  
-  if (tiles_map[current_zone].currentTile().ableToGoNorth()) {
-    screen.writeLCDdown("PRIMER PASO BIEN");
-  }
-  /////////////////////////////////////////////////////////////
   
   while (tiles_map[current_zone].getUnvisitedTiles(tiles_map) != 0) {
     Serial.println("");
     printMap(tiles_map[current_zone]);  
+    
     Dijkstra dijkstra_matrix(tiles_map[current_zone]);
     path = dijkstra_matrix.getPath(tiles_map[current_zone]);
     printCharVector(path);
-    physical_->detectVictim(tiles_map[current_zone].getOrientation());
-
-    tiles_map[current_zone] = physical_->followPath(path, tiles_map[current_zone], current_zone);
-    physical_->passRamp();
-    delay(1500);
+    
+    physical_->detectVictimLeft(tiles_map[current_zone].getOrientation());
+    physical_->detectVictimRight(tiles_map[current_zone].getOrientation());
+    
     tiles_map[current_zone] = physical_->updateTiles(tiles_map[current_zone], current_zone);
-
-    /*(if (tiles_map[current_zone].currentTile().isRampUp() || tiles_map[current_zone].currentTile().isRampDown()) {
-      ++current_zone;
-      Map nextZone;
-      Tile support_tile;
-      support_tile = updateFirstTile(support_tile, current_zone, 0, 0);
-      nextZone.setInitialTile(support_tile);
-      tiles_map.pushAsLast(nextZone);
-      }*/
+    delay(800);
+    
+    tiles_map[current_zone] = physical_->followPath(path, tiles_map[current_zone], current_zone);
   }
 }
 

@@ -15,8 +15,8 @@ bool PhysicalFunctions::moveRobot(const char orientation) {
       break;
     case 'E':
         movement_->turnDegrees(90);
-        delay(100);
-        if (movement_->advancePID(90)) return true;;
+        delay(1000);
+        if (movement_->advancePID(90)) return true;
       break;
     case 'S':
         movement_->turnDegrees(180);
@@ -320,37 +320,59 @@ Map PhysicalFunctions::updateTiles(Map tiles_map, const uint8_t zone) {
   return tiles_map;
 }
 
-bool PhysicalFunctions::detectVictim(const uint8_t orientation) {
+bool PhysicalFunctions::detectVictimLeft(const uint8_t orientation) {
   if (map_->heatVictimLeft()) {
-    //control_->turnLED();
+    control_->turnLED();
     switch (orientation) {
       case 1:
           movement_->turnDegrees(90);
           dispenser.dropOneKitLeft();
           delay(300);
-          movement_->turnDegrees(0);
-          delay(500);
         break;
       case 2:
           movement_->turnDegrees(180);
           dispenser.dropOneKitLeft();
           delay(300);
-          movement_->turnDegrees(90);
-          delay(500);
         break;
       case 3:
           movement_->turnDegrees(270);
           dispenser.dropOneKitLeft();
           delay(300);
-          movement_->turnDegrees(180);
-          delay(500);
         break;
       case 4:
           movement_->turnDegrees(0);
           dispenser.dropOneKitLeft();
           delay(300);
+        break;
+    }
+    return true;
+  }
+  return false;
+}
+
+bool PhysicalFunctions::detectVictimRight(const uint8_t orientation) {
+  if (map_->heatVictimRight()) {
+    control_->turnLED();
+    switch (orientation) {
+      case 1:
           movement_->turnDegrees(270);
-          delay(500);
+          dispenser.dropOneKitLeft();
+          delay(300);
+        break;
+      case 2:
+          movement_->turnDegrees(0);
+          dispenser.dropOneKitLeft();
+          delay(300);
+        break;
+      case 3:
+          movement_->turnDegrees(90);
+          dispenser.dropOneKitLeft();
+          delay(300);
+        break;
+      case 4:
+          movement_->turnDegrees(180);
+          dispenser.dropOneKitLeft();
+          delay(300);
         break;
     }
     return true;
@@ -362,7 +384,6 @@ bool PhysicalFunctions::passRamp() {
   bool is_a_ramp = control_->detectRamp();
   while (is_a_ramp) {
     motor_.fastForward();
-    delay(500);
     is_a_ramp = control_->detectRamp();
   }
 }

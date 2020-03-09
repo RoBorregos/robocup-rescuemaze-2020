@@ -15,5 +15,6 @@ namespace Common {
     extern const double kPAdvance;
     extern const double kIAdvance;
     extern const double kDAdvance;
+    extern const double kPUltrasonic;
 } // namespace Common
 #endif

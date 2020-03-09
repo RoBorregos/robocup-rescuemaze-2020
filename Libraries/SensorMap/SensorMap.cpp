@@ -78,10 +78,9 @@ bool SensorMap::checkWallsBack() {
 }
 
 bool SensorMap::heatVictimRight() {
-  i2c_->tcaselect(0);
+  i2c_->tcaselect(5);
   float celcius1 = temperatureCelcius(temperature_sensor_right);
-  if (celcius1 > kMinimumTemperature 
-  && celcius1 < kMaximumTemperature) {
+  if (celcius1 > kMinimumTemperature) {
     return true;
   } else {
     return false;
@@ -92,8 +91,7 @@ bool SensorMap::heatVictimLeft() {
   i2c_->tcaselect(0);
   float celcius2 = temperatureCelcius(temperature_sensor_left);
   Serial.println(celcius2);
-  if (celcius2 > kMinimumTemperature 
-  && celcius2 < kMaximumTemperature) {
+  if (celcius2 > kMinimumTemperature) {
     return true;
   } else {
     return false;
@@ -136,7 +134,7 @@ bool SensorMap::blackTile() {
   i2c_->tcaselect(kColoSensorID);
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
-  return (r < 270 && g < 150 && b < 130 && c < 270);
+  return (r < 120 && g < 100 && b < 100 && c < 100);
 }
 
 // TODO(MarlonB500): Add the correct values to detect a silver tile and make them constants.

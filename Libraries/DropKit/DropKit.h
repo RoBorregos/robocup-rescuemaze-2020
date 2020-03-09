@@ -15,6 +15,7 @@ class DropKit {
   public:
     // Initialize the dispenser.
     DropKit();
+    void setup();
     // Drop one kit for Heated Victims and Coloured Victims(red and yellow).
     void dropOneKitRight();
     // Drop one kit for Heated Victims and Coloured Victims(red and yellow).

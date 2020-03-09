@@ -44,7 +44,7 @@ class Movement {
     const int kUnitLimitSwitch = 200;
 
     // Turns.
-    const double kPTurns = 1.07;
+    const double kPTurns = 2.15;
     const double kITurns = 2.91;
     const double kDTurns = 3.33;
 

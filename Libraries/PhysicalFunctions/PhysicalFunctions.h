@@ -26,8 +26,10 @@ class PhysicalFunctions {
     Map updateFirstTile(Map tiles_map, uint8_t zone);
     // Function that updates the tiles map according to the real map and returns a tiles_map.
     Map updateTiles(Map tiles_map, const uint8_t zone);
-    // Function that detects a heat victim and returns true if detected. In that case, drops a kit.
-    bool detectVictim(const uint8_t orientation);
+    // Function that detects a heat victim on the left and returns true if detected. In that case, drops a kit.
+    bool detectVictimLeft(const uint8_t orientation);
+    // Function that detects a heat victim on the right and returns true if detected. In that case, drops a kit.
+    bool detectVictimRight(const uint8_t orientation);
     // Function that makes the robot pass a ramp.
     bool passRamp();
 

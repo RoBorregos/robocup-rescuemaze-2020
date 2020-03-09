@@ -27,23 +27,12 @@ bool Movement::advancePID(const double desire) {
   double errorBNO = 0;
 
   do {
-    errorBNO = control_->getAngleError(current_angle_x, desire);
-
-    if (errorBNO > 0) {
-      pwm_left_final = Common::kLimitInfPwm;
-      pwm_right_final = Common::kLimitInfPwm + Common::kPAdvance * errorBNO;
-    } else {
-      pwm_right_final = Common::kLimitInfPwm;
-      pwm_left_final = Common::kLimitInfPwm; + Common::kPAdvance * (-(errorBNO));
-  }
-    // const double errorBNO = control_->getAngleError(current_angle_x, desire);
     control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    // control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
-
+    // const double errorBNO = control_->getAngleError(current_angle_x, desire);
     // double pwm_right_enginees = pwm_right_final_bno; // + pwm_right_final_ultrasonic; // Negative.
     // double pwm_left_enginees = pwm_left_final_bno; // + pwm_left_final_ultrasonic;    // Positive.
-      control_->getPwm(pwm_right_final_bno);
-      control_->getPwm(pwm_left_final_bno);
+    control_->getPwm(pwm_right_final_bno);
+    control_->getPwm(pwm_left_final_bno); 
     robot_->forwardPwm(pwm_left_final_bno, pwm_right_final_bno);
   } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
     robot_->stopEngines();
@@ -54,7 +43,8 @@ bool Movement::advancePID(const double desire) {
     } else {
       return false;
     }
-}
+    return false;
+  }
 
 // TODO(MarlonB500): Implement the correct values for encoders.
 void Movement::advancePIDSwitches(const double desire) {
@@ -151,7 +141,6 @@ void Movement::turnDegrees(double desire) {
 
   do {
     error = control_->getAngleError(bno_->getAngleX(), desire);
-    Serial.println(error);
     pwm = kPTurns * error;
     control_->getPwm(pwm); // Verify to the pwm stay in the range.
     if (error < 0) {

@@ -47,11 +47,9 @@ class Control {
     void turnLED();
     // Turn on a LED for 1 second.
     void blinkLED();
-    // Initialze the two leds;
-    void initializeLED();
 
     const uint8_t kLimitSupDegrees = 35;
-    const uint8_t kLimitInfDegrees = 0;
+    const uint8_t kLimitInfDegrees = -11;
     const uint8_t kRangeAngleZ = 3;
     const uint8_t kLimitInfBumper1 = 2;
     const uint8_t kLimitSupBumper1 = 5;
