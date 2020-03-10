@@ -28,6 +28,8 @@ class Motors {
     void forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
     // Move the robot backward through the pwm assigned in each side.
     void backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
+    // Initialize all motors.
+    void initializeMotors();
 
     const uint8_t kMotorLeftForward1 = 10;
     const uint8_t kMotorLeftForward2 = 11;
