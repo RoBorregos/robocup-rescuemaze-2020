@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "Screen.h"
 #include "SensorMap.h"
 #include "Motors.h"
@@ -7,16 +8,28 @@
 #include "DropKit.h"
 #include "BNO.h"
 
+int encoder_1 = 2;
+int encoder_2 = 3;
+Movement *movement;
+
+void encoderCountLeft() {
+  movement->encoderCountLeft();
+}
+
+void encoderCountRight() {
+  movement->encoderCountRight();
+}
+
 void setup() {
   Serial.begin(9600);
   Screen screen;
-  Control *control;
-  SensorMap *maps;
-  BNO *bno;
-  Movement *movement;
-
-
   DropKit dispenser;
+
+  Control *control;
+
+  SensorMap *maps;
+
+  BNO *bno;
 
   Multiplexor multii;
   Multiplexor *const i2c = &multii;
@@ -24,8 +37,8 @@ void setup() {
   Motors robo;
   Motors *const robot = &robo;
 
-  BNO direction(i2c);
-  bno = &direction;
+  BNO direct(i2c);
+  bno = &direct;
 
   SensorMap sensorr(i2c);
   maps = &sensorr;
@@ -35,16 +48,17 @@ void setup() {
 
   Movement robocup(bno, control, robot);
   movement = &robocup;
+  attachInterrupt(digitalPinToInterrupt(encoder_1), encoderCountLeft, RISING);
+  attachInterrupt(digitalPinToInterrupt(encoder_2), encoderCountRight, RISING);
+  movement->advancePID(0);
 
-  // screen.writeLCD("Hello, World", "Que");
 
-  robot->turnRight(255);
-  
-  while (bno->orientationStatus() != 3) {
+  /*while (bno->orientationStatus() != 3) {
     screen.writeLCDdown("I'm not ready");
   }
   screen.writeLCDdown("I'm ready");
+  control->initializeLED();
+  robot->initializeMotors();*/
 }
-
 void loop() {
 }
