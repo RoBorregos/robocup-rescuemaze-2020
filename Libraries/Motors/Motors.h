@@ -6,6 +6,7 @@
 #ifndef MOTORS_H
 #define MOTORS_H
 
+#include <Arduino.h>
 #include "arduino.h"
 #include "Common.h"
 
@@ -14,9 +15,9 @@ class Motors {
   public:
     Motors();
     // Turn the robot 90 degrees to the left.
-    void turnLeft(const uint8_t speed);
+    void turnLeft(const uint8_t pwm);
     // Turn the robot 90 degrees to the right.
-    void turnRight(const uint8_t speed);
+    void turnRight(const uint8_t pwm);
     // Stop the robot.
     void stopEngines();
     // Go fast to the ramp.
@@ -27,8 +28,6 @@ class Motors {
     void forwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
     // Move the robot backward through the pwm assigned in each side.
     void backwardPwm(const uint8_t pwm_right, const uint8_t pwm_left);
-    // Initialize all motors.
-    void initializeMotors();
 
     const uint8_t kMotorLeftForward1 = 10;
     const uint8_t kMotorLeftForward2 = 11;

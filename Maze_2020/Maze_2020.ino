@@ -13,6 +13,7 @@ void setup() {
   Control *control;
   SensorMap *maps;
   BNO *bno;
+  Movement *movement;
 
 
   DropKit dispenser;
@@ -33,17 +34,16 @@ void setup() {
   control = &controll;
 
   Movement robocup(bno, control, robot);
+  movement = &robocup;
 
   // screen.writeLCD("Hello, World", "Que");
 
   robot->turnRight(255);
   
-  /*while (bno->orientationStatus() != 3) {
+  while (bno->orientationStatus() != 3) {
     screen.writeLCDdown("I'm not ready");
   }
   screen.writeLCDdown("I'm ready");
-  control->initializeLED();
-  robot->initializeMotors();*/
 }
 
 void loop() {

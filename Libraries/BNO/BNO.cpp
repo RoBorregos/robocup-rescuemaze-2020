@@ -9,32 +9,14 @@
 
 BNO::BNO(Multiplexor *multiplexor) {
   I2C_ = multiplexor;
-  bno_ = Adafruit_BNO055();
+  // bno_ = Adafruit_BNO055();
+  
   Serial.println("Orientation Sensor Test");
   Serial.println("");
   I2C_->tcaselect(kBNOID);
   bno_.begin();
-  I2C_->tcaselect(kBNOID);
-  if (!bno_.begin()) {
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while (1);
-  }
-  delay(kTimeToPrintBNO);
 
   bno_.setExtCrystalUse(true);
-  sensors_event_t event;
-  I2C_->tcaselect(kBNOID);
-  bno_.getEvent(&event);
-
-  Serial.print("X: ");
-  Serial.print(event.orientation.x, 4);
-  Serial.print("\tY: ");
-  Serial.print(event.orientation.y, 4);
-  Serial.print("\tZ: ");
-  Serial.print(event.orientation.z, 4);
-  Serial.println("");
-
-  delay(kRepose);
 }
 
 double BNO::getDifferenceWithZero() {
