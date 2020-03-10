@@ -7,7 +7,6 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
-#include <Arduino.h>
 #include "arduino.h"
 #include "BNO.h"
 #include "Control.h"
@@ -36,33 +35,29 @@ class Movement {
     void leftCrash(const double desire, uint8_t straighten_angle);
     // Right switch on, the robot straightens.
     void rightCrash(const double desire, uint8_t straighten_angle);
-    void initializePinEconders();
-    void encoderCountLeft();
-    void encoderCountRight();
 
-    const int kUnitLimit = 1000000; // 630;
+    const int kUnitLimit = 500;
     const int kUnitLimitSwitch = 200;
 
     // Turns.
-    const double kPTurns = 2.65;
+    const double kPTurns = 1.07;
     const double kITurns = 2.91;
     const double kDTurns = 3.33;
 
-    const uint8_t kRange_error = 3;
+    const uint8_t kRange_error = 2;
 
     const uint8_t N = 0;
     const uint8_t E = 90;
     const uint8_t S = 180;
     const int W = 270;
 
-    int CANAL_A = 2;
-    int CANAL_B = 3;
+    volatile uint16_t encoder_count_left_;
+    volatile uint16_t encoder_count_right_;
 
   private:
     BNO *bno_;
     Control *control_;
     Motors *robot_;
-    volatile uint16_t encoder_count_left_;
-    volatile uint16_t encoder_count_right_;
+    Screen *screen_;
 };
 #endif

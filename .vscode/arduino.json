@@ -1,5 +1,5 @@
 {
-    "sketch": "Maze_2020.ino",
+    "sketch": "Maze_2020\\Maze_2020.ino",
     "programmer": "AVR ISP",
     "board": "arduino:avr:uno"
 }

@@ -68,7 +68,7 @@ public:
 
     const uint8_t kColoSensorID = 3;
 
-    const uint8_t kDistanceWall = 8;
+    const uint8_t kDistanceWall = 15;
 
     const int temperature_sensor_left = 0x50 << 1; // Sensor adress 1
     const int temperature_sensor_right = 0x55 << 1;  // Sensor adress 2
