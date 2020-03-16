@@ -36,9 +36,13 @@ class DropKit {
     const uint8_t kDispenserDegrees180 = 180;
 
     const int kTime_1sec = 1000;
-    const uint8_t kTime_2ms = 200;
+    const uint8_t kTime_2ms = 200;   
+    const uint8_t kTime200ms = 200;
 
     const uint8_t kPin = 42;
+
+    const uint8_t LED1 = 42;
+    const uint8_t LED2 = 41;
 
   private:
     Servo dispenser_;

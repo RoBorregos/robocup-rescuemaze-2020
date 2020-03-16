@@ -1,3 +1,4 @@
+/* ROBORREGOS MAZE 2020.
  * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This BNO class has all functions to get
  * the robot angle, write on screen, and
@@ -6,12 +7,12 @@
 #ifndef BNO_H
 #define BNO_H
 
-#include <Arduino.h>
+#include "arduino.h"
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-#include "arduino.h"
 #include "Multiplexor.h"
 #include "Wire.h"
+#include "Screen.h"
 
 class BNO {
 
@@ -42,6 +43,6 @@ class BNO {
 
     private:
       Multiplexor *I2C_;
-      Adafruit_BNO055 bno_ = Adafruit_BNO055(55);
+      Adafruit_BNO055 bno_ = Adafruit_BNO055();
 };
 #endif

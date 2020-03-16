@@ -7,32 +7,33 @@
 #ifndef SENSORMAP_H
 #define SENSORMAP_H
 
-#include "arduino.h"
+#include <Arduino.h>
 #include "Wire.h"
 #include <Adafruit_TCS34725.h>
 #include "Multiplexor.h"
 #include <Ultrasonic.h>
+#include <i2cmaster.h>
 
 class SensorMap {
 
-public:
+  public:
     SensorMap(Multiplexor *multi);
-    // Get the Ultrasonic Distance Right Up.
-    int getDistanceRightUp();
-    // Get the Ultrasonic Distance Right Down.
-    int getDistanceRightDown();
-    // Get the Ultrasonic Distance Left Up.
-    int getDistanceLeftUp();
-    // Get the Ultrasonic Distance Left Down.
-    int getDistanceLeftDown();
-    // Get the Ultrasonic Distance Front Left.
-    int getDistanceFrontLeft();
-    // Get the Ultrasonic Distance Front Right.
-    int getDistanceFrontRight();
+    // Get the Ultrasonic Distance Front.
+    int getDistanceFront();
+    // Get the Ultrasonic Distance Right.
+    int getDistanceRight();
+    // Get the Ultrasonic Distance Left.
+    int getDistanceLeft();
+    // Get the Ultrasonic Distance Back.
+    int getDistanceBack();
+    // Check if the right wall is complete.
+    bool checkWallsFront();
+    // Check if the left wall is complete.
+    bool checkWallsLeft();
     // Check if the right wall is complete.
     bool checkWallsRight();
     // Check if the left wall is complete.
-    bool checkWallsLeft();
+    bool checkWallsBack();
     // Check in the right wall if there is a heat victim.
     bool heatVictimRight();
     // Check in the left wall if there is a heat victim.
@@ -65,7 +66,8 @@ public:
 
     const int temperature_sensor_right = 0x50 << 1; // Sensor adress 1
     const int temperature_sensor_left = 0x55 << 1;  // Sensor adress 2
-        
+
+   private:
     Multiplexor *i2c_;
     Adafruit_TCS34725 tcs_ = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_154MS, TCS34725_GAIN_1X);
 };

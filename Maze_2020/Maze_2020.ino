@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include "arduino.h"
 #include "Screen.h"
 #include "SensorMap.h"
 #include "Motors.h"
@@ -8,8 +8,8 @@
 #include "DropKit.h"
 #include "BNO.h"
 
-const uint8_t kEncoder1 = 2;
-const uint8_t kEncoder2 = 3;
+int encoder_1 = 2;
+int encoder_2 = 3;
 Movement *movement;
 
 void encoderCountLeft() {
@@ -23,19 +23,18 @@ void encoderCountRight() {
 void setup() {
   Serial.begin(9600);
   Screen screen;
-  DropKit dispenser;
-
   Control *control;
-
+  BNO *bno;
   SensorMap *maps;
 
-  BNO *bno;
+  DropKit dropkit;
+  DropKit *const dispenser = &dropkit;
 
-  Multiplexor multii;
-  Multiplexor *const i2c = &multii;
+  Multiplexor multiplexor;
+  Multiplexor *const i2c = &multiplexor;
 
-  Motors robo;
-  Motors *const robot = &robo;
+  Motors motors;
+  Motors *const robot = &motors;
 
   BNO direct(i2c);
   bno = &direct;
@@ -46,22 +45,17 @@ void setup() {
   Control controll(bno, maps);
   control = &controll;
 
-  Movement robocup(bno, control, robot);
+  Movement robocup(bno, control, robot, maps, dispenser);
   movement = &robocup;
-  attachInterrupt(digitalPinToInterrupt(kEncoder1), encoderCountLeft, RISING);
-  attachInterrupt(digitalPinToInterrupt(kEncoder2), encoderCountRight, RISING);
-
   
-  robot->turnLeft(255);
-  
-
-
-  /*while (bno->orientationStatus() != 3) {
+  while (bno->orientationStatus() != 3) {
     screen.writeLCDdown("I'm not ready");
   }
-  screen.writeLCDdown("I'm ready");
-  control->initializeLED();
-  robot->initializeMotors();*/
+  screen.writeLCDdown("LET'S GO MAZE");
+  attachInterrupt(digitalPinToInterrupt(encoder_1), encoderCountLeft, RISING);
+  attachInterrupt(digitalPinToInterrupt(encoder_2), encoderCountRight, RISING);
+  movement->advancePID(0);
+
 }
 void loop() {
 }

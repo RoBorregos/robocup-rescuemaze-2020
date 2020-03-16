@@ -7,7 +7,9 @@
 */
 #include "Movement.h"
 
-Movement::Movement(BNO *bno, Control *control, Motors *robot) {
+Movement::Movement(BNO *bno, Control *control, Motors *robot, SensorMap *sensor, DropKit *dropkit) {
+  dispenser_ = dropkit;
+  maps_ = sensor;
   bno_ = bno;
   control_ = control;
   robot_ = robot;
@@ -23,21 +25,21 @@ void Movement::advancePID(const double desire) {
   encoder_count_right_ = 0;
 
   do {
+    dropKitHeatVictimRight();
+    dropKitHeatVictimLeft();
     const double errorBNO = control_->getAngleError(bno_->getAngleX(), desire);
     control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
     control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
-
     if (errorBNO > 0) {
-      //pwm_right_final_bno += pwm_right_final_ultrasonic; 
+      pwm_right_final_bno += pwm_right_final_ultrasonic; 
       control_->getPwm(pwm_right_final_bno);
-    }
-    else {
-     // pwm_left_final_bno += pwm_left_final_ultrasonic;
+    } else {
+      pwm_left_final_bno += pwm_left_final_ultrasonic;
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->forwardPwm(pwm_left_final_bno, pwm_right_final_bno);
+    robot_->forwardPwm(pwm_right_final_bno, pwm_left_final_bno);
   } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
-  robot_->stopEngines();
+    robot_->stopEngines();
 }
 
 // TODO(MarlonB500): Include ultrasonic pwm.
@@ -50,20 +52,20 @@ void Movement::advancePIDSwitches(const double desire) {
   encoder_count_right_ = 0;
 
   do {
+    dropKitHeatVictimRight();
+    dropKitHeatVictimLeft();
     const double errorBNO = control_->getAngleError(bno_->getAngleX(), desire);
-    control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
+    control_->getPwmBNOSwitch(desire, pwm_left_final_bno, pwm_right_final_bno); 
 
     if (errorBNO > 0) {
       //pwm_right_final_bno += pwm_right_final_ultrasonic; 
       control_->getPwm(pwm_right_final_bno);
-    }
-    else {
+    } else {
      // pwm_left_final_bno += pwm_left_final_ultrasonic;
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->forwardPwm(pwm_left_final_bno, pwm_right_final_bno);
-  } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
+    robot_->forwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+  } while (encoder_count_right_ < kUnitLimitSwitches && encoder_count_left_ < kUnitLimitSwitches);
   robot_->stopEngines();
 }
 
@@ -77,20 +79,20 @@ void Movement::moveBackPIDSwitches(const double desire) {
   encoder_count_right_ = 0;
 
   do {
+    dropKitHeatVictimRight();
+    dropKitHeatVictimLeft();
     const double errorBNO = control_->getAngleError(bno_->getAngleX(), desire);
-    control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
-    control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
+    control_->getPwmBNOSwitch(desire, pwm_left_final_bno, pwm_right_final_bno); 
 
     if (errorBNO > 0) {
       //pwm_right_final_bno += pwm_right_final_ultrasonic; 
       control_->getPwm(pwm_right_final_bno);
-    }
-    else {
+    } else {
      // pwm_left_final_bno += pwm_left_final_ultrasonic;
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->backwardPwm(pwm_left_final_bno, pwm_right_final_bno);
-  } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
+    robot_->backwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+  } while (encoder_count_right_ < kUnitLimitSwitches && encoder_count_left_ < kUnitLimitSwitches);
   robot_->stopEngines();
 }
 
@@ -104,25 +106,30 @@ void Movement::moveBackPID(const double desire) {
   encoder_count_right_ = 0;
 
   do {
+    dropKitHeatVictimRight();
+    dropKitHeatVictimLeft();
     const double errorBNO = control_->getAngleError(bno_->getAngleX(), desire);
     control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
     // control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
 
     // double pwm_right_enginees = pwm_right_final_bno; // + pwm_right_final_ultrasonic; // Negative.
     // double pwm_left_enginees = pwm_left_final_bno; // + pwm_left_final_ultrasonic;    // Positive.
-      control_->getPwm(pwm_right_final_bno);
+    if (errorBNO > 0) {
+       control_->getPwm(pwm_right_final_bno);
+    } else {
       control_->getPwm(pwm_left_final_bno);
-    robot_->forwardPwm(pwm_left_final_bno, pwm_right_final_bno);
-  } while (encoder_count_right_ < kUnitLimit);
-  robot_->stopEngines();
-  while (encoder_count_left_ < kUnitLimit && encoder_count_right_ < kUnitLimit);
-  robot_->stopEngines();
+    }
+    robot_->backwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+  } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
+    robot_->stopEngines();
 }
 
 void Movement::turnDegrees(double desire) {
   double pwm = 0;
   double error = 0;
     do {
+      dropKitHeatVictimRight();
+      dropKitHeatVictimLeft();
       error = control_->getAngleError(bno_->getAngleX(), desire);
       Serial.println(error);
       pwm = kPTurns * error;
@@ -136,40 +143,44 @@ void Movement::turnDegrees(double desire) {
     robot_->stopEngines();
 }
 
-void Movement::leftCornerCrash(const double desire, uint8_t straighten_angle) {
-  double new_desire = desire - straighten_angle;
-  if (new_desire > 360) {
-    new_desire -= 360;
+bool Movement::dropKitHeatVictimRight() {
+  if (maps_->heatVictimRight()) {
+    dispenser_->turnLED();
+    turnDegrees(90);
+    dispenser_->dropOneKitLeft();
+    return true;
   }
-  moveBackPIDSwitches(new_desire);
-  advancePIDSwitches(new_desire);
+  return false;
 }
 
-void Movement::rightCornerCrash(const double desire, uint8_t straighten_angle) {
-  double new_desire = desire - straighten_angle;
-  if (new_desire < 0) {
-    new_desire += 360;
+bool Movement::dropKitHeatVictimLeft() {
+  if (maps_->heatVictimLeft()) {
+    dispenser_->turnLED();
+    turnDegrees(270);
+    dispenser_->dropOneKitLeft();
+    return true;
   }
-  moveBackPIDSwitches(new_desire);
-  advancePIDSwitches(new_desire);
+  return false;
 }
 
-void Movement::leftCrash(const double desire, uint8_t straighten_angle) {
-  double new_desire = desire - straighten_angle;
-  if (new_desire > 360) {
-    new_desire -= 360;
-  }
-  moveBackPIDSwitches(new_desire);
-  advancePIDSwitches(new_desire);
+// TODO:(MarlonB500) In process to get the correct values to detect the victim.
+bool Movement::dropKitVisualVictimRight() {
+  
 }
 
-void Movement::rightCrash(const double desire, uint8_t straighten_angle) {
-  double new_desire = desire - straighten_angle;
-  if (new_desire < 0) {
-    new_desire += 360;
-  }
-  moveBackPIDSwitches(new_desire);
-  advancePIDSwitches(new_desire);
+// TODO:(MarlonB500) In process to get the correct values to detect the victim.
+bool Movement::dropKitVisualVictimLeft() {
+  
+}
+
+// TODO:(MarlonB500) In process to get the correct values to detect the victim.
+bool Movement::dropKitColouredVictimRight() {
+  
+}
+
+// TODO:(MarlonB500) In process to get the correct values to detect the victim.
+bool Movement::dropKitColouredVictimLeft() {
+  
 }
 
 void Movement::encoderCountLeft() {

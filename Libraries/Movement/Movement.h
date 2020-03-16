@@ -7,17 +7,18 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
-#include <Arduino.h>
 #include "arduino.h"
 #include "BNO.h"
 #include "Control.h"
 #include "Motors.h"
 #include "Common.h"
+#include "SensorMap.h"
+#include "DropKit.h"
 
 class Movement {
 
   public:
-    Movement(BNO *bno, Control *control, Motors *robot);
+    Movement(BNO *bno, Control *control, Motors *robot, SensorMap *sensor, DropKit *dropkit);
     // Move the robot forward with PID.
     void advancePID(const double desire);
     // Move the robot forward with PID until get out of the obstacle.
@@ -28,14 +29,18 @@ class Movement {
     void moveBackPIDSwitches(const double desire);
     // Turn left or right depending on the desired angle.
     void turnDegrees(const double desire);
-    // Left corner switch on, the robot straightnes.
-    void leftCornerCrash(const double desire, uint8_t straighten_angle);
-    // Right corner switch on, the robot straightens.
-    void rightCornerCrash(const double desire, uint8_t straighten_angle); 
-    // Left switch on, the robot straightens.
-    void leftCrash(const double desire, uint8_t straighten_angle);
-    // Right switch on, the robot straightens.
-    void rightCrash(const double desire, uint8_t straighten_angle);
+    // Drop a Kit if there is a Heat Victim.
+    bool dropKitHeatVictimRight();
+    // Drop Kit if there is a Heat Victim.
+    bool dropKitHeatVictimLeft();
+    // Drop Kit if there is a Visual Victim.
+    bool dropKitVisualVictimRight();
+    // Drop Kit if there is a Visual Victim.
+    bool dropKitVisualVictimLeft();
+    // Drop Kit if there is a Coloured Victim.
+    bool dropKitColouredVictimRight();
+    // Drop Kit if there is a Coloured Victim.
+    bool dropKitColouredVictimLeft();
     // Initialize the two encoders.
     void initializePinEconders();
     // Plus one to encoder left.
@@ -43,8 +48,8 @@ class Movement {
     // Plus one to encoder right.
     void encoderCountRight();
 
-    const int kUnitLimit = 630;
-    const int kUnitLimitSwitch = 200;
+    const int kUnitLimitSwitches = 630; // 630;
+    const int kUnitLimit = 10000;
 
     // Turns.
     const double kPTurns = 2.65;
@@ -62,6 +67,8 @@ class Movement {
     const uint8_t CANAL_B = 3;
 
   private:
+    DropKit *dispenser_;
+    SensorMap *maps_;
     BNO *bno_;
     Control *control_;
     Motors *robot_;

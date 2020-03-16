@@ -10,17 +10,15 @@
 
 Control::Control(BNO *bno, SensorMap *map) {
   bno_ = bno;
-  map_ = map;
-  pinMode(LED1, OUTPUT); 
-  pinMode(LED2, OUTPUT); 
+  map_ = map; 
 }
 
 double Control::getDesiredAngle(double desire) {
   if (bno_->getAngleX() > kDegrees180) {
   }
-    if (desire < 0) {
-      desire += kDegrees360;
-    } else {
+  if (desire < 0) {
+    desire += kDegrees360;
+  } else {
     desire -= bno_->getDifferenceWithZero();
   }
   return desire;
@@ -113,111 +111,49 @@ double Control::getPwmBNO(const double desire, double &pwm_left_final, double &p
   }
 }
 
+double Control::getPwmBNOSwitch(const double desire, double &pwm_left_final, double &pwm_right_final) {
+  const double errorBNO = getAngleError(bno_->getAngleX(), desire);
+
+  if (errorBNO > 0) {
+    pwm_left_final = Common::kLimitInfPwmAdvanceSwitch;
+    pwm_right_final = Common::kLimitInfPwmAdvance + Common::kPAdvance * errorBNO;
+  } else {
+    pwm_right_final = Common::kLimitInfPwmAdvanceSwitch;
+    pwm_left_final = Common::kLimitInfPwmAdvance + Common::kPAdvance * (-(errorBNO));
+  }
+}
+
 double Control::getPwmUltrasonic(double &pwm_left_final, double &pwm_right_final) {
-  const double desire_ultrasonic = 5;
-  double pwm_right_ultrasonic_right_up = 0;
-  double pwm_left_ultrasonic_right_up = 0;
-  double pwm_left_ultrasonic_right_down = 0;
-  double pwm_right_ultrasonic_right_down = 0;
-  double pwm_left_ultrasonic_left_up = 0;
-  double pwm_right_ultrasonic_left_up = 0;
-  double pwm_left_ultrasonic_left_down = 0;
-  double pwm_right_ultrasonic_left_down = 0;
-  const double get_distance_right_up = map_->getDistanceRightUp();
-  const double get_distance_right_down = map_->getDistanceRightDown();
-  const double get_distance_left_up = map_->getDistanceLeftUp();
-  const double get_distance_left_down = map_->getDistanceLeftDown();
+  const double desire_ultrasonic = 7;
+  double pwm_right_ultrasonic_right = 0;
+  double pwm_left_ultrasonic_right = 0;
+  double pwm_left_ultrasonic_left = 0;
+  double pwm_right_ultrasonic_left = 0;
+  const double get_distance_right = map_->getDistanceRight();
+  const double get_distance_left = map_->getDistanceLeft();
 
   
-  if (get_distance_right_up < map_->kDistanceWall) {
-    const double error_right_up = getErrorUltrasonic(get_distance_right_up, desire_ultrasonic);
-    if (error_right_up > 0) {
-      pwm_right_ultrasonic_right_up = Common::kLimitInfPwmAdvance;
-      pwm_left_ultrasonic_right_up = Common::kPAdvance * error_right_up; // Positive.
+  if (get_distance_right < map_->kDistanceWall) {
+    const double error_right = getErrorUltrasonic(get_distance_right, desire_ultrasonic);
+     if (error_right > 0) {
+      pwm_right_ultrasonic_right = Common::kLimitInfPwmAdvance;
+      pwm_left_ultrasonic_right = Common::kPUltrasonic * error_right; // Positive.
     } else {
-      pwm_left_ultrasonic_right_up = Common::kLimitInfPwmAdvance;
-      pwm_right_ultrasonic_right_up = Common::kPAdvance * error_right_up; // Negative.
+      pwm_left_ultrasonic_right = Common::kLimitInfPwmAdvance;
+      pwm_right_ultrasonic_right = Common::kPUltrasonic * error_right; // Negative.
     }
   }
 
-  if (get_distance_right_down < map_->kDistanceWall) {
-    const double error_right_down = getErrorUltrasonic(get_distance_right_down, desire_ultrasonic);
-    if (error_right_down > 0) {
-      pwm_left_ultrasonic_right_down = Common::kLimitInfPwmAdvance;
-      pwm_right_ultrasonic_right_down = Common::kPAdvance * error_right_down;
-      if (get_distance_right_up < map_->kDistanceWall) {
-        pwm_right_ultrasonic_right_down += pwm_right_ultrasonic_right_up; // Positive.
-        pwm_right_final = pwm_right_ultrasonic_right_down;
-      }
+  if (get_distance_left < map_->kDistanceWall) {
+    const double error_left = getErrorUltrasonic(get_distance_left, desire_ultrasonic);
+    if (error_left > 0) {
+      pwm_left_ultrasonic_left = Common::kLimitInfPwmAdvance;
+      pwm_right_ultrasonic_left = Common::kPUltrasonic * error_left;
     } else {
-      pwm_right_ultrasonic_right_down = Common::kLimitInfPwmAdvance;
-      pwm_left_ultrasonic_right_down = Common::kPAdvance * error_right_down;
-      
-      if (get_distance_right_up < map_->kDistanceWall) {
-        pwm_left_ultrasonic_right_down += pwm_left_ultrasonic_right_up; // Negative.
-        pwm_left_final = pwm_left_ultrasonic_right_down;
-      }
+      pwm_right_ultrasonic_left = Common::kLimitInfPwmAdvance;
+      pwm_left_ultrasonic_left = Common::kPUltrasonic * error_left;
     }
   }
-
-  if (get_distance_left_up < map_->kDistanceWall) {
-    const double error_left_up = getErrorUltrasonic(get_distance_left_up, desire_ultrasonic);
-    if (error_left_up > 0) {
-      pwm_left_ultrasonic_left_up = Common::kLimitInfPwmAdvance;
-      pwm_right_ultrasonic_left_up = Common::kPAdvance * error_left_up; 
-      if (get_distance_right_down < map_->kDistanceWall) {
-        pwm_right_ultrasonic_left_up += pwm_right_ultrasonic_right_down; // Positive.
-        pwm_right_final = pwm_right_ultrasonic_left_up;
-      } else if (get_distance_right_up < map_->kDistanceWall) {
-        pwm_right_ultrasonic_left_up += pwm_right_ultrasonic_right_up;
-        pwm_right_final = pwm_left_ultrasonic_left_up;
-      }
-    } else {
-      pwm_right_ultrasonic_left_up = Common::kLimitInfPwmAdvance;
-      pwm_left_ultrasonic_left_up = Common::kPAdvance * error_left_up;
-      
-      if (get_distance_right_down < map_->kDistanceWall) {
-        pwm_left_ultrasonic_left_up += pwm_left_ultrasonic_right_down;
-        pwm_left_final = pwm_left_ultrasonic_left_up;
-      } else if (get_distance_right_up < map_->kDistanceWall) {
-        pwm_left_ultrasonic_left_up += pwm_left_ultrasonic_right_up;
-        pwm_left_final = pwm_left_ultrasonic_left_up;
-      }
-    }
-  }
-
-  if (get_distance_left_down < map_->kDistanceWall) {
-    const double error_left_down = getErrorUltrasonic(get_distance_left_down, desire_ultrasonic);
-    if (error_left_down > 0) {
-      pwm_right_ultrasonic_left_down = Common::kLimitInfPwmAdvance;
-      pwm_left_ultrasonic_left_down = Common::kPAdvance * error_left_down;
-      if (get_distance_left_up < map_->kDistanceWall) {
-        pwm_left_ultrasonic_left_down += pwm_left_ultrasonic_left_up;
-        pwm_left_final = pwm_left_ultrasonic_left_down;
-      } else if (get_distance_right_down < map_->kDistanceWall) {
-        pwm_left_ultrasonic_left_down += pwm_left_ultrasonic_right_down;
-        pwm_left_final = pwm_left_ultrasonic_left_down;
-      } else if (get_distance_right_up < map_->kDistanceWall) {
-        pwm_left_ultrasonic_left_down += pwm_left_ultrasonic_right_up;
-        pwm_left_final = pwm_left_ultrasonic_left_down;
-      }
-    } else {
-      pwm_left_ultrasonic_left_down = Common::kLimitInfPwmAdvance;
-      pwm_right_ultrasonic_left_down = Common::kPAdvance * error_left_down;
-      if (get_distance_left_up < map_->kDistanceWall) {
-        pwm_right_ultrasonic_left_down += pwm_right_ultrasonic_left_up;
-        pwm_right_final = pwm_right_ultrasonic_left_down;
-      } else if (get_distance_right_down < map_->kDistanceWall) {
-        pwm_right_ultrasonic_left_down += pwm_right_ultrasonic_right_down;
-        pwm_right_final = pwm_right_ultrasonic_left_down;
-      } else if (get_distance_right_up <map_->kDistanceWall) {
-        pwm_right_ultrasonic_left_down += pwm_right_ultrasonic_right_up;
-        pwm_right_final = pwm_right_ultrasonic_left_down;
-      }
-    }
-  }
-  if (get_distance_left_up > map_->kDistanceWall && get_distance_right_down > map_->kDistanceWall && get_distance_right_up > map_->kDistanceWall && get_distance_left_down) {
-    pwm_right_final = 0;
-    pwm_left_final = 0;
-  }
+  pwm_right_final = pwm_right_ultrasonic_left + pwm_right_ultrasonic_right;
+  pwm_left_final = pwm_left_ultrasonic_left + pwm_left_ultrasonic_right;
 }

@@ -9,13 +9,8 @@
 
 BNO::BNO(Multiplexor *multiplexor) {
   I2C_ = multiplexor;
-  // bno_ = Adafruit_BNO055();
-  
-  Serial.println("Orientation Sensor Test");
-  Serial.println("");
   I2C_->tcaselect(kBNOID);
   bno_.begin();
-
   bno_.setExtCrystalUse(true);
 }
 
