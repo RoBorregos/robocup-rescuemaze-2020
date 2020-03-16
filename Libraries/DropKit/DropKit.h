@@ -7,14 +7,14 @@
 #ifndef DROPKIT_H
 #define DROPKIT_H
 
-#include <Arduino.h>
+#include "arduino.h"
 #include <Servo.h>
 
 class DropKit {
 
   public:
-    // Initialize the dispenser.
     DropKit();
+    // Initialize the dispenser.
     void setup();
     // Drop one kit for Heated Victims and Coloured Victims(red and yellow).
     void dropOneKitRight();
@@ -24,18 +24,25 @@ class DropKit {
     void dropTwoKitsRight();
     // Drop two kits for Visual Victims(Stable).
     void dropTwoKitsLeft();
+    // Turn on a LED for 5 seconds if there is a victim.
+    void turnLED();
+    // Turn on a LED for 1 second.
+    void blinkLED();
 
     const uint8_t kDispenserDegrees0 = 0;
     const uint8_t kDispenserDegrees80 = 80;
     const uint8_t kDispenserDegrees90 = 90;
     const uint8_t kDispenserDegrees100 = 100;
     const uint8_t kDispenserDegrees180 = 180;
-    const uint8_t kDispenserDegrees10 = 10;
 
     const int kTime_1sec = 1000;
-    const uint8_t kTime_2ms = 200;
+    const uint8_t kTime_2ms = 200;   
+    const uint8_t kTime200ms = 200;
 
-    const uint8_t kPin = 22;
+    const uint8_t kPin = 42;
+
+    const uint8_t LED1 = 42;
+    const uint8_t LED2 = 41;
 
   private:
     Servo dispenser_;

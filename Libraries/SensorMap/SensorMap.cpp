@@ -7,17 +7,14 @@
 */
 #include "SensorMap.h"
 
-Ultrasonic ultrasonicFrontLeft(39, 38);   // Trig, Echo.
-Ultrasonic ultrasonicFrontRight(31, 30);  // Trig, Echo.
-Ultrasonic ultrasonicRightUp(48, 47);     // Trig, Echo.
-Ultrasonic ultrasonicRightDown(23, 49); // Trig, Echo.
-Ultrasonic ultrasonicLeftUp(29, 28);    // Trig, Echo.
-Ultrasonic ultrasonicLeftDown(53, 52);  // Trig, Echo.
-Ultrasonic ultrasonicBack(27, 26);  // Trig, Echo.
+Ultrasonic ultrasonicFront(39, 38);   // Trig, Echo.
+Ultrasonic ultrasonicRight(48, 47);     // Trig, Echo.
+Ultrasonic ultrasonicLeft(29, 28);    // Trig, Echo..
+Ultrasonic ultrasonicBack(27, 26);
 
 SensorMap::SensorMap(Multiplexor *multi) {
   i2c_ = multi;
-
+  Serial.println("Color Sensor Orientation");
   i2c_->tcaselect(3);
   tcs_.begin();
   i2c_->tcaselect(3);
@@ -28,49 +25,34 @@ SensorMap::SensorMap(Multiplexor *multi) {
       delay(kTimeToPrint);
     }
   }
-  i2c_->tcaselect(0);
-  i2c_init();
-  PORTC = (1 << PORTC4) | (1 << PORTC5);
 }
 
-int SensorMap::getDistanceFrontLeft() {
-  return (ultrasonicFrontLeft.read());
+int SensorMap::getDistanceFront() {
+  return (ultrasonicFront.read());
 }
 
-int SensorMap::getDistanceFrontRight() {
-  return (ultrasonicFrontRight.read());
+int SensorMap::getDistanceRight() {
+  return (ultrasonicRight.read());
 }
 
-int SensorMap::getDistanceRightUp() {
-  return (ultrasonicRightUp.read());
-}
-
-int SensorMap::getDistanceRightDown() {
-  return (ultrasonicRightDown.read());
-}
-
-int SensorMap::getDistanceLeftUp() {
-  return (ultrasonicLeftUp.read());
-}
-
-int SensorMap::getDistanceLeftDown() {
-  return (ultrasonicLeftDown.read());
+int SensorMap::getDistanceLeft() {
+  return (ultrasonicLeft.read());
 }
 
 int SensorMap::getDistanceBack() {
   return (ultrasonicBack.read());
 }
 
-bool SensorMap::checkWallsRight() {
-  return (getDistanceRightUp() < kMaxWallDistance || getDistanceRightDown() < kMaxWallDistance);
+bool SensorMap::checkWallsFront() {
+  return (getDistanceFront() < kMaxWallDistance);
 }
 
 bool SensorMap::checkWallsLeft() {
-  return (getDistanceLeftUp() < kMaxWallDistance || getDistanceLeftDown() < kMaxWallDistance);
+  return (getDistanceLeft() < kMaxWallDistance);
 }
 
-bool SensorMap::checkWallsFront() {
-  return (getDistanceFrontLeft() < kMaxWallDistance || getDistanceFrontRight() < kMaxWallDistance);
+bool SensorMap::checkWallsRight() {
+  return (getDistanceRight() < kMaxWallDistance);
 }
 
 bool SensorMap::checkWallsBack() {
@@ -78,9 +60,8 @@ bool SensorMap::checkWallsBack() {
 }
 
 bool SensorMap::heatVictimRight() {
-  i2c_->tcaselect(5);
-  float celcius1 = temperatureCelcius(temperature_sensor_right);
-  if (celcius1 > kMinimumTemperature) {
+  if (temperatureCelcius(temperature_sensor_right) > kMinimumTemperature 
+  && temperatureCelcius(temperature_sensor_right) < kMaximumTemperature) {
     return true;
   } else {
     return false;
@@ -88,10 +69,8 @@ bool SensorMap::heatVictimRight() {
 }
 
 bool SensorMap::heatVictimLeft() {
-  i2c_->tcaselect(0);
-  float celcius2 = temperatureCelcius(temperature_sensor_left);
-  Serial.println(celcius2);
-  if (celcius2 > kMinimumTemperature) {
+  if (temperatureCelcius(temperature_sensor_left) > kMinimumTemperature 
+  && temperatureCelcius(temperature_sensor_left) < kMaximumTemperature) {
     return true;
   } else {
     return false;
@@ -100,6 +79,7 @@ bool SensorMap::heatVictimLeft() {
 /*bool SensorMap::visualVictim() {
   
 }
+
 bool SensorMap::colouredVictim() {
 }
 */
@@ -134,7 +114,7 @@ bool SensorMap::blackTile() {
   i2c_->tcaselect(kColoSensorID);
   uint16_t r, g, b, c;
   tcs_.getRawData(&r, &g, &b, &c);
-  return (r < 120 && g < 100 && b < 100 && c < 100);
+  return (r < 0 && g < 0 && b < 0 && c < 0);
 }
 
 // TODO(MarlonB500): Add the correct values to detect a silver tile and make them constants.

@@ -17,7 +17,7 @@
 
 class PhysicalFunctions {
   public:
-    PhysicalFunctions(Movement *movement, SensorMap *map, Control *control);
+    PhysicalFunctions(Movement *movement, SensorMap *map, Control *control, DropKit *dispenser);
     // Functions that moves the robot to the North.
     bool moveRobot(const char orientation);
     // Function that moves the position of the robot according to a char vector recieved and returns the resulting tiles map.
@@ -39,7 +39,7 @@ class PhysicalFunctions {
     Screen *screen_;
     DropKit dropkit_;
     SensorMap *map_;
-    DropKit dispenser;
+    DropKit dispenser_;
     Motors motor_;
 };
 

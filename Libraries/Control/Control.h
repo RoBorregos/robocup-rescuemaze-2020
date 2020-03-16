@@ -8,9 +8,8 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include <Arduino.h>
-#include <Wire.h>
 #include "arduino.h"
+#include <Wire.h>
 #include "SensorMap.h"
 #include "BNO.h"
 #include "Common.h"
@@ -18,7 +17,7 @@
 class Control {
 
   public:
-    Control(BNO *bno, SensorMap *mapa);
+    Control(BNO *bno, SensorMap *map);
     // Get the new desired angle respect to the difference achieved.
     double getDesiredAngle(double desire);
     // Get the difference with the desired angle to the current angle, return error.
@@ -41,29 +40,21 @@ class Control {
     bool bumperLevel3();
     // Get the correct pwm with the BNO.
     double getPwmBNO(const double desire, double &pwm_left_final, double &pwm_right_final);
+    double getPwmBNOSwitch(const double desire, double &pwm_left_final, double &pwm_right_final);
     // Get the correct pwm with the Ultrasonic sensors.
     double getPwmUltrasonic(double &pwm_left_final_ultrasonic, double &pwm_right_final_ultrasonic);
-    // Turn on a LED for 5 seconds.
-    void turnLED();
-    // Turn on a LED for 1 second.
-    void blinkLED();
 
     const uint8_t kLimitSupDegrees = 35;
-    const uint8_t kLimitInfDegrees = -11;
+    const uint8_t kLimitInfDegrees = 11;
     const uint8_t kRangeAngleZ = 3;
-    const uint8_t kLimitInfBumper1 = 2;
+    const uint8_t kLimitInfBumper1 = 2;   
     const uint8_t kLimitSupBumper1 = 5;
     const uint8_t kLimitSupBumper2 = 9;
     const uint8_t kLimitSupBumper3 = 15;
 
-    const uint8_t kTime200ms = 200;
-
     const uint8_t kDegrees90 = 90;
     const int kDegrees360 = 360;
     const uint8_t kDegrees180 = 180;
-
-    const uint8_t LED1 = 42;
-    const uint8_t LED2 = 41;
 
 
   private:

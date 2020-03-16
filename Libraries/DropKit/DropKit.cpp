@@ -7,16 +7,20 @@
 */
 #include "DropKit.h"
 
-DropKit::DropKit() {
+DropKit::DropKit() {}
+
+void DropKit::setup() {
   dispenser_.attach(kPin); // Servo Pin
-  // dispenser_.write(kDispenserDegrees0); // Initialize the dispenser in 90 degrees(in the middle).
+  dispenser_.write(kDispenserDegrees90); // Initialize the dispenser in 90 degrees(in the middle).
 }
 
 void DropKit::dropOneKitLeft() {
   dispenser_.write(kDispenserDegrees0);
   delay(kTime_1sec);
-  dispenser_.write(kDispenserDegrees90);
+  dispenser_.write(kDispenserDegrees100);
   delay(kTime_1sec);
+  dispenser_.write(kDispenserDegrees90);
+  delay(kTime_2ms);
 }
 
 void DropKit::dropOneKitRight() {
@@ -36,4 +40,31 @@ void DropKit::dropTwoKitsRight() {
 void DropKit::dropTwoKitsLeft(){
   dropOneKitLeft();
   dropOneKitLeft();
+}
+
+void DropKit::turnLED() {
+  for(int i = 0; i < 5; ++i) {
+    blinkLED();
+  }
+}
+
+void DropKit::blinkLED() {
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, HIGH);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
 }

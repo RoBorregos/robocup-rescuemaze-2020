@@ -28,27 +28,35 @@ void encoderCountRight() {
 void setup() {
   Serial.begin(9600);
   Screen screen;
-  BNO *bno_;
-  SensorMap *maps_;
-  Control *control_;
-  PhysicalFunctions *physical_;
-  Multiplexor multii;
-  Multiplexor *const i2c = &multii;
+  Control *control;
+  BNO *bno;
+  SensorMap *maps;
 
-  Motors robo;
-  Motors *const robot = &robo;
+  DropKit dropkit;
+  DropKit *const dispenser = &dropkit;
+
+  Multiplexor multiplexor;
+  Multiplexor *const i2c = &multiplexor;
+
+  Motors motors;
+  Motors *const robot = &motors;
 
   BNO direct(i2c);
-  bno_ = &direct;
+  bno = &direct;
 
   SensorMap sensorr(i2c);
-  maps_ = &sensorr;
+  maps = &sensorr;
 
-  Control controll(bno_, maps_);
-  control_ = &controll;
+  Control controll(bno, maps);
+  control = &controll;
 
-  Movement robocup(bno_, control_, robot, maps_);
-  movement_ = &robocup;
+  Movement robocup(bno, control, robot, maps, dispenser);
+  movement = &robocup;
+
+  while (bno->orientationStatus() != 3) {
+    screen.writeLCDdown("I'm not ready");
+  }
+  screen.writeLCDdown("LET'S GO MAZE");
 
   movement_->initializePinEconders();
   attachInterrupt(digitalPinToInterrupt(encoder_1), encoderCountLeft, RISING);
@@ -58,12 +66,8 @@ void setup() {
   TVector<char> path;
   unsigned short int current_zone = 0, unvisited_tiles = 1;
   TVector<Map> tiles_map;
-  PhysicalFunctions physicalFunctions(movement_, maps_, control_);
+  PhysicalFunctions physicalFunctions(movement, maps, control, dispenser);
   physical_ = &physicalFunctions;
-  while (bno_->orientationStatus() != 3) {
-    screen.writeLCDdown("I'm not ready");
-  }
-  screen.writeLCDdown("MAZE 2020");
 
   ////////////////////////////////
 

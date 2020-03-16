@@ -1,9 +1,10 @@
 #include "PhysicalFunctions.h"
 
-PhysicalFunctions::PhysicalFunctions(Movement *movement, SensorMap *map, Control *control) {
+PhysicalFunctions::PhysicalFunctions(Movement *movement, SensorMap *map, Control *control, DropKit *dropkit) {
   movement_ = movement;
   map_ = map;
   control_ = control;
+  dispenser_ = dropkit;
 }
 
 bool PhysicalFunctions::moveRobot(const char orientation) {
@@ -79,19 +80,13 @@ Map PhysicalFunctions::followPath(TVector<char> path, Map tiles_map, uint8_t zon
 
 Map PhysicalFunctions::updateFirstTile(Map tiles_map, uint8_t zone) {
   Tile tile = tiles_map.currentTile();
-  Serial.print("FRONT LEFT: ");
-  Serial.println(map_->getDistanceFrontLeft());
-  Serial.print("FRONT RIGHT: ");
-  Serial.println(map_->getDistanceFrontRight());
-  Serial.print("RIGHT UP: ");
-  Serial.println(map_->getDistanceRightUp());
-  Serial.print("RIGHT DOWN: ");
-  Serial.println(map_->getDistanceRightDown());
-  Serial.print("LEFT UP: ");
-  Serial.println(map_->getDistanceLeftUp());
-  Serial.print("LEFT DOWN: ");
-  Serial.println(map_->getDistanceLeftDown());
-  Serial.print("checkWallsBack: ");
+  Serial.print("FRONT: ");
+  Serial.println(map_->getDistanceFront());
+  Serial.print("RIGHT: ");
+  Serial.println(map_->getDistanceRight());
+  Serial.print("LEFT: ");
+  Serial.println(map_->getDistanceLeft());
+  Serial.print("BACK: ");
   Serial.println(map_->getDistanceBack());
 
   if (!map_->checkWallsFront()) {
@@ -322,7 +317,7 @@ Map PhysicalFunctions::updateTiles(Map tiles_map, const uint8_t zone) {
 
 bool PhysicalFunctions::detectVictimLeft(const uint8_t orientation) {
   if (map_->heatVictimLeft()) {
-    control_->turnLED();
+    dispenser_->turnLED();
     switch (orientation) {
       case 1:
           movement_->turnDegrees(90);
@@ -352,7 +347,7 @@ bool PhysicalFunctions::detectVictimLeft(const uint8_t orientation) {
 
 bool PhysicalFunctions::detectVictimRight(const uint8_t orientation) {
   if (map_->heatVictimRight()) {
-    control_->turnLED();
+    dispenser_->turnLED();
     switch (orientation) {
       case 1:
           movement_->turnDegrees(270);
