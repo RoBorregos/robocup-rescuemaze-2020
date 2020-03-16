@@ -8,16 +8,15 @@
 */
 #include "Control.h"
 
-Control::Control(BNO *bno, SensorMap *mapa) {
+Control::Control(BNO *bno, SensorMap *map) {
   bno_ = bno;
-  map_ = mapa;
+  map_ = map;
   pinMode(LED1, OUTPUT); 
   pinMode(LED2, OUTPUT); 
 }
 
 double Control::getDesiredAngle(double desire) {
   if (bno_->getAngleX() > kDegrees180) {
-    // desire -= bno_->getDifferenceWithZero();
   }
     if (desire < 0) {
       desire += kDegrees360;
@@ -67,10 +66,9 @@ double Control::getNewDesireRight(double new_desire) {
 }
 
 bool Control::detectRamp() {
-  // const double current_angle_y = bno_->getAngleY();
   const double current_angle_z = bno_->getAngleZ();
 
-  return (current_angle_z < kLimitInfDegrees);
+  return (current_angle_z < -(kLimitInfDegrees));
 }
 
 bool Control::bumperLevel1() {
@@ -222,31 +220,4 @@ double Control::getPwmUltrasonic(double &pwm_left_final, double &pwm_right_final
     pwm_right_final = 0;
     pwm_left_final = 0;
   }
-}
-
-void Control::turnLED() {
-  for(int i = 0; i < 5; ++i) {
-    blinkLED();
-  }
-}
-
-void Control::blinkLED() {
-  digitalWrite(LED1, LOW);
-  digitalWrite(LED2, HIGH);
-  delay(kTime200ms);
-  digitalWrite(LED1, HIGH);
-  digitalWrite(LED2, LOW);
-  delay(kTime200ms);
-  digitalWrite(LED1, LOW);
-  digitalWrite(LED2, LOW);
-  delay(kTime200ms);
-  digitalWrite(LED1, HIGH);
-  digitalWrite(LED2, LOW);
-  delay(kTime200ms);
-  digitalWrite(LED1, LOW);
-  digitalWrite(LED2, LOW);
-  delay(kTime200ms);
-  digitalWrite(LED1, HIGH);
-  digitalWrite(LED1, LOW);
-  digitalWrite(LED2, LOW);
 }

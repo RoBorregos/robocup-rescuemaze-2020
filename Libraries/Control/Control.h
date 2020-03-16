@@ -18,7 +18,7 @@
 class Control {
 
   public:
-    Control(BNO *bno, SensorMap *mapa);
+    Control(BNO *bno, SensorMap *map);
     // Get the new desired angle respect to the difference achieved.
     double getDesiredAngle(double desire);
     // Get the difference with the desired angle to the current angle, return error.
@@ -43,13 +43,9 @@ class Control {
     double getPwmBNO(const double desire, double &pwm_left_final, double &pwm_right_final);
     // Get the correct pwm with the Ultrasonic sensors.
     double getPwmUltrasonic(double &pwm_left_final_ultrasonic, double &pwm_right_final_ultrasonic);
-    // Turn on a LED for 5 seconds.
-    void turnLED();
-    // Turn on a LED for 1 second.
-    void blinkLED();
 
     const uint8_t kLimitSupDegrees = 35;
-    const uint8_t kLimitInfDegrees = -11;
+    const uint8_t kLimitInfDegrees = 11;
     const uint8_t kRangeAngleZ = 3;
     const uint8_t kLimitInfBumper1 = 2;
     const uint8_t kLimitSupBumper1 = 5;

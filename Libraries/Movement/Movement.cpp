@@ -13,6 +13,7 @@ Movement::Movement(BNO *bno, Control *control, Motors *robot) {
   robot_ = robot;
 }
 
+// TODO(MarlonB500): Include ultrasonic pwm.
 void Movement::advancePID(const double desire) {
   double pwm_left_final_bno;
   double pwm_right_final_bno;
@@ -39,8 +40,8 @@ void Movement::advancePID(const double desire) {
   robot_->stopEngines();
 }
 
-// TODO(MarlonB500): Implement the correct values for encoders.
-/*void Movement::advancePIDSwitches(const double desire) {
+// TODO(MarlonB500): Include ultrasonic pwm.
+void Movement::advancePIDSwitches(const double desire) {
   double pwm_left_final_bno;
   double pwm_right_final_bno;
   double pwm_left_final_ultrasonic;
@@ -49,24 +50,24 @@ void Movement::advancePID(const double desire) {
   encoder_count_right_ = 0;
 
   do {
+    const double errorBNO = control_->getAngleError(bno_->getAngleX(), desire);
     control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
     control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
-    double pwm_right_enginees = pwm_right_final_bno + pwm_right_final_ultrasonic; // Negative.
-    double pwm_left_enginees = pwm_left_final_bno + pwm_left_final_ultrasonic;    // Positive.
 
-    if (pwm_left_enginees > 0) {
-      pwm_right_enginees = Common::kLimitInfPwmAdvance;
-      control_->getPwm(pwm_left_enginees);
-    } else if (pwm_right_enginees < 0) {
-      pwm_right_enginees = -(pwm_right_enginees);
-      pwm_left_enginees = Common::kLimitInfPwmAdvance;
-      control_->getPwm(pwm_right_enginees);
+    if (errorBNO > 0) {
+      //pwm_right_final_bno += pwm_right_final_ultrasonic; 
+      control_->getPwm(pwm_right_final_bno);
     }
-    robot_->forwardPwm(pwm_right_enginees, pwm_left_enginees);
-  } while (encoder_count_left_ < kUnitLimitSwitch && encoder_count_right_ < kUnitLimitSwitch);
+    else {
+     // pwm_left_final_bno += pwm_left_final_ultrasonic;
+      control_->getPwm(pwm_left_final_bno);
+    }
+    robot_->forwardPwm(pwm_left_final_bno, pwm_right_final_bno);
+  } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
+  robot_->stopEngines();
 }
 
-// TODO(MarlonB500): Implement the correct values for encoders.
+// TODO(MarlonB500): Include ultrasonic pwm.
 void Movement::moveBackPIDSwitches(const double desire) {
   double pwm_left_final_bno;
   double pwm_right_final_bno;
@@ -76,22 +77,24 @@ void Movement::moveBackPIDSwitches(const double desire) {
   encoder_count_right_ = 0;
 
   do {
+    const double errorBNO = control_->getAngleError(bno_->getAngleX(), desire);
     control_->getPwmBNO(desire, pwm_left_final_bno, pwm_right_final_bno); 
     control_->getPwmUltrasonic(pwm_left_final_ultrasonic, pwm_right_final_ultrasonic);
-    double pwm_right_enginees = pwm_right_final_bno + pwm_right_final_ultrasonic; // Negative.
-    double pwm_left_enginees = pwm_left_final_bno + pwm_left_final_ultrasonic;    // Positive.
 
-    if (pwm_left_enginees > 0) {
-      control_->getPwm(pwm_left_enginees);
-    } else if (pwm_right_enginees < 0) {
-      pwm_right_enginees = -(pwm_right_enginees);
-      control_->getPwm(pwm_right_enginees);
+    if (errorBNO > 0) {
+      //pwm_right_final_bno += pwm_right_final_ultrasonic; 
+      control_->getPwm(pwm_right_final_bno);
     }
-    robot_->backwardPwm(pwm_right_enginees, pwm_left_enginees);
-  } while (encoder_count_left_ < kUnitLimitSwitch && encoder_count_right_ < kUnitLimitSwitch);
-    robot_->stopEngines();
-}*/
+    else {
+     // pwm_left_final_bno += pwm_left_final_ultrasonic;
+      control_->getPwm(pwm_left_final_bno);
+    }
+    robot_->backwardPwm(pwm_left_final_bno, pwm_right_final_bno);
+  } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
+  robot_->stopEngines();
+}
 
+// TODO(MarlonB500): Include a ultrasonic pwm.
 void Movement::moveBackPID(const double desire) {
   double pwm_left_final_bno;
   double pwm_right_final_bno;
@@ -119,18 +122,17 @@ void Movement::moveBackPID(const double desire) {
 void Movement::turnDegrees(double desire) {
   double pwm = 0;
   double error = 0;
-  // desire = control_->getDesiredAngle(desire);
     do {
       error = control_->getAngleError(bno_->getAngleX(), desire);
       Serial.println(error);
       pwm = kPTurns * error;
-      control_->getPwm(pwm); // Verify to the pwm stay in the range.
+      control_->getPwm(pwm); // Verify that the pwm stays in the range.
       if (error < 0) { 
         robot_->turnLeft(pwm);
       } else {
         robot_->turnRight(pwm);
       }
-    } while (error < -(kRange_error) || error > kRange_error); // Asigne a range to stop the robot.
+    } while (error < -(kRange_error) || error > kRange_error);
     robot_->stopEngines();
 }
 
@@ -171,11 +173,11 @@ void Movement::rightCrash(const double desire, uint8_t straighten_angle) {
 }
 
 void Movement::encoderCountLeft() {
-  encoder_count_left_++;
+  ++encoder_count_left_;
 }
 
 void Movement::encoderCountRight() {
-  encoder_count_right_++;
+  ++encoder_count_right_;
 }
 
 void Movement::initializePinEconders() {

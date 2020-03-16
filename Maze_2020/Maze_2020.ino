@@ -8,8 +8,8 @@
 #include "DropKit.h"
 #include "BNO.h"
 
-int encoder_1 = 2;
-int encoder_2 = 3;
+const uint8_t kEncoder1 = 2;
+const uint8_t kEncoder2 = 3;
 Movement *movement;
 
 void encoderCountLeft() {
@@ -48,9 +48,12 @@ void setup() {
 
   Movement robocup(bno, control, robot);
   movement = &robocup;
-  attachInterrupt(digitalPinToInterrupt(encoder_1), encoderCountLeft, RISING);
-  attachInterrupt(digitalPinToInterrupt(encoder_2), encoderCountRight, RISING);
-  movement->advancePID(0);
+  attachInterrupt(digitalPinToInterrupt(kEncoder1), encoderCountLeft, RISING);
+  attachInterrupt(digitalPinToInterrupt(kEncoder2), encoderCountRight, RISING);
+
+  
+  robot->turnLeft(255);
+  
 
 
   /*while (bno->orientationStatus() != 3) {

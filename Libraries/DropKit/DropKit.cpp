@@ -41,3 +41,30 @@ void DropKit::dropTwoKitsLeft(){
   dropOneKitLeft();
   dropOneKitLeft();
 }
+
+void DropKit::turnLED() {
+  for(int i = 0; i < 5; ++i) {
+    blinkLED();
+  }
+}
+
+void DropKit::blinkLED() {
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, HIGH);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  delay(kTime200ms);
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+}

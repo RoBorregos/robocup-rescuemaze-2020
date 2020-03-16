@@ -43,7 +43,7 @@ class Movement {
     // Plus one to encoder right.
     void encoderCountRight();
 
-    const int kUnitLimit = 630; // 630;
+    const int kUnitLimit = 630;
     const int kUnitLimitSwitch = 200;
 
     // Turns.
@@ -58,8 +58,8 @@ class Movement {
     const uint8_t S = 180;
     const int W = 270;
 
-    int CANAL_A = 2;
-    int CANAL_B = 3;
+    const uint8_t CANAL_A = 2;
+    const uint8_t CANAL_B = 3;
 
   private:
     BNO *bno_;

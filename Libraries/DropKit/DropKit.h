@@ -24,6 +24,10 @@ class DropKit {
     void dropTwoKitsRight();
     // Drop two kits for Visual Victims(Stable).
     void dropTwoKitsLeft();
+    // Turn on a LED for 5 seconds if there is a victim.
+    void turnLED();
+    // Turn on a LED for 1 second.
+    void blinkLED();
 
     const uint8_t kDispenserDegrees0 = 0;
     const uint8_t kDispenserDegrees80 = 80;
