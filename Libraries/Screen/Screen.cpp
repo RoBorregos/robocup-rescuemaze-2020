@@ -8,33 +8,33 @@
 
 LiquidCrystal_I2C lcd_(0x3F, 16, 2);
 
-Screen::Screen() {}
+
+Screen::Screen() {
+  lcd_.init();
+  lcd_.backlight();
+}
 
 void Screen::writeNumLCD(const int num) {
-  lcd_.clear();
   lcd_.print(num);
 }
 
 void Screen::writeLyricsLCD(const char letter) {
-  lcd_.clear();
   lcd_.print(letter);
 }
 
 void Screen::writeLCD(const String sE1, const String sE2) {
-  lcd_.clear();
+  lcd_.setCursor(1,0);
   lcd_.print(sE1);
   lcd_.setCursor(0, 1);
   lcd_.print(sE2);
 }
 
 void Screen::writeLCDdown(const String sE1) {
-  lcd_.clear();
   lcd_.setCursor(0, 1);
   lcd_.print(sE1);
 }
 
 void Screen::printLocation(const double x, const double y, const double z) {
-  lcd_.clear();
   lcd_.setCursor(0, 0);
   lcd_.print("X:");
   lcd_.setCursor(2, 0);
@@ -54,7 +54,6 @@ void Screen::printLocation(const double x, const double y, const double z) {
 }
 
 void Screen::LCDCalibration() {
-  lcd_.clear();
   lcd_.init();
   lcd_.backlight();
   lcd_.setCursor(0, 1);

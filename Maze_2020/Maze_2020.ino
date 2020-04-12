@@ -54,8 +54,6 @@ void setup() {
   screen.writeLCDdown("LET'S GO MAZE");
   attachInterrupt(digitalPinToInterrupt(encoder_1), encoderCountLeft, RISING);
   attachInterrupt(digitalPinToInterrupt(encoder_2), encoderCountRight, RISING);
-  movement->advancePID(0);
-
 }
 void loop() {
 }

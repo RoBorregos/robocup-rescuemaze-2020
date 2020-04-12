@@ -7,12 +7,12 @@
 */
 #include "Movement.h"
 
-Movement::Movement(BNO *bno, Control *control, Motors *robot, SensorMap *sensor, DropKit *dropkit) {
+Movement::Movement(BNO *bno, Control *control, Motors *motors, SensorMap *sensor, DropKit *dropkit) {
   dispenser_ = dropkit;
   maps_ = sensor;
   bno_ = bno;
   control_ = control;
-  robot_ = robot;
+  motors_ = motors;
 }
 
 // TODO(MarlonB500): Include ultrasonic pwm.
@@ -37,9 +37,9 @@ void Movement::advancePID(const double desire) {
       pwm_left_final_bno += pwm_left_final_ultrasonic;
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->forwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+    motors_->forwardPwm(pwm_right_final_bno, pwm_left_final_bno);
   } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
-    robot_->stopEngines();
+    motors_->stopEngines();
 }
 
 // TODO(MarlonB500): Include ultrasonic pwm.
@@ -64,9 +64,9 @@ void Movement::advancePIDSwitches(const double desire) {
      // pwm_left_final_bno += pwm_left_final_ultrasonic;
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->forwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+    motors_->forwardPwm(pwm_right_final_bno, pwm_left_final_bno);
   } while (encoder_count_right_ < kUnitLimitSwitches && encoder_count_left_ < kUnitLimitSwitches);
-  robot_->stopEngines();
+  motors_->stopEngines();
 }
 
 // TODO(MarlonB500): Include ultrasonic pwm.
@@ -91,9 +91,9 @@ void Movement::moveBackPIDSwitches(const double desire) {
      // pwm_left_final_bno += pwm_left_final_ultrasonic;
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->backwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+    motors_->backwardPwm(pwm_right_final_bno, pwm_left_final_bno);
   } while (encoder_count_right_ < kUnitLimitSwitches && encoder_count_left_ < kUnitLimitSwitches);
-  robot_->stopEngines();
+  motors_->stopEngines();
 }
 
 // TODO(MarlonB500): Include a ultrasonic pwm.
@@ -119,9 +119,9 @@ void Movement::moveBackPID(const double desire) {
     } else {
       control_->getPwm(pwm_left_final_bno);
     }
-    robot_->backwardPwm(pwm_right_final_bno, pwm_left_final_bno);
+    motors_->backwardPwm(pwm_right_final_bno, pwm_left_final_bno);
   } while (encoder_count_right_ < kUnitLimit && encoder_count_left_ < kUnitLimit);
-    robot_->stopEngines();
+    motors_->stopEngines();
 }
 
 void Movement::turnDegrees(double desire) {
@@ -135,12 +135,12 @@ void Movement::turnDegrees(double desire) {
       pwm = kPTurns * error;
       control_->getPwm(pwm); // Verify that the pwm stays in the range.
       if (error < 0) { 
-        robot_->turnLeft(pwm);
+        motors_->turnLeft(pwm);
       } else {
-        robot_->turnRight(pwm);
+        motors_->turnRight(pwm);
       }
     } while (error < -(kRange_error) || error > kRange_error);
-    robot_->stopEngines();
+    motors_->stopEngines();
 }
 
 bool Movement::dropKitHeatVictimRight() {
@@ -194,4 +194,12 @@ void Movement::encoderCountRight() {
 void Movement::initializePinEconders() {
   pinMode(CANAL_A, INPUT);
   pinMode(CANAL_B,INPUT);
+}
+
+bool Movement::passRamp() {
+  bool ramp_detected = control_->detectRamp();
+  while (ramp_detected) {
+    motors_->fastForward();
+    ramp_detected = control_->detectRamp();
+  }
 }

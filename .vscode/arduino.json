@@ -1,7 +1,4 @@
 {
-    "sketch": "Maze_2020\\Maze_2020.ino",
-    "programmer": "AVRISP mkII",
     "board": "arduino:avr:mega",
-    "configuration": "cpu=atmega2560",
-    "port": "COM14"
+    "configuration": "cpu=atmega2560"
 }

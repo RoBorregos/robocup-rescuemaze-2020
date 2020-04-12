@@ -6,7 +6,6 @@
 #ifndef MOTORS_H
 #define MOTORS_H
 
-#include <Arduino.h>
 #include "arduino.h"
 #include "Common.h"
 

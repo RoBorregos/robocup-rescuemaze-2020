@@ -24,5 +24,5 @@ namespace Common {
     extern const double kPUltrasonic;
     extern const double kIUltrasonic;
     extern const double kDUltrasonic;
-} // namespace Common
+}
 #endif

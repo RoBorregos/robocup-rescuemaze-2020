@@ -1,4 +1,4 @@
-/* ROBORREGOS MAZE 2020
+  /* ROBORREGOS MAZE 2020
  * Marlon Romo, Emérico Pedraza, Diego Prado, Grecia Flores.
  * This screen file has all the functions to
  * print in the screen.
@@ -6,7 +6,8 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "arduino.h"
+#include <Arduino.h>
+#include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
 
 class Screen {
@@ -29,4 +30,4 @@ class Screen {
     const uint8_t kTimeSeeLocation = 100;
     const uint8_t kTimeToPrintLCD = 100;
 };
-#endif
+#endif  

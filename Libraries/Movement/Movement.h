@@ -18,7 +18,7 @@
 class Movement {
 
   public:
-    Movement(BNO *bno, Control *control, Motors *robot, SensorMap *sensor, DropKit *dropkit);
+    Movement(BNO *bno, Control *control, Motors *motors, SensorMap *sensor, DropKit *dropkit);
     // Move the robot forward with PID.
     void advancePID(const double desire);
     // Move the robot forward with PID until get out of the obstacle.
@@ -47,6 +47,8 @@ class Movement {
     void encoderCountLeft();
     // Plus one to encoder right.
     void encoderCountRight();
+    // Detect a Ramp.
+    bool passRamp();
 
     const int kUnitLimitSwitches = 630; // 630;
     const int kUnitLimit = 10000;
@@ -71,7 +73,7 @@ class Movement {
     SensorMap *maps_;
     BNO *bno_;
     Control *control_;
-    Motors *robot_;
+    Motors *motors_;
     volatile uint16_t encoder_count_left_;
     volatile uint16_t encoder_count_right_;
 };
