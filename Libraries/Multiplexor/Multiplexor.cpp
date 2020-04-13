@@ -4,6 +4,7 @@
  * to each I2C sensor.
  * To get more information, go to Multiplexor.h file.
 */
+
 #include "Multiplexor.h"
 
 Multiplexor::Multiplexor() {
