@@ -15,6 +15,7 @@
 // *Have a member variable counting the unvisitedtiles, instead of having to check all the map always.
 // *Use the ramps_ vector to store visited ramps and make functions to find them using Dijkstra.
 // *Update the coords of the location of the ramps if a row or a column is added as first in the current zone.
+// *Use coords.
 class Map {
   private:
     uint8_t current_row_;
