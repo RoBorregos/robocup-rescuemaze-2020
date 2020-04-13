@@ -151,7 +151,16 @@ namespace VirtualFunctions {
     Serial.println(" ");
   }
 
-  Map followPath(TVector<char> path, Map tiles_map, uint8_t zone) {
+  void printCharVector(const TVector<char> path) {
+    for (int i = 0; i < path.getSize(); i++) {
+      Serial.print(path[0]);
+      Serial.print(" ");
+      path.popFirst();
+    }
+    Serial.println("");
+  }
+
+  Map followPathVirtual(TVector<char> path, Map tiles_map, uint8_t zone) {
     while (path.getSize() > 0) {
       if (path[0] == 'N') {
         tiles_map.moveNorth();
@@ -182,7 +191,7 @@ namespace VirtualFunctions {
     return tiles_map;
   }
 
-  Tile updateFirstTile(Tile tile, uint8_t zone, const uint8_t x, const uint8_t y) {
+  Tile updateFirstTileVirtual(Tile tile, uint8_t zone, const uint8_t x, const uint8_t y) {
     if (virtual_map[zone][2*x][2*y + 1] != 'W') {
       tile.setNorth();
     }
@@ -204,7 +213,7 @@ namespace VirtualFunctions {
   }
 
   // TODO(Eme112): Implement a function to synthetize how to update North, East, South, and West.
-  Map updateTiles(Map tiles_map, const uint8_t zone) {
+  Map updateTilesVirtual(Map tiles_map, const uint8_t zone) {
     Tile current_tile;
 
     current_tile = tiles_map.currentTile();

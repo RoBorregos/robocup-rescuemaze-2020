@@ -8,11 +8,7 @@
 #define Dijkstra_h
 
 #include "Map.h"
-
-// Stores a 2-D coordinate. 
-struct coord {
-  uint8_t x, y;
-};
+#include "Coord.h"
 
 // Stores 2 coords, the current and the one were it comes from.
 // Stores if it has been checked for revision and the weight it costs to travel that tile.
