@@ -9,8 +9,11 @@
 
 #include "Arduino.h"
 #include "TVector.h"
+#include "Ramp.h"
 
-// TODO(Eme112): Have a member variable counting the unvisitedtiles, instead of having to check all the map always.
+// TODO(Eme112): 
+// *Have a member variable counting the unvisitedtiles, instead of having to check all the map always.
+// *Use the ramps_ vector to store visited ramps and make functions to find them using Dijkstra.
 class Map {
   private:
     uint8_t current_row_;
@@ -20,6 +23,7 @@ class Map {
     uint8_t orientation_;
     uint8_t unvisited_tiles_;
     TVector<TVector<Tile> > map_;
+    TVector<Ramp> ramps_;
     
   public:
     // Constructor
