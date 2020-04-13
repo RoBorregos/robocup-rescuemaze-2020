@@ -4,4 +4,4 @@ This repository contains the approach and strategy used by the RoBorregos team (
 
 ### By Grecia Flores, Diego Prado, Marlon Romo, and Emérico Pedraza.
 
-##### For more information visit the repository Wiki.
+##### For more information visit this repository´s Wiki.
